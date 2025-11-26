@@ -5,4 +5,5 @@ public interface IGameWindowService
   void OnRender(RenderEventArgs e);
   void OnUpdate(UpdateEventArgs e);
   void Run();
+  void RenderMenu();
 }
