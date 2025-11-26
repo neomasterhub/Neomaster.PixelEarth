@@ -4,12 +4,18 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public static class PresentationConsts
 {
-  public static WindowSettings WindowSettings = new()
+  public static readonly WindowSettings WindowSettings = new()
   {
     Width = 800,
     Height = 600,
     Title = "Pixel Earth",
   };
+
+  public static readonly MenuItem[] MenuItems =
+  [
+    new() { Text = "Play" },
+    new() { Text = "Exit" },
+  ];
 
   public static class Colors
   {
