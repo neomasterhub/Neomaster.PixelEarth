@@ -9,7 +9,10 @@ public class MenuService : IMenuService
 
   public MenuService(IEnumerable<MenuItem> items = null)
   {
-    _items = items?.ToArray() ?? PresentationConsts.MenuItems;
+    _items = items == null
+      ? items.ToArray()
+      : PresentationConsts.MenuItems;
+
     _maxIndex = _items.Length - 1;
   }
 
