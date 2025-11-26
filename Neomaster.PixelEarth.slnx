@@ -1,3 +1,8 @@
 <Solution>
+  <Folder Name="/Engine/">
+    <Project Path="Neomaster.PixelEarth.App/Neomaster.PixelEarth.App.csproj" Id="23939d6f-e1dc-48cc-9458-46ab79f72100" />
+    <Project Path="Neomaster.PixelEarth.Infra/Neomaster.PixelEarth.Infra.csproj" Id="b7f5c84f-5799-496e-bc38-efe1d466d846" />
+    <Project Path="Neomaster.PixelEarth.Presentation/Neomaster.PixelEarth.Presentation.csproj" Id="e9806e88-2469-4b6e-9282-e82e5413c0b3" />
+  </Folder>
   <Project Path="Neomaster.PixelEarth.Game/Neomaster.PixelEarth.Game.csproj" Id="970d3e8f-a37b-46a9-a139-05d4a1c9b26e" />
 </Solution>
