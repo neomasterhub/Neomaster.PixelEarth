@@ -6,6 +6,7 @@ new ServiceCollection()
   .AddSingleton(PresentationConsts.WindowSettings)
   .AddSingleton<IGameWindowService, GameWindowService>()
   .AddSingleton<IMenuService, MenuService>()
+  .AddSingleton<IShaderService, ShaderService>()
   .BuildServiceProvider()
   .GetRequiredService<IGameWindowService>()
   .Run();
