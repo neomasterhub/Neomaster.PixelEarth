@@ -7,6 +7,7 @@ new ServiceCollection()
   .AddSingleton<IGameWindowService, GameWindowService>()
   .AddSingleton<IMenuService, MenuService>()
   .AddSingleton<IShaderService, ShaderService>()
+  .AddSingleton<IShapeService, ShapeService>()
   .BuildServiceProvider()
   .GetRequiredService<IGameWindowService>()
   .Run();
