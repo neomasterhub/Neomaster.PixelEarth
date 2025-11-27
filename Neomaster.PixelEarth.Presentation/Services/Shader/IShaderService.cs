@@ -2,6 +2,7 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public interface IShaderService
 {
-  ShaderInfo Create(string name, ShaderType shaderType);
+  ShaderProgramInfo CreateShaderProgram(string vertexName, string fragmentName);
+  ShaderInfo CreateShader(string name, ShaderType shaderType);
   string GetScript(string name);
 }
