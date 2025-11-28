@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Neomaster.PixelEarth.Presentation\Neomaster.PixelEarth.Presentation.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Shaders\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
