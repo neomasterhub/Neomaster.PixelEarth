@@ -58,7 +58,7 @@ public class GameWindowService : IGameWindowService
     GL.ClearColor(PresentationConsts.Colors.Background.ToColor4());
     GL.Clear(ClearBufferMask.ColorBufferBit);
 
-    _shapeService.DrawTriangle(new(-0.5f, 0.1f), new(0, 0.5f), new(0.5f, 0.1f));
+    RenderMenu();
 
     _gameWindow.SwapBuffers();
   }
@@ -75,6 +75,10 @@ public class GameWindowService : IGameWindowService
       return;
     }
 
+    // TODO: Use UI element service.
+    _shapeService.DrawQuad(-0.4f, 0.4f, 0.8f, 0.8f);
+
+    // TODO: Remove after implemented.
     Console.Clear();
     Console.WriteLine(_menuService.SelectedItem.Text);
   }

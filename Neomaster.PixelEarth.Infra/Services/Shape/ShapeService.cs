@@ -9,6 +9,30 @@ public class ShapeService : IShapeService
   private int _vaoId;
   private int _baoId;
 
+  public void DrawQuad(
+    float x,
+    float y,
+    float width,
+    float height,
+    ShapeOptions shapeOptions = null)
+  {
+    DrawQuad(
+      new Vector2(x, y),
+      new Vector2(x + width, y - height),
+      shapeOptions);
+  }
+
+  public void DrawQuad(
+    Vector2 topLeft,
+    Vector2 bottomRight,
+    ShapeOptions shapeOptions = null)
+  {
+    var bottomLeft = new Vector2(topLeft.X, bottomRight.Y);
+    var topRight = new Vector2(bottomRight.X, topLeft.Y);
+    DrawTriangle(topLeft, bottomLeft, bottomRight, shapeOptions);
+    DrawTriangle(topLeft, bottomRight, topRight, shapeOptions);
+  }
+
   public void DrawTriangle(
     Vector2 a,
     Vector2 b,
