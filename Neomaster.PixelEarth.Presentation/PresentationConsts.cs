@@ -38,6 +38,7 @@ public static class PresentationConsts
     public static readonly ShapeOptions DefaultOptions = new()
     {
       ShaderProgramArgs = Shader.DefaultProgramArgs,
+      DrawMode = DrawMode.CounterClockwise,
     };
   }
 }
