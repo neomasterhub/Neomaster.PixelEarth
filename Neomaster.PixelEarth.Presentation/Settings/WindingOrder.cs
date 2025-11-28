@@ -1,6 +1,6 @@
 namespace Neomaster.PixelEarth.Presentation;
 
-public enum DrawMode
+public enum WindingOrder
 {
   Clockwise,
   CounterClockwise,
