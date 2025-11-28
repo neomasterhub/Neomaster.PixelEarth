@@ -4,6 +4,11 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public static class PresentationConsts
 {
+  public static readonly RenderSettings RenderSettings = new()
+  {
+    WindingOrder = WindingOrder.CounterClockwise,
+  };
+
   public static readonly WindowSettings WindowSettings = new()
   {
     Width = 800,
@@ -38,7 +43,6 @@ public static class PresentationConsts
     public static readonly ShapeOptions DefaultOptions = new()
     {
       ShaderProgramArgs = Shader.DefaultProgramArgs,
-      DrawMode = DrawMode.CounterClockwise,
     };
   }
 }

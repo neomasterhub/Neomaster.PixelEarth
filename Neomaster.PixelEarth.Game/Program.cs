@@ -3,6 +3,7 @@ using Neomaster.PixelEarth.Infra;
 using Neomaster.PixelEarth.Presentation;
 
 new ServiceCollection()
+  .AddSingleton(PresentationConsts.RenderSettings)
   .AddSingleton(PresentationConsts.WindowSettings)
   .AddSingleton<IGameWindowService, GameWindowService>()
   .AddSingleton<IMenuService, MenuService>()

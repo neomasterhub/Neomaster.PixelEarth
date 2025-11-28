@@ -4,7 +4,8 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace Neomaster.PixelEarth.Infra;
 
-public class ShapeService : IShapeService
+public class ShapeService(RenderSettings renderSettings)
+  : IShapeService
 {
   private int _vaoId;
   private int _baoId;
@@ -56,6 +57,8 @@ public class ShapeService : IShapeService
       BufferUsageHint.DynamicDraw);
 
     shapeOptions.UseWithProgram();
+
+    GL.FrontFace(renderSettings.WindingOrder.ToGlType());
 
     GL.BindVertexArray(_vaoId);
     GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
