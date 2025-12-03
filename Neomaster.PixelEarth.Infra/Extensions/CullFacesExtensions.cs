@@ -23,7 +23,7 @@ public static class CullFacesExtensions
         GL.Enable(EnableCap.CullFace);
         GL.CullFace(TriangleFace.FrontAndBack);
         break;
-      default: throw new IndexOutOfRangeException();
+      default: throw cullFaces.ArgumentOutOfRangeException();
     }
   }
 }
