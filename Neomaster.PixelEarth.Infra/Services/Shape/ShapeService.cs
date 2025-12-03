@@ -1,14 +1,34 @@
-using System.Numerics;
 using Neomaster.PixelEarth.Presentation;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using S = System.Numerics;
 
 namespace Neomaster.PixelEarth.Infra;
 
-public class ShapeService(RenderSettings renderSettings)
-  : IShapeService
+public class ShapeService : IShapeService
 {
+  private readonly RenderSettings _renderSettings;
+  private readonly ShaderProgramArg<Matrix4> _positionProjection;
+
   private int _vaoId;
   private int _baoId;
+
+  public ShapeService(
+    RenderSettings renderSettings,
+    WindowSettings windowSettings)
+  {
+    _renderSettings = renderSettings;
+
+    _positionProjection = new ShaderProgramArg<Matrix4>(
+      "uProjection",
+      Matrix4.CreateOrthographicOffCenter(
+        0,
+        windowSettings.Width,
+        windowSettings.Height,
+        0,
+        -1f,
+        1f));
+  }
 
   public void DrawQuad(
     float x,
@@ -18,26 +38,26 @@ public class ShapeService(RenderSettings renderSettings)
     ShapeOptions shapeOptions = null)
   {
     DrawQuad(
-      new Vector2(x, y),
-      new Vector2(x + width, y - height),
+      new S.Vector2(x, y),
+      new S.Vector2(x + width, y + height),
       shapeOptions);
   }
 
   public void DrawQuad(
-    Vector2 topLeft,
-    Vector2 bottomRight,
+    S.Vector2 topLeft,
+    S.Vector2 bottomRight,
     ShapeOptions shapeOptions = null)
   {
-    var bottomLeft = new Vector2(topLeft.X, bottomRight.Y);
-    var topRight = new Vector2(bottomRight.X, topLeft.Y);
+    var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
+    var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
     DrawTriangle(topLeft, bottomLeft, bottomRight, shapeOptions);
     DrawTriangle(topLeft, bottomRight, topRight, shapeOptions);
   }
 
   public void DrawTriangle(
-    Vector2 a,
-    Vector2 b,
-    Vector2 c,
+    S.Vector2 a,
+    S.Vector2 b,
+    S.Vector2 c,
     ShapeOptions shapeOptions = null)
   {
     shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
@@ -57,8 +77,9 @@ public class ShapeService(RenderSettings renderSettings)
       BufferUsageHint.DynamicDraw);
 
     shapeOptions.UseWithProgram();
+    _positionProjection.BindMatrix4(shapeOptions.ShaderProgramId);
 
-    GL.FrontFace(renderSettings.WindingOrder.ToGlType());
+    GL.FrontFace(_renderSettings.WindingOrder.ToGlType());
 
     GL.BindVertexArray(_vaoId);
     GL.DrawArrays(PrimitiveType.Triangles, 0, 3);

@@ -11,6 +11,7 @@ namespace Neomaster.PixelEarth.Infra;
 public class GameWindowService : IGameWindowService
 {
   private readonly GameWindow _gameWindow;
+  private readonly WindowSettings _windowSettings;
   private readonly IMenuService _menuService;
   private readonly IShaderService _shaderService;
   private readonly IShapeService _shapeService;
@@ -24,6 +25,7 @@ public class GameWindowService : IGameWindowService
     IShapeService shapeService)
   {
     _menuService = menuService;
+    _windowSettings = windowSettings;
     _shaderService = shaderService;
     _shapeService = shapeService;
 
@@ -76,7 +78,13 @@ public class GameWindowService : IGameWindowService
     }
 
     // TODO: Use UI element service.
-    _shapeService.DrawQuad(-0.4f, 0.4f, 0.8f, 0.8f);
+    var width = 200;
+    var height = 200;
+    _shapeService.DrawQuad(
+      (_windowSettings.Width - width) / 2f,
+      (_windowSettings.Height - height) / 2f,
+      width,
+      height);
 
     // TODO: Remove after implemented.
     Console.Clear();
