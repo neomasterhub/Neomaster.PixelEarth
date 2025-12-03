@@ -1,3 +1,4 @@
+using Neomaster.PixelEarth.Infra.Extensions;
 using Neomaster.PixelEarth.Presentation;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -79,6 +80,7 @@ public class ShapeService : IShapeService
     shapeOptions.UseWithProgram();
     _positionProjection.BindMatrix4(shapeOptions.ShaderProgramId);
 
+    shapeOptions.CullFaces.Apply();
     GL.FrontFace(_renderSettings.WindingOrder.ToGlType());
 
     GL.BindVertexArray(_vaoId);
