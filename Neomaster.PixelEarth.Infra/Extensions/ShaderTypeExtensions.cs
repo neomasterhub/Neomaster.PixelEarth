@@ -11,7 +11,7 @@ public static class ShaderTypeExtensions
     {
       GlShaderType.VertexShader => ShaderType.Vertex,
       GlShaderType.FragmentShader => ShaderType.Fragment,
-      _ => throw new IndexOutOfRangeException(),
+      _ => throw type.ArgumentOutOfRangeException(),
     };
   }
 
@@ -21,7 +21,7 @@ public static class ShaderTypeExtensions
     {
       ShaderType.Vertex => GlShaderType.VertexShader,
       ShaderType.Fragment => GlShaderType.FragmentShader,
-      _ => throw new IndexOutOfRangeException(),
+      _ => throw type.ArgumentOutOfRangeException(),
     };
   }
 }

@@ -11,7 +11,7 @@ public static class WindingOrderExtensions
     {
       WindingOrder.CounterClockwise => FrontFaceDirection.Ccw,
       WindingOrder.Clockwise => FrontFaceDirection.Cw,
-      _ => throw new IndexOutOfRangeException(),
+      _ => throw windingOrder.ArgumentOutOfRangeException(),
     };
   }
 }
