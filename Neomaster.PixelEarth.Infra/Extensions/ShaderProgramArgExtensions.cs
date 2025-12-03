@@ -1,17 +1,30 @@
 using Neomaster.PixelEarth.Presentation;
 using OpenTK.Graphics.OpenGL4;
-using N = System.Numerics;
+using OpenTK.Mathematics;
+using S = System.Numerics;
 
 namespace Neomaster.PixelEarth.Infra;
 
 public static class ShaderProgramArgExtensions
 {
   public static void BindColor4(
-    this ShaderProgramArg<N.Vector4> arg,
+    this ShaderProgramArg<S.Vector4> arg,
     int shaderProgramId)
   {
     GL.Uniform4(
       GL.GetUniformLocation(shaderProgramId, arg.Name),
       arg.Value.ToColor4());
+  }
+
+  public static void BindMatrix4(
+    this ShaderProgramArg<Matrix4> arg,
+    int shaderProgramId,
+    bool transpose = false)
+  {
+    var matrix = arg.Value;
+    GL.UniformMatrix4(
+      GL.GetUniformLocation(shaderProgramId, arg.Name),
+      transpose,
+      ref matrix);
   }
 }
