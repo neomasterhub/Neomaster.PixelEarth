@@ -80,7 +80,7 @@ public class GameWindowService : IGameWindowService
     // TODO: Use UI element service.
     var width = 200;
     var height = 200;
-    _shapeService.DrawQuad(
+    _shapeService.DrawRectangle(
       (_windowSettings.Width - width) / 2f,
       (_windowSettings.Height - height) / 2f,
       width,

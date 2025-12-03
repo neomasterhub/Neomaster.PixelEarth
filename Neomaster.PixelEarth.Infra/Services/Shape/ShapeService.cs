@@ -31,20 +31,20 @@ public class ShapeService : IShapeService
         1f));
   }
 
-  public void DrawQuad(
+  public void DrawRectangle(
     float x,
     float y,
     float width,
     float height,
     ShapeOptions shapeOptions = null)
   {
-    DrawQuad(
+    DrawRectangle(
       new S.Vector2(x, y),
       new S.Vector2(x + width, y + height),
       shapeOptions);
   }
 
-  public void DrawQuad(
+  public void DrawRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
     ShapeOptions shapeOptions = null)
