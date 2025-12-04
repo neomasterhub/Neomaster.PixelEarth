@@ -10,13 +10,15 @@ public class ShapeService : IShapeService
 {
   private readonly RenderSettings _renderSettings;
   private readonly ShaderProgramArg<Matrix4> _positionProjection;
+  private readonly IMouseService _mouseService;
 
   private int _vaoId;
   private int _baoId;
 
   public ShapeService(
     RenderSettings renderSettings,
-    WindowSettings windowSettings)
+    WindowSettings windowSettings,
+    IMouseService mouseService)
   {
     _renderSettings = renderSettings;
 
@@ -29,6 +31,8 @@ public class ShapeService : IShapeService
         0,
         -1f,
         1f));
+
+    _mouseService = mouseService;
   }
 
   public void DrawRectangle(
@@ -49,6 +53,11 @@ public class ShapeService : IShapeService
     S.Vector2 bottomRight,
     ShapeOptions? shapeOptions = null)
   {
+    shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
+
+    var isHovered = _mouseService.IsInRectangle(topLeft, bottomRight);
+    shapeOptions = shapeOptions.Value.IsHovered(isHovered);
+
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
     DrawTriangle(topLeft, bottomLeft, bottomRight, shapeOptions);
