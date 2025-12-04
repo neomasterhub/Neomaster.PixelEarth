@@ -36,7 +36,7 @@ public class ShapeService : IShapeService
     float y,
     float width,
     float height,
-    ShapeOptions shapeOptions = null)
+    ShapeOptions? shapeOptions = null)
   {
     DrawRectangle(
       new S.Vector2(x, y),
@@ -47,7 +47,7 @@ public class ShapeService : IShapeService
   public void DrawRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
-    ShapeOptions shapeOptions = null)
+    ShapeOptions? shapeOptions = null)
   {
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
@@ -59,7 +59,7 @@ public class ShapeService : IShapeService
     S.Vector2 a,
     S.Vector2 b,
     S.Vector2 c,
-    ShapeOptions shapeOptions = null)
+    ShapeOptions? shapeOptions = null)
   {
     shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
 
@@ -77,10 +77,10 @@ public class ShapeService : IShapeService
       vertices,
       BufferUsageHint.DynamicDraw);
 
-    shapeOptions.UseWithProgram();
-    _positionProjection.BindMatrix4(shapeOptions.ShaderProgramId);
+    shapeOptions.Value.UseWithProgram();
+    _positionProjection.BindMatrix4(shapeOptions.Value.ShaderProgramId);
 
-    shapeOptions.CullFaces.Apply();
+    shapeOptions.Value.CullFaces.Apply();
     GL.FrontFace(_renderSettings.WindingOrder.ToGlType());
 
     GL.BindVertexArray(_vaoId);
