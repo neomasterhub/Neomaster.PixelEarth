@@ -34,7 +34,9 @@ public static class PresentationConsts
   {
     public static readonly ShaderProgramArgs DefaultProgramArgs = new()
     {
-      Fill = new($"u{nameof(ShaderProgramArgs.Fill)}", Colors.Red),
+      FillNormal = new($"u{nameof(ShaderProgramArgs.FillNormal)}", Colors.Red),
+      FillHovered = new($"u{nameof(ShaderProgramArgs.FillHovered)}", new(1, 0.8f, 0, 1)),
+      FillSelected = new($"u{nameof(ShaderProgramArgs.FillSelected)}", new(1, 0.6f, 0, 1)),
     };
   }
 
