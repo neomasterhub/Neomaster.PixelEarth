@@ -13,6 +13,7 @@ public class GameWindowService : IGameWindowService
   private readonly GameWindow _gameWindow;
   private readonly WindowSettings _windowSettings;
   private readonly IMenuService _menuService;
+  private readonly IMouseService _mouseService;
   private readonly IShaderService _shaderService;
   private readonly IShapeService _shapeService;
 
@@ -21,10 +22,12 @@ public class GameWindowService : IGameWindowService
   public GameWindowService(
     WindowSettings windowSettings,
     IMenuService menuService,
+    IMouseService mouseService,
     IShaderService shaderService,
     IShapeService shapeService)
   {
     _menuService = menuService;
+    _mouseService = mouseService;
     _windowSettings = windowSettings;
     _shaderService = shaderService;
     _shapeService = shapeService;
@@ -73,7 +76,7 @@ public class GameWindowService : IGameWindowService
 
   public void UpdateMouseState(MouseStateEventArgs e)
   {
-    MouseService.MouseState = e.MouseState;
+    _mouseService.UpdateMouseState(e);
   }
 
   public void RenderMenu()
@@ -91,10 +94,6 @@ public class GameWindowService : IGameWindowService
       (_windowSettings.Height - height) / 2f,
       width,
       height);
-
-    // TODO: Remove after implemented.
-    Console.Clear();
-    Console.WriteLine(_menuService.SelectedItem.Text);
   }
 
   public void UpdateMenu()

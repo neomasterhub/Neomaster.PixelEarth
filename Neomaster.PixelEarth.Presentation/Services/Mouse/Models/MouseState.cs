@@ -1,13 +1,13 @@
+using System.Numerics;
+
 namespace Neomaster.PixelEarth.Presentation;
 
 public readonly struct MouseState
 {
-  public readonly float X;
-  public readonly float Y;
+  public readonly Vector2 Position;
 
   public MouseState(float x, float y)
   {
-    X = x;
-    Y = y;
+    Position = new Vector2(x, y);
   }
 }
