@@ -35,14 +35,16 @@ public static class PresentationConsts
     public static readonly ShaderProgramArgs DefaultProgramArgs = new()
     {
       FillNormal = new($"u{nameof(ShaderProgramArgs.FillNormal)}", Colors.Red),
-      FillHovered = new($"u{nameof(ShaderProgramArgs.FillHovered)}", new(1, 0.8f, 0, 1)),
+      FillHovered = new($"u{nameof(ShaderProgramArgs.FillHovered)}", new(1, 0.4f, 0, 1)),
       FillSelected = new($"u{nameof(ShaderProgramArgs.FillSelected)}", new(1, 0.6f, 0, 1)),
+      IsHovered = new($"u{nameof(ShaderProgramArgs.IsHovered)}", false),
+      IsSelected = new($"u{nameof(ShaderProgramArgs.IsSelected)}", false),
     };
   }
 
   public static class Shape
   {
-    public static readonly ShapeOptions DefaultOptions = new()
+    public static ShapeOptions DefaultOptions = new()
     {
       ShaderProgramArgs = Shader.DefaultProgramArgs,
     };

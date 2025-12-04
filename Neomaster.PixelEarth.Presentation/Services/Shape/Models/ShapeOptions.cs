@@ -1,8 +1,15 @@
 namespace Neomaster.PixelEarth.Presentation;
 
-public record ShapeOptions
+public struct ShapeOptions
 {
-  public int ShaderProgramId { get; set; }
-  public ShaderProgramArgs ShaderProgramArgs { get; set; }
-  public CullFaces CullFaces { get; set; }
+  public CullFaces CullFaces;
+  public int ShaderProgramId;
+  public ShaderProgramArgs ShaderProgramArgs;
+
+  public ShapeOptions IsHovered(bool isHovered)
+  {
+    ShaderProgramArgs.IsHovered.Value = isHovered;
+
+    return this;
+  }
 }

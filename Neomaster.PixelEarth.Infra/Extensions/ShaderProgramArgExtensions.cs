@@ -7,6 +7,15 @@ namespace Neomaster.PixelEarth.Infra;
 
 public static class ShaderProgramArgExtensions
 {
+  public static void BindBool(
+    this ShaderProgramArg<bool> arg,
+    int shaderProgramId)
+  {
+    GL.Uniform1(
+      GL.GetUniformLocation(shaderProgramId, arg.Name),
+      arg.Value ? 1 : 0);
+  }
+
   public static void BindColor4(
     this ShaderProgramArg<S.Vector4> arg,
     int shaderProgramId)
