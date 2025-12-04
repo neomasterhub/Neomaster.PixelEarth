@@ -55,8 +55,10 @@ public class ShapeService : IShapeService
   {
     shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
 
-    var isHovered = _mouseService.IsInRectangle(topLeft, bottomRight);
-    shapeOptions = shapeOptions.Value.IsHovered(isHovered);
+    var areaMouseState = _mouseService.GetRectangleMouseState(topLeft, bottomRight);
+    shapeOptions = shapeOptions.Value
+      .IsHovered(areaMouseState.IsIn)
+      .IsSelected(areaMouseState.LeftPressed);
 
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
