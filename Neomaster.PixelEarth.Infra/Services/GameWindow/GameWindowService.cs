@@ -61,6 +61,7 @@ public class GameWindowService : IGameWindowService
     GL.Clear(ClearBufferMask.ColorBufferBit);
 
     RenderMenu();
+    UpdateMouseState(_gameWindow.MouseState.ToMouseStateEventArgs());
 
     _gameWindow.SwapBuffers();
   }
@@ -68,6 +69,11 @@ public class GameWindowService : IGameWindowService
   public void OnUpdate(UpdateEventArgs e)
   {
     UpdateMenu();
+  }
+
+  public void UpdateMouseState(MouseStateEventArgs e)
+  {
+    MouseService.MouseState = e.MouseState;
   }
 
   public void RenderMenu()

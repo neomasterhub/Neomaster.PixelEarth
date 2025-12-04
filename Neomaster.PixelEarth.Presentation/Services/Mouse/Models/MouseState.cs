@@ -1,7 +1,13 @@
 namespace Neomaster.PixelEarth.Presentation;
 
-public struct MouseState
+public readonly struct MouseState
 {
-  public float X;
-  public float Y;
+  public readonly float X;
+  public readonly float Y;
+
+  public MouseState(float x, float y)
+  {
+    X = x;
+    Y = y;
+  }
 }
