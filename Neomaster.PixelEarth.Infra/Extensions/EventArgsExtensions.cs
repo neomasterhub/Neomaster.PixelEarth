@@ -1,5 +1,6 @@
 using Neomaster.PixelEarth.Presentation;
 using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using GlMouseState = OpenTK.Windowing.GraphicsLibraryFramework.MouseState;
 
 namespace Neomaster.PixelEarth.Infra;
@@ -20,7 +21,10 @@ public static class EventArgsExtensions
   {
     return new MouseStateEventArgs
     {
-      MouseState = new(e.X, e.Y),
+      MouseState = new(
+        e.X,
+        e.Y,
+        e.IsButtonPressed(MouseButton.Left)),
     };
   }
 }
