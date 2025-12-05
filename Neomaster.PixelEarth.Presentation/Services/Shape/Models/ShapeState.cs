@@ -1,7 +1,13 @@
 namespace Neomaster.PixelEarth.Presentation;
 
-public struct ShapeState
+public readonly struct ShapeState
 {
-  public bool IsHovered;
-  public bool IsMouseLeftPressed;
+  public readonly bool IsHovered;
+  public readonly bool IsMouseLeftPressed;
+
+  public ShapeState(bool isHovered, bool isMouseLeftPressed)
+  {
+    IsHovered = isHovered;
+    IsMouseLeftPressed = isMouseLeftPressed;
+  }
 }

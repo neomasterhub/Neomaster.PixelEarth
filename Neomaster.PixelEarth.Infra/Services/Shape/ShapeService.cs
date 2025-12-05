@@ -35,20 +35,20 @@ public class ShapeService : IShapeService
     _mouseService = mouseService;
   }
 
-  public void DrawRectangle(
+  public ShapeState DrawRectangle(
     float x,
     float y,
     float width,
     float height,
     ShapeOptions? shapeOptions = null)
   {
-    DrawRectangle(
+    return DrawRectangle(
       new S.Vector2(x, y),
       new S.Vector2(x + width, y + height),
       shapeOptions);
   }
 
-  public void DrawRectangle(
+  public ShapeState DrawRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
     ShapeOptions? shapeOptions = null)
@@ -56,14 +56,14 @@ public class ShapeService : IShapeService
     shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
 
     var areaMouseState = _mouseService.GetRectangleMouseState(topLeft, bottomRight);
-    shapeOptions = shapeOptions.Value
-      .IsHovered(areaMouseState.IsIn)
-      .IsSelected(areaMouseState.LeftPressed);
+    shapeOptions = shapeOptions.Value.IsHovered(areaMouseState.IsIn);
 
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
     DrawTriangle(topLeft, bottomLeft, bottomRight, shapeOptions);
     DrawTriangle(topLeft, bottomRight, topRight, shapeOptions);
+
+    return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
   }
 
   public void DrawTriangle(
