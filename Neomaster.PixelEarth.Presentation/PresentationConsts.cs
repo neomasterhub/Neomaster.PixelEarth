@@ -1,4 +1,5 @@
 using System.Numerics;
+using Neomaster.PixelEarth.Utils;
 
 namespace Neomaster.PixelEarth.Presentation;
 
@@ -28,14 +29,18 @@ public static class PresentationConsts
     public static Vector4 Green = new(0, 1, 0, 1);
     public static Vector4 Blue = new(0, 0, 1, 1);
     public static Vector4 Background = new(0.2f, 0.4f, 0.6f, 1.0f);
+    public static Vector4 FillNormal = ColorHelper.HexToVector4("81d4fa00");
+    public static Vector4 FillHovered = ColorHelper.HexToVector4("64b5f600");
+    public static Vector4 FillSelected = ColorHelper.HexToVector4("eceff100");
+    public static Vector4 FillSelectedHovered = ColorHelper.HexToVector4("cfd8dc00");
   }
 
   public static class Shader
   {
     public static readonly ShaderProgramArgs DefaultProgramArgs = new()
     {
-      FillNormal = new($"u{nameof(ShaderProgramArgs.FillNormal)}", Colors.Red),
-      FillHovered = new($"u{nameof(ShaderProgramArgs.FillHovered)}", new(1, 0.4f, 0, 1)),
+      FillNormal = new($"u{nameof(ShaderProgramArgs.FillNormal)}", Colors.FillNormal),
+      FillHovered = new($"u{nameof(ShaderProgramArgs.FillHovered)}", Colors.FillHovered),
       IsHovered = new($"u{nameof(ShaderProgramArgs.IsHovered)}", false),
     };
   }
@@ -52,10 +57,10 @@ public static class PresentationConsts
   {
     public static readonly ButtonOptions DefaultOptions = new()
     {
-      FillNormal = new(0.929f, 0.929f, 0.929f, 1),
-      FillHovered = new(0.890f, 0.890f, 0.886f, 1),
-      FillSelected = new(0.839f, 0.859f, 0.906f, 1f),
-      FillSelectedHovered = new(0.796f, 0.824f, 0.882f, 1),
+      FillNormal = Colors.FillNormal,
+      FillHovered = Colors.FillHovered,
+      FillSelected = Colors.FillSelected,
+      FillSelectedHovered = Colors.FillSelectedHovered,
     };
   }
 }
