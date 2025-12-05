@@ -1,16 +1,28 @@
+using Neomaster.PixelEarth.Domain;
 using Neomaster.PixelEarth.Presentation;
 
 namespace Neomaster.PixelEarth.Infra;
 
-public class UIService(IShapeService shapeService)
+public class UIService(
+  IIdGenerator<int> idGenerator)
   : IUIService
 {
-  public void DrawButton(
+  public Button CreateButton(
     float x,
     float y,
     float width,
     float height)
   {
-    var si = shapeService.DrawRectangle(x, y, width, height);
+    var button = new Button(idGenerator.Next())
+    {
+      X = x,
+      Y = y,
+      Width = width,
+      Height = height,
+      FillNormal = PresentationConsts.Colors.Red, // TODO: Improve.
+      FillHovered = PresentationConsts.Colors.Green, // TODO: Improve.
+    };
+
+    return button;
   }
 }

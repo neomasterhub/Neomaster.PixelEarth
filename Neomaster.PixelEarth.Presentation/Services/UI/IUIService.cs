@@ -2,7 +2,7 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public interface IUIService
 {
-  void DrawButton(
+  Button CreateButton(
     float x,
     float y,
     float width,
