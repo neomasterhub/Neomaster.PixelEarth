@@ -37,7 +37,9 @@ public class UIService(
 
     if (shapeState.IsMouseLeftPressed)
     {
-      _selectedId = button.Id;
+      _selectedId = shapeState.IsHovered
+        ? button.Id
+        : 0; // TODO: Problem with layers.
     }
   }
 
