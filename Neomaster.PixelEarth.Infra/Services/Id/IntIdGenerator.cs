@@ -1,6 +1,4 @@
-using Neomaster.PixelEarth.Domain;
-
-namespace Neomaster.PixelEarth.Presentation;
+namespace Neomaster.PixelEarth.Infra;
 
 public class IntIdGenerator : IIdGenerator<int>
 {

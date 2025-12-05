@@ -1,4 +1,4 @@
-namespace Neomaster.PixelEarth.Domain;
+namespace Neomaster.PixelEarth.Infra;
 
 public interface IIdGenerator<TId>
 {

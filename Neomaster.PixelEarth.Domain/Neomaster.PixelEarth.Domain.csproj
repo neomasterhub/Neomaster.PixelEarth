@@ -6,4 +6,8 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Neomaster.PixelEarth.Utils\Neomaster.PixelEarth.Utils.csproj" />
+  </ItemGroup>
+
 </Project>
