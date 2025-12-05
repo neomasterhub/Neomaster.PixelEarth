@@ -12,6 +12,7 @@ new ServiceCollection()
   .AddSingleton<IMouseService, MouseService>()
   .AddSingleton<IShaderService, ShaderService>()
   .AddSingleton<IShapeService, ShapeService>()
+  .AddSingleton<IUIService, UIService>()
   .BuildServiceProvider()
   .GetRequiredService<IGameWindowService>()
   .Run();

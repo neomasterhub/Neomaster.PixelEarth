@@ -16,6 +16,8 @@ public class GameWindowService : IGameWindowService
   private readonly IMouseService _mouseService;
   private readonly IShaderService _shaderService;
   private readonly IShapeService _shapeService;
+  private readonly IUIService _uiService;
+  private readonly Button _button; // TODO: Remove.
 
   private GameState _gameState = GameState.Menu;
 
@@ -24,13 +26,24 @@ public class GameWindowService : IGameWindowService
     IMenuService menuService,
     IMouseService mouseService,
     IShaderService shaderService,
-    IShapeService shapeService)
+    IShapeService shapeService,
+    IUIService uiService)
   {
     _menuService = menuService;
     _mouseService = mouseService;
     _windowSettings = windowSettings;
     _shaderService = shaderService;
     _shapeService = shapeService;
+    _uiService = uiService;
+
+    // TODO: Remove.
+    var width = 200;
+    var height = 200;
+    _button = _uiService.CreateButton(
+      (_windowSettings.Width - width) / 2f,
+      (_windowSettings.Height - height) / 2f,
+      width,
+      height);
 
     _gameWindow = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings
     {
@@ -86,14 +99,8 @@ public class GameWindowService : IGameWindowService
       return;
     }
 
-    // TODO: Use UI element service.
-    var width = 200;
-    var height = 200;
-    _shapeService.DrawRectangle(
-      (_windowSettings.Width - width) / 2f,
-      (_windowSettings.Height - height) / 2f,
-      width,
-      height);
+    // TODO: _uiService.DrawMenu();
+    _uiService.DrawButton(_button);
   }
 
   public void UpdateMenu()
