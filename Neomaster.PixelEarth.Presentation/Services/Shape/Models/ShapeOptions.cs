@@ -12,11 +12,4 @@ public struct ShapeOptions
 
     return this;
   }
-
-  public ShapeOptions IsSelected(bool isSelected)
-  {
-    ShaderProgramArgs.IsSelected.Value = isSelected;
-
-    return this;
-  }
 }

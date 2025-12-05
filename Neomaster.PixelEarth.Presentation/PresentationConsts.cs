@@ -36,9 +36,7 @@ public static class PresentationConsts
     {
       FillNormal = new($"u{nameof(ShaderProgramArgs.FillNormal)}", Colors.Red),
       FillHovered = new($"u{nameof(ShaderProgramArgs.FillHovered)}", new(1, 0.4f, 0, 1)),
-      FillSelected = new($"u{nameof(ShaderProgramArgs.FillSelected)}", new(1, 0.6f, 0, 1)),
       IsHovered = new($"u{nameof(ShaderProgramArgs.IsHovered)}", false),
-      IsSelected = new($"u{nameof(ShaderProgramArgs.IsSelected)}", false),
     };
   }
 

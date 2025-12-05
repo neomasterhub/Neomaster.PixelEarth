@@ -6,7 +6,5 @@ public struct ShaderProgramArgs
 {
   public ShaderProgramArg<Vector4> FillNormal;
   public ShaderProgramArg<Vector4> FillHovered;
-  public ShaderProgramArg<Vector4> FillSelected;
   public ShaderProgramArg<bool> IsHovered;
-  public ShaderProgramArg<bool> IsSelected;
 }

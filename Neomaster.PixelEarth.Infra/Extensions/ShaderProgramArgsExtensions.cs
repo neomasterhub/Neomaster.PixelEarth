@@ -8,8 +8,6 @@ public static class ShaderProgramArgsExtensions
   {
     args.FillNormal.BindColor4(shaderProgramId);
     args.FillHovered.BindColor4(shaderProgramId);
-    args.FillSelected.BindColor4(shaderProgramId);
     args.IsHovered.BindBool(shaderProgramId);
-    args.IsSelected.BindBool(shaderProgramId);
   }
 }
