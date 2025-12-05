@@ -1,0 +1,8 @@
+namespace Neomaster.PixelEarth.Presentation;
+
+public abstract class UIElement
+{
+  public int Id { get; }
+  public float X { get; set; }
+  public float Y { get; set; }
+}
