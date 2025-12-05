@@ -47,4 +47,15 @@ public static class PresentationConsts
       ShaderProgramArgs = Shader.DefaultProgramArgs,
     };
   }
+
+  public static class Buttons
+  {
+    public static readonly ButtonOptions DefaultOptions = new()
+    {
+      FillNormal = new(0.929f, 0.929f, 0.929f, 1),
+      FillHovered = new(0.890f, 0.890f, 0.886f, 1),
+      FillSelected = new(0.839f, 0.859f, 0.906f, 1f),
+      FillSelectedHovered = new(0.796f, 0.824f, 0.882f, 1),
+    };
+  }
 }
