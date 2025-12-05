@@ -1,8 +1,9 @@
+using System;
 using System.Numerics;
 
-namespace Neomaster.PixelEarth.Infra;
+namespace Neomaster.PixelEarth.Utils;
 
-public class ColorService
+public static class ColorHelper
 {
   public static Vector4 HexToVector4(string hex)
   {
