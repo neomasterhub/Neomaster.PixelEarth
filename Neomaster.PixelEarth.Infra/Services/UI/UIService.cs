@@ -11,16 +11,18 @@ public class UIService(
     float x,
     float y,
     float width,
-    float height)
+    float height,
+    ButtonOptions? options = null)
   {
+    options ??= PresentationConsts.Buttons.DefaultOptions;
+
     var button = new Button(idGenerator.Next())
     {
       X = x,
       Y = y,
       Width = width,
       Height = height,
-      FillNormal = PresentationConsts.Colors.Red, // TODO: Improve.
-      FillHovered = PresentationConsts.Colors.Green, // TODO: Improve.
+      Options = options.Value,
     };
 
     return button;

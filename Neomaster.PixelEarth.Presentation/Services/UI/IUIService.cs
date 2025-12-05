@@ -6,5 +6,6 @@ public interface IUIService
     float x,
     float y,
     float width,
-    float height);
+    float height,
+    ButtonOptions? options = null);
 }
