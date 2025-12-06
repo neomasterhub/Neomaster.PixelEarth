@@ -1,4 +1,3 @@
-using Neomaster.PixelEarth.Domain;
 using Neomaster.PixelEarth.Presentation;
 
 namespace Neomaster.PixelEarth.Infra;
@@ -9,6 +8,7 @@ public class UIService(
   : IUIService
 {
   private int _selectedId;
+  private FrameInfo _frameInfo = new();
 
   public void DrawButton(
     Button button,
@@ -62,5 +62,10 @@ public class UIService(
     };
 
     return button;
+  }
+
+  public void BeginFrame()
+  {
+    _frameInfo.Reset();
   }
 }

@@ -12,4 +12,6 @@ public interface IUIService
     float width,
     float height,
     ButtonOptions? options = null);
+
+  void BeginFrame();
 }
