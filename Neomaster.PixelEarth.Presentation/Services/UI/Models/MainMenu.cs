@@ -5,4 +5,5 @@ public class MainMenu(int id)
 {
   public override int Id => id;
   public List<MainMenuButton> Buttons { get; set; }
+  public MainMenuOptions Options { get; set; }
 }

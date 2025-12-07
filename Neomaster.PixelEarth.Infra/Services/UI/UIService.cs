@@ -10,26 +10,90 @@ public class UIService(
   : IUIService
 {
   private int _selectedId;
+  private MainMenu _mainMenu;
 
   private Button _button1;
   private Button _button2;
-  public void DrawMenu()
+  public void DrawMainMenu()
   {
     var width = 200;
     var height = 200;
-    _button1 ??= CreateButton(
-      (windowSettings.Width - width) / 2f,
-      (windowSettings.Height - height) / 2f,
-      width,
-      height);
-    _button2 ??= CreateButton(
-      (windowSettings.Width - width) / 2f + 40f,
-      (windowSettings.Height - height) / 2f + 40f,
-      width,
-      height);
-    DrawButton(_button1);
-    DrawButton(_button2);
-    Console.WriteLine($"{_button1.MouseHoverCaptured} {_button2.MouseHoverCaptured} / {_button1.IsHovered} {_button2.IsHovered}");
+
+    if (_mainMenu?.Buttons == null)
+    {
+      return;
+    }
+
+    foreach (var button in _mainMenu.Buttons)
+    {
+      DrawButton(button);
+    }
+  }
+
+  public void CreateMainMenu(
+    MainMenuButton[] buttons,
+    MainMenuOptions? options = null)
+  {
+    options ??= PresentationConsts.MainMenu.DefaultOptions;
+
+    _mainMenu = new MainMenu(idGenerator.Next())
+    {
+      Options = options.Value,
+    };
+
+    if (buttons.Length > 0)
+    {
+      var b1 = buttons[0];
+
+      // avH = N * (bH + gap) - gap
+      // N = (avH + gap) / (bH + gap)
+      var avH = windowSettings.Height - (_mainMenu.Options.Padding * 2);
+      var colSize = (int)MathF.Floor((avH + _mainMenu.Options.ButtonGap)
+        / (b1.Height + _mainMenu.Options.ButtonGap));
+
+      var colH = (Math.Min(colSize, buttons.Length) * (b1.Height + _mainMenu.Options.ButtonGap)) - _mainMenu.Options.ButtonGap;
+      b1.Y = ((avH - colH) / 2) + _mainMenu.Options.Padding;
+
+      var s = (int)Math.Ceiling(buttons.Length / (float)colSize);
+      var w = s * b1.Width + s * _mainMenu.Options.ButtonGap - _mainMenu.Options.ButtonGap;
+      var avW = windowSettings.Width - (_mainMenu.Options.Padding * 2);
+      var x = (avW - w) / 2 + _mainMenu.Options.Padding;
+      b1.X = x;
+      _mainMenu.Buttons = [];
+      _mainMenu.Buttons.Add(b1);
+
+      if (buttons.Length == 1)
+      {
+        return;
+      }
+
+      var row = 2;
+      for (var i = 1; i < buttons.Length; i++)
+      {
+        var b = buttons[i];
+        b.X = x;
+        if (row == 1)
+        {
+          b.Y = b1.Y;
+        }
+        else
+        {
+          b.Y = buttons[i - 1].Y + b1.Height + _mainMenu.Options.ButtonGap;
+        }
+
+        if (colSize == row)
+        {
+          row = 1;
+          x += b1.Width + _mainMenu.Options.ButtonGap;
+        }
+        else
+        {
+          row++;
+        }
+
+        _mainMenu.Buttons.Add(b);
+      }
+    }
   }
 
   public void DrawButton(
@@ -83,7 +147,7 @@ public class UIService(
     float height,
     ButtonOptions? options = null)
   {
-    options ??= PresentationConsts.Buttons.DefaultOptions;
+    options ??= PresentationConsts.Button.DefaultOptions;
 
     var button = new Button(idGenerator.Next())
     {

@@ -17,7 +17,6 @@ public class GameWindowService : IGameWindowService
   private readonly IShaderService _shaderService;
   private readonly IShapeService _shapeService;
   private readonly IUIService _uiService;
-  private readonly Button _button; // TODO: Remove.
 
   private GameState _gameState = GameState.Menu;
 
@@ -27,7 +26,8 @@ public class GameWindowService : IGameWindowService
     IMouseService mouseService,
     IShaderService shaderService,
     IShapeService shapeService,
-    IUIService uiService)
+    IUIService uiService,
+    IIdGenerator<int> idGenerator)
   {
     _menuService = menuService;
     _mouseService = mouseService;
@@ -36,14 +36,13 @@ public class GameWindowService : IGameWindowService
     _shapeService = shapeService;
     _uiService = uiService;
 
-    // TODO: Remove.
-    var width = 200;
-    var height = 200;
-    _button = _uiService.CreateButton(
-      (_windowSettings.Width - width) / 2f,
-      (_windowSettings.Height - height) / 2f,
-      width,
-      height);
+    _uiService.CreateMainMenu(Enumerable.Range(1, 20)
+      .Select(x => new MainMenuButton(idGenerator.Next())
+      {
+        Width = 150,
+        Height = 35,
+        Options = PresentationConsts.Button.DefaultOptions,
+      }).ToArray());
 
     _gameWindow = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings
     {
@@ -73,7 +72,7 @@ public class GameWindowService : IGameWindowService
 
   public void OnRender(RenderEventArgs e)
   {
-    GL.ClearColor(PresentationConsts.Colors.Background.ToColor4());
+    GL.ClearColor(PresentationConsts.Color.Background.ToColor4());
     GL.Clear(ClearBufferMask.ColorBufferBit);
 
     RenderMenu();
@@ -99,7 +98,7 @@ public class GameWindowService : IGameWindowService
       return;
     }
 
-    _uiService.DrawMenu();
+    _uiService.DrawMainMenu();
   }
 
   public void UpdateMenu()
