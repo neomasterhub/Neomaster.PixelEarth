@@ -1,14 +1,36 @@
-using Neomaster.PixelEarth.Domain;
 using Neomaster.PixelEarth.Presentation;
 
 namespace Neomaster.PixelEarth.Infra;
 
 public class UIService(
+  WindowSettings windowSettings,
   IIdGenerator<int> idGenerator,
-  IShapeService shapeService)
+  IShapeService shapeService,
+  IFrameService frameService)
   : IUIService
 {
   private int _selectedId;
+
+  private Button _button1;
+  private Button _button2;
+  public void DrawMenu()
+  {
+    var width = 200;
+    var height = 200;
+    _button1 ??= CreateButton(
+      (windowSettings.Width - width) / 2f,
+      (windowSettings.Height - height) / 2f,
+      width,
+      height);
+    _button2 ??= CreateButton(
+      (windowSettings.Width - width) / 2f + 40f,
+      (windowSettings.Height - height) / 2f + 40f,
+      width,
+      height);
+    DrawButton(_button1);
+    DrawButton(_button2);
+    Console.WriteLine($"{_button1.MouseHoverCaptured} {_button2.MouseHoverCaptured} / {_button1.IsHovered} {_button2.IsHovered}");
+  }
 
   public void DrawButton(
     Button button,
@@ -16,13 +38,20 @@ public class UIService(
   {
     shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
 
-    var isSelected = button.Id == _selectedId;
-    var shapeFillNormal = isSelected
+    button.IsSelected = button.Id == _selectedId;
+    button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
+
+    var shapeFillNormal = button.IsSelected
       ? button.Options.FillNormal
       : button.Options.FillSelected;
-    var shapeFillHovered = isSelected
-      ? button.Options.FillHovered
-      : button.Options.FillSelectedHovered;
+
+    var shapeFillHovered = shapeFillNormal;
+    if (button.IsHovered)
+    {
+      shapeFillHovered = button.IsSelected
+        ? button.Options.FillHovered
+        : button.Options.FillSelectedHovered;
+    }
 
     shapeOptions = shapeOptions.Value
       .FillNormal(shapeFillNormal)
@@ -34,6 +63,10 @@ public class UIService(
       button.Width,
       button.Height,
       shapeOptions);
+
+    button.MouseHoverCaptured = shapeState.IsHovered;
+
+    UpdateHoveredIds(button);
 
     if (shapeState.IsMouseLeftPressed)
     {
@@ -62,5 +95,22 @@ public class UIService(
     };
 
     return button;
+  }
+
+  public void UpdateHoveredIds(UIElement element)
+  {
+    if (element.MouseHoverCaptured)
+    {
+      frameService.FrameInfo.HoveredIds.Add(element.Id);
+    }
+    else
+    {
+      frameService.FrameInfo.HoveredIds.Remove(element.Id);
+    }
+
+    if (frameService.FrameInfo.HoveredIds.Count > 0)
+    {
+      frameService.FrameInfo.HoveredIds = [frameService.FrameInfo.HoveredIds.Max()];
+    }
   }
 }

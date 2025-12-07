@@ -12,6 +12,7 @@ new ServiceCollection()
   .AddSingleton<IShaderService, ShaderService>()
   .AddSingleton<IShapeService, ShapeService>()
   .AddSingleton<IUIService, UIService>()
+  .AddSingleton<IFrameService, FrameService>()
   .BuildServiceProvider()
   .GetRequiredService<IGameWindowService>()
   .Run();
