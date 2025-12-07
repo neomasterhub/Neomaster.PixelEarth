@@ -6,4 +6,6 @@ public abstract class UIElement
   public float X { get; set; }
   public float Y { get; set; }
   public bool MouseHoverCaptured { get; set; }
+  public bool IsHovered { get; set; }
+  public bool IsSelected { get; set; }
 }

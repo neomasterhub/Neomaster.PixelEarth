@@ -29,6 +29,7 @@ public class UIService(
       height);
     DrawButton(_button1);
     DrawButton(_button2);
+    Console.WriteLine($"{_button1.MouseHoverCaptured} {_button2.MouseHoverCaptured} / {_button1.IsHovered} {_button2.IsHovered}");
   }
 
   public void DrawButton(
@@ -37,16 +38,17 @@ public class UIService(
   {
     shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
 
-    var isSelected = button.Id == _selectedId;
+    button.IsSelected = button.Id == _selectedId;
+    button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
 
-    var shapeFillNormal = isSelected
+    var shapeFillNormal = button.IsSelected
       ? button.Options.FillNormal
       : button.Options.FillSelected;
 
     var shapeFillHovered = shapeFillNormal;
-    if (frameService.FrameInfo.HoveredIds.Contains(button.Id))
+    if (button.IsHovered)
     {
-      shapeFillHovered = isSelected
+      shapeFillHovered = button.IsSelected
         ? button.Options.FillHovered
         : button.Options.FillSelectedHovered;
     }
