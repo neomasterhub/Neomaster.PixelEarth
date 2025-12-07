@@ -5,7 +5,8 @@ namespace Neomaster.PixelEarth.Infra;
 public class UIService(
   WindowSettings windowSettings,
   IIdGenerator<int> idGenerator,
-  IShapeService shapeService)
+  IShapeService shapeService,
+  IFrameService frameService)
   : IUIService
 {
   private int _selectedId;
@@ -37,12 +38,18 @@ public class UIService(
     shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
 
     var isSelected = button.Id == _selectedId;
+
     var shapeFillNormal = isSelected
       ? button.Options.FillNormal
       : button.Options.FillSelected;
-    var shapeFillHovered = isSelected
-      ? button.Options.FillHovered
-      : button.Options.FillSelectedHovered;
+
+    var shapeFillHovered = shapeFillNormal;
+    if (frameService.FrameInfo.HoveredIds.Contains(button.Id))
+    {
+      shapeFillHovered = isSelected
+        ? button.Options.FillHovered
+        : button.Options.FillSelectedHovered;
+    }
 
     shapeOptions = shapeOptions.Value
       .FillNormal(shapeFillNormal)
@@ -54,6 +61,10 @@ public class UIService(
       button.Width,
       button.Height,
       shapeOptions);
+
+    button.MouseHoverCaptured = shapeState.IsHovered;
+
+    UpdateHoveredIds(button);
 
     if (shapeState.IsMouseLeftPressed)
     {
@@ -82,5 +93,22 @@ public class UIService(
     };
 
     return button;
+  }
+
+  public void UpdateHoveredIds(UIElement element)
+  {
+    if (element.MouseHoverCaptured)
+    {
+      frameService.FrameInfo.HoveredIds.Add(element.Id);
+    }
+    else
+    {
+      frameService.FrameInfo.HoveredIds.Remove(element.Id);
+    }
+
+    if (frameService.FrameInfo.HoveredIds.Count > 0)
+    {
+      frameService.FrameInfo.HoveredIds = [frameService.FrameInfo.HoveredIds.Max()];
+    }
   }
 }
