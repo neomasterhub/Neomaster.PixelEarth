@@ -23,7 +23,7 @@ public static class PresentationConsts
     new() { Text = "Exit" },
   ];
 
-  public static class Colors
+  public static class Color
   {
     public static Vector4 Red = new(1, 0, 0, 1);
     public static Vector4 Green = new(0, 1, 0, 1);
@@ -39,8 +39,8 @@ public static class PresentationConsts
   {
     public static readonly ShaderProgramArgs DefaultProgramArgs = new()
     {
-      FillNormal = new($"u{nameof(ShaderProgramArgs.FillNormal)}", Colors.FillNormal),
-      FillHovered = new($"u{nameof(ShaderProgramArgs.FillHovered)}", Colors.FillHovered),
+      FillNormal = new($"u{nameof(ShaderProgramArgs.FillNormal)}", Color.FillNormal),
+      FillHovered = new($"u{nameof(ShaderProgramArgs.FillHovered)}", Color.FillHovered),
       IsHovered = new($"u{nameof(ShaderProgramArgs.IsHovered)}", false),
     };
   }
@@ -53,14 +53,24 @@ public static class PresentationConsts
     };
   }
 
-  public static class Buttons
+  public static class Button
   {
     public static readonly ButtonOptions DefaultOptions = new()
     {
-      FillNormal = Colors.FillNormal,
-      FillHovered = Colors.FillHovered,
-      FillSelected = Colors.FillSelected,
-      FillSelectedHovered = Colors.FillSelectedHovered,
+      FillNormal = Color.FillNormal,
+      FillHovered = Color.FillHovered,
+      FillSelected = Color.FillSelected,
+      FillSelectedHovered = Color.FillSelectedHovered,
+    };
+  }
+
+  public static class MainMenu
+  {
+    public static readonly MainMenuOptions DefaultOptions = new()
+    {
+      ButtonGap = 15,
+      ButtonWidth = 200,
+      ButtonHeight = 50,
     };
   }
 }

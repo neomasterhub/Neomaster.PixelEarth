@@ -2,7 +2,11 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public interface IUIService
 {
-  void DrawMenu();
+  void DrawMainMenu();
+
+  void CreateMainMenu(
+    MainMenuButton[] buttons,
+    MainMenuOptions? options = null);
 
   void DrawButton(
     Button button,
@@ -14,6 +18,15 @@ public interface IUIService
     float width,
     float height,
     ButtonOptions? options = null);
+
+  Grid<TCell> CreateGrid<TCell>(
+    TCell[] cells,
+    float gridWidth,
+    float gridHeight,
+    float cellWidth,
+    float cellHeight,
+    float gap)
+    where TCell : UIElement;
 
   void UpdateHoveredIds(UIElement element);
 }
