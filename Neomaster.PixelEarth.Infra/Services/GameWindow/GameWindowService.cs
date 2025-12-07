@@ -99,8 +99,7 @@ public class GameWindowService : IGameWindowService
       return;
     }
 
-    // TODO: _uiService.DrawMenu();
-    _uiService.DrawButton(_button);
+    _uiService.DrawMenu();
   }
 
   public void UpdateMenu()

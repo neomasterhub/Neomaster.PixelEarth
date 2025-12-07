@@ -3,12 +3,32 @@ using Neomaster.PixelEarth.Presentation;
 namespace Neomaster.PixelEarth.Infra;
 
 public class UIService(
+  WindowSettings windowSettings,
   IIdGenerator<int> idGenerator,
   IShapeService shapeService)
   : IUIService
 {
   private int _selectedId;
-  private FrameInfo _frameInfo = new();
+
+  private Button _button1;
+  private Button _button2;
+  public void DrawMenu()
+  {
+    var width = 200;
+    var height = 200;
+    _button1 ??= CreateButton(
+      (windowSettings.Width - width) / 2f,
+      (windowSettings.Height - height) / 2f,
+      width,
+      height);
+    _button2 ??= CreateButton(
+      (windowSettings.Width - width) / 2f + 40f,
+      (windowSettings.Height - height) / 2f + 40f,
+      width,
+      height);
+    DrawButton(_button1);
+    DrawButton(_button2);
+  }
 
   public void DrawButton(
     Button button,
@@ -62,10 +82,5 @@ public class UIService(
     };
 
     return button;
-  }
-
-  public void BeginFrame()
-  {
-    _frameInfo.Reset();
   }
 }
