@@ -5,6 +5,8 @@ public class Grid<TCell>(int id)
   where TCell : UIElement
 {
   public override int Id => id;
+  public float Width { get; set; }
+  public float Height { get; set; }
   public float CellWidth { get; set; }
   public float CellHeight { get; set; }
   public float Gap { get; set; }

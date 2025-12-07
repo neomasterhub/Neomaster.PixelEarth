@@ -19,5 +19,14 @@ public interface IUIService
     float height,
     ButtonOptions? options = null);
 
+  Grid<TCell> CreateGrid<TCell>(
+    TCell[] cells,
+    float gridWidth,
+    float gridHeight,
+    float cellWidth,
+    float cellHeight,
+    float gap)
+    where TCell : UIElement;
+
   void UpdateHoveredIds(UIElement element);
 }

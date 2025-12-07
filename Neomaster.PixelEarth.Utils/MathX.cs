@@ -4,21 +4,21 @@ namespace Neomaster.PixelEarth.Utils;
 
 public static class MathX
 {
-  public static int FittableCount(
+  public static float FittableCount(
     float maxLength,
     float elementLength,
     float gap)
   {
     // L = N * (l + g) - g
     // N = floor((L + g) / (l + g))
-    return (int)MathF.Floor((maxLength + gap) / (elementLength + gap));
+    return MathF.Floor((maxLength + gap) / (elementLength + gap));
   }
 
   public static float FittableLength(
-    int fittableCount,
+    float elementCount,
     float elementLength,
     float gap)
   {
-    return (fittableCount * (elementLength + gap)) - gap;
+    return (elementCount * (elementLength + gap)) - gap;
   }
 }

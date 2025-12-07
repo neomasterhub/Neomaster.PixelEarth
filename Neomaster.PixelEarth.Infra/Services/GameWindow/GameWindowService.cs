@@ -36,11 +36,11 @@ public class GameWindowService : IGameWindowService
     _shapeService = shapeService;
     _uiService = uiService;
 
-    _uiService.CreateMainMenu(Enumerable.Range(1, 20)
+    _uiService.CreateMainMenu(Enumerable.Range(1, 9)
       .Select(x => new MainMenuButton(idGenerator.Next())
       {
-        Width = 150,
-        Height = 35,
+        Width = 200,
+        Height = 40,
         Options = PresentationConsts.Button.DefaultOptions,
       }).ToArray());
 

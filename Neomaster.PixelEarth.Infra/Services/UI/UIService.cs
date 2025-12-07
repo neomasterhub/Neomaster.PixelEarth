@@ -1,4 +1,5 @@
 using Neomaster.PixelEarth.Presentation;
+using Neomaster.PixelEarth.Utils;
 
 namespace Neomaster.PixelEarth.Infra;
 
@@ -12,14 +13,9 @@ public class UIService(
   private int _selectedId;
   private MainMenu _mainMenu;
 
-  private Button _button1;
-  private Button _button2;
   public void DrawMainMenu()
   {
-    var width = 200;
-    var height = 200;
-
-    if (_mainMenu?.Buttons == null)
+    if (_mainMenu == null)
     {
       return;
     }
@@ -41,59 +37,21 @@ public class UIService(
       Options = options.Value,
     };
 
-    if (buttons.Length > 0)
+    var grid = CreateGrid(
+      buttons,
+      windowSettings.Width,
+      windowSettings.Height,
+      _mainMenu.Options.ButtonWidth,
+      _mainMenu.Options.ButtonHeight,
+      _mainMenu.Options.ButtonGap);
+
+    foreach (var button in grid.Cells)
     {
-      var b1 = buttons[0];
-
-      // avH = N * (bH + gap) - gap
-      // N = (avH + gap) / (bH + gap)
-      var avH = windowSettings.Height - (_mainMenu.Options.Padding * 2);
-      var colSize = (int)MathF.Floor((avH + _mainMenu.Options.ButtonGap)
-        / (b1.Height + _mainMenu.Options.ButtonGap));
-
-      var colH = (Math.Min(colSize, buttons.Length) * (b1.Height + _mainMenu.Options.ButtonGap)) - _mainMenu.Options.ButtonGap;
-      b1.Y = ((avH - colH) / 2) + _mainMenu.Options.Padding;
-
-      var s = (int)Math.Ceiling(buttons.Length / (float)colSize);
-      var w = s * b1.Width + s * _mainMenu.Options.ButtonGap - _mainMenu.Options.ButtonGap;
-      var avW = windowSettings.Width - (_mainMenu.Options.Padding * 2);
-      var x = (avW - w) / 2 + _mainMenu.Options.Padding;
-      b1.X = x;
-      _mainMenu.Buttons = [];
-      _mainMenu.Buttons.Add(b1);
-
-      if (buttons.Length == 1)
-      {
-        return;
-      }
-
-      var row = 2;
-      for (var i = 1; i < buttons.Length; i++)
-      {
-        var b = buttons[i];
-        b.X = x;
-        if (row == 1)
-        {
-          b.Y = b1.Y;
-        }
-        else
-        {
-          b.Y = buttons[i - 1].Y + b1.Height + _mainMenu.Options.ButtonGap;
-        }
-
-        if (colSize == row)
-        {
-          row = 1;
-          x += b1.Width + _mainMenu.Options.ButtonGap;
-        }
-        else
-        {
-          row++;
-        }
-
-        _mainMenu.Buttons.Add(b);
-      }
+      button.Width = grid.CellWidth;
+      button.Height = grid.CellHeight;
     }
+
+    _mainMenu.Buttons = grid.Cells;
   }
 
   public void DrawButton(
@@ -159,6 +117,78 @@ public class UIService(
     };
 
     return button;
+  }
+
+  public Grid<TCell> CreateGrid<TCell>(
+    TCell[] cells,
+    float gridWidth,
+    float gridHeight,
+    float cellWidth,
+    float cellHeight,
+    float gap)
+    where TCell : UIElement
+  {
+    var grid = new Grid<TCell>(idGenerator.Next())
+    {
+      Width = gridWidth,
+      Height = gridHeight,
+      CellWidth = cellWidth,
+      CellHeight = cellHeight,
+      Gap = gap,
+    };
+
+    if (cells.Length == 0)
+    {
+      return grid;
+    }
+
+    var c1 = cells[0];
+
+    var rowCount = MathX.FittableCount(grid.Height, grid.CellHeight, grid.Gap);
+    var colHeight = MathX.FittableLength(rowCount, grid.CellHeight, grid.Gap);
+    var colCount = MathF.Ceiling(cells.Length / rowCount);
+    var rowWidth = (colCount * (grid.CellWidth + grid.Gap)) - grid.Gap;
+
+    c1.X = grid.X + ((grid.Width - rowWidth) / 2);
+    c1.Y = grid.Y + ((grid.Height - colHeight) / 2);
+    grid.Cells.Add(c1);
+
+    if (cells.Length == 1)
+    {
+      return grid;
+    }
+
+    var row = 2;
+    var x = c1.X;
+    for (var i = 1; i < cells.Length; i++)
+    {
+      var c = cells[i];
+
+      c.X = x;
+
+      if (row == 1)
+      {
+        c.Y = c1.Y;
+      }
+      else
+      {
+        c.Y = cells[i - 1].Y + grid.CellHeight + grid.Gap;
+      }
+
+      if (rowCount == row)
+      {
+        row = 1;
+        x += grid.CellWidth + grid.Gap;
+      }
+      else
+      {
+        row++;
+      }
+
+      grid.Cells.Add(c);
+    }
+
+    return grid;
   }
 
   public void UpdateHoveredIds(UIElement element)
