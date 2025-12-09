@@ -7,6 +7,8 @@ public class MainMenuService(
   IIdGenerator<int> idGenerator)
   : IMainMenuService
 {
+  private MainMenu _mainMenu;
+
   public void Create(
     MainMenuItemDef[] items,
     MainMenuOptions? menuOptions = null,
@@ -20,7 +22,12 @@ public class MainMenuService(
       })
       .ToArray();
 
-    uiService.CreateMainMenu(buttons, menuOptions);
+    _mainMenu = uiService.CreateMainMenu(buttons, menuOptions);
+  }
+
+  public void Draw()
+  {
+    uiService.DrawMainMenu(_mainMenu);
   }
 
   public void MoveUp()

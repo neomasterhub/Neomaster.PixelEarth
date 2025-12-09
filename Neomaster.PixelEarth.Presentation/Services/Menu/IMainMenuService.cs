@@ -7,6 +7,8 @@ public interface IMainMenuService
     MainMenuOptions? menuOptions = null,
     ButtonOptions? sharedButtonOptions = null);
 
+  void Draw();
+
   void MoveUp();
 
   void MoveDown();

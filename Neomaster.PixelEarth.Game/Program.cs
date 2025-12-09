@@ -4,6 +4,7 @@ using Neomaster.PixelEarth.Infra;
 using Neomaster.PixelEarth.Presentation;
 
 new ServiceCollection()
+  .AddSingleton(new GameState())
   .AddSingleton(PresentationConsts.RenderSettings)
   .AddSingleton(PresentationConsts.WindowSettings)
   .AddSingleton<IIdGenerator<int>, IntIdGenerator>()
@@ -14,7 +15,6 @@ new ServiceCollection()
   .AddSingleton<IShapeService, ShapeService>()
   .AddSingleton<IUIService, UIService>()
   .AddSingleton<IFrameService, FrameService>()
-  .AddSingleton(new GameState())
   .BuildServiceProvider()
   .GetRequiredService<IGameWindowService>()
   .Run();

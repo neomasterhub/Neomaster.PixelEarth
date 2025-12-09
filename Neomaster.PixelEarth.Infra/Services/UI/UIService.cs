@@ -11,28 +11,22 @@ public class UIService(
   : IUIService
 {
   private int _selectedId;
-  private MainMenu _mainMenu;
 
-  public void DrawMainMenu()
+  public void DrawMainMenu(MainMenu mainMenu)
   {
-    if (_mainMenu == null)
-    {
-      return;
-    }
-
-    foreach (var button in _mainMenu.Buttons)
+    foreach (var button in mainMenu.Buttons)
     {
       DrawButton(button);
     }
   }
 
-  public void CreateMainMenu(
+  public MainMenu CreateMainMenu(
     MainMenuButton[] buttons,
     MainMenuOptions? options = null)
   {
     options ??= PresentationConsts.MainMenu.DefaultOptions;
 
-    _mainMenu = new MainMenu()
+    var mainMenu = new MainMenu()
     {
       Options = options.Value,
     };
@@ -41,9 +35,9 @@ public class UIService(
       buttons,
       windowSettings.Width,
       windowSettings.Height,
-      _mainMenu.Options.ButtonWidth,
-      _mainMenu.Options.ButtonHeight,
-      _mainMenu.Options.ButtonGap);
+      mainMenu.Options.ButtonWidth,
+      mainMenu.Options.ButtonHeight,
+      mainMenu.Options.ButtonGap);
 
     foreach (var button in grid.Cells)
     {
@@ -51,7 +45,9 @@ public class UIService(
       button.Height = grid.CellHeight;
     }
 
-    _mainMenu.Buttons = grid.Cells;
+    mainMenu.Buttons = grid.Cells;
+
+    return mainMenu;
   }
 
   public void DrawButton(

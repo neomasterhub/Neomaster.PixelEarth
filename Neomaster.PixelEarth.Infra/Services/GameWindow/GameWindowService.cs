@@ -10,39 +10,26 @@ namespace Neomaster.PixelEarth.Infra;
 
 public class GameWindowService : IGameWindowService
 {
+  private readonly GameState _gameState;
   private readonly GameWindow _gameWindow;
-  private readonly WindowSettings _windowSettings;
-  private readonly IMainMenuService _menuService;
+  private readonly IMainMenuService _mainMenuService;
   private readonly IMouseService _mouseService;
   private readonly IShaderService _shaderService;
   private readonly IShapeService _shapeService;
-  private readonly IUIService _uiService;
-
-  private FrameState _gameState = FrameState.Menu;
 
   public GameWindowService(
+    GameState gameState,
     WindowSettings windowSettings,
-    IMainMenuService menuService,
+    IMainMenuService mainMenuService,
     IMouseService mouseService,
     IShaderService shaderService,
-    IShapeService shapeService,
-    IUIService uiService,
-    IIdGenerator<int> idGenerator)
+    IShapeService shapeService)
   {
-    _menuService = menuService;
+    _gameState = gameState;
+    _mainMenuService = mainMenuService;
     _mouseService = mouseService;
-    _windowSettings = windowSettings;
     _shaderService = shaderService;
     _shapeService = shapeService;
-    _uiService = uiService;
-
-    // TODO: Simplify
-    // TODO: Call on loading
-    _uiService.CreateMainMenu(Enumerable.Range(1, 9)
-      .Select(x => new MainMenuButton(idGenerator.Next())
-      {
-        Options = PresentationConsts.Button.DefaultOptions,
-      }).ToArray());
 
     _gameWindow = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings
     {
@@ -68,6 +55,12 @@ public class GameWindowService : IGameWindowService
     // TODO: Map "enum - id".
     var triangleProgram = _shaderService.CreateShaderProgram("vertex", "fragment");
     PresentationConsts.Shape.DefaultOptions.ShaderProgramId = triangleProgram.Id;
+
+    _mainMenuService.Create(
+      [
+        new MainMenuItemDef(() => { }),
+        new MainMenuItemDef(() => { }),
+      ]);
   }
 
   public void OnRender(RenderEventArgs e)
@@ -76,6 +69,7 @@ public class GameWindowService : IGameWindowService
     GL.Clear(ClearBufferMask.ColorBufferBit);
 
     RenderMenu();
+
     UpdateMouseState(_gameWindow.MouseState.ToMouseStateEventArgs());
 
     _gameWindow.SwapBuffers();
@@ -93,41 +87,34 @@ public class GameWindowService : IGameWindowService
 
   public void RenderMenu()
   {
-    if (_gameState != FrameState.Menu)
+    if (_gameState.FrameState != FrameState.MainMenu)
     {
       return;
     }
 
-    _uiService.DrawMainMenu();
+    _mainMenuService.Draw();
   }
 
   public void UpdateMenu()
   {
-    if (_gameState != FrameState.Menu)
+    if (_gameState.FrameState != FrameState.MainMenu)
     {
       return;
     }
 
     var keyboard = _gameWindow.KeyboardState;
+
     if (keyboard.IsKeyPressed(Keys.Down))
     {
-      _menuService.MoveDown();
+      _mainMenuService.MoveDown();
     }
     else if (keyboard.IsKeyPressed(Keys.Up))
     {
-      _menuService.MoveUp();
+      _mainMenuService.MoveUp();
     }
     else if (keyboard.IsKeyPressed(Keys.Enter))
     {
-      switch (_menuService.SelectedIndex)
-      {
-        case 0:
-          _gameState = FrameState.Playing;
-          break;
-        case 1:
-          _gameWindow.Close();
-          break;
-      }
+      // TODO: Update game state
     }
   }
 }
