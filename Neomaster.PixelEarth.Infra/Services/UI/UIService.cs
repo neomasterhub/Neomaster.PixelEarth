@@ -32,7 +32,7 @@ public class UIService(
   {
     options ??= PresentationConsts.MainMenu.DefaultOptions;
 
-    _mainMenu = new MainMenu(idGenerator.Next())
+    _mainMenu = new MainMenu()
     {
       Options = options.Value,
     };
