@@ -65,6 +65,8 @@ public static class PresentationConsts
       ButtonGap = 15,
       ButtonWidth = 200,
       ButtonHeight = 50,
+      VerticalAlign = Align.Center,
+      HorizontalAlign = Align.Center,
     };
   }
 }

@@ -26,7 +26,9 @@ public interface IUIService
     float gridHeight,
     float cellWidth,
     float cellHeight,
-    float gap)
+    float gap,
+    Align verticalAlign = Align.Begin,
+    Align horizontalAlign = Align.Begin)
     where TCell : UIElement;
 
   void UpdateHoveredIds(UIElement element);
