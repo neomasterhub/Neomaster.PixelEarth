@@ -1,8 +1,8 @@
 namespace Neomaster.PixelEarth.Domain;
 
-public enum GameState
+public enum FrameState
 {
-  Menu,
+  MainMenu,
   Playing,
   Exiting,
 }

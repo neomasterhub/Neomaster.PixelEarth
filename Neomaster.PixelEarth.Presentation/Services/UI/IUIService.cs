@@ -2,9 +2,10 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public interface IUIService
 {
-  void DrawMainMenu();
+  void DrawMainMenu(
+    MainMenu mainMenu);
 
-  void CreateMainMenu(
+  MainMenu CreateMainMenu(
     MainMenuButton[] buttons,
     MainMenuOptions? options = null);
 

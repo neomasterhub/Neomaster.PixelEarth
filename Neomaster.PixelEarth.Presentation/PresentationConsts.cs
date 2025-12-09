@@ -17,12 +17,6 @@ public static class PresentationConsts
     Title = "Pixel Earth",
   };
 
-  public static readonly MenuItem[] MenuItems =
-  [
-    new() { Text = "Play" },
-    new() { Text = "Exit" },
-  ];
-
   public static class Color
   {
     public static Vector4 Red = new(1, 0, 0, 1);

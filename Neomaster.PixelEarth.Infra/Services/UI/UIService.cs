@@ -10,29 +10,21 @@ public class UIService(
   IFrameService frameService)
   : IUIService
 {
-  private int _selectedId;
-  private MainMenu _mainMenu;
-
-  public void DrawMainMenu()
+  public void DrawMainMenu(MainMenu mainMenu)
   {
-    if (_mainMenu == null)
-    {
-      return;
-    }
-
-    foreach (var button in _mainMenu.Buttons)
+    foreach (var button in mainMenu.Buttons)
     {
       DrawButton(button);
     }
   }
 
-  public void CreateMainMenu(
+  public MainMenu CreateMainMenu(
     MainMenuButton[] buttons,
     MainMenuOptions? options = null)
   {
     options ??= PresentationConsts.MainMenu.DefaultOptions;
 
-    _mainMenu = new MainMenu(idGenerator.Next())
+    var mainMenu = new MainMenu()
     {
       Options = options.Value,
     };
@@ -41,9 +33,9 @@ public class UIService(
       buttons,
       windowSettings.Width,
       windowSettings.Height,
-      _mainMenu.Options.ButtonWidth,
-      _mainMenu.Options.ButtonHeight,
-      _mainMenu.Options.ButtonGap);
+      mainMenu.Options.ButtonWidth,
+      mainMenu.Options.ButtonHeight,
+      mainMenu.Options.ButtonGap);
 
     foreach (var button in grid.Cells)
     {
@@ -51,7 +43,9 @@ public class UIService(
       button.Height = grid.CellHeight;
     }
 
-    _mainMenu.Buttons = grid.Cells;
+    mainMenu.Buttons = grid.Cells;
+
+    return mainMenu;
   }
 
   public void DrawButton(
@@ -60,7 +54,6 @@ public class UIService(
   {
     shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
 
-    button.IsSelected = button.Id == _selectedId;
     button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
 
     var shapeFillNormal = button.IsSelected
@@ -90,11 +83,9 @@ public class UIService(
 
     UpdateHoveredIds(button);
 
-    if (shapeState.IsMouseLeftPressed)
+    if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
     {
-      _selectedId = shapeState.IsHovered
-        ? button.Id
-        : 0; // TODO: Problem with layers.
+      button.MouseLeftPressed = true;
     }
   }
 
