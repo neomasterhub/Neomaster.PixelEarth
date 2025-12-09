@@ -35,7 +35,9 @@ public class UIService(
       windowSettings.Height,
       mainMenu.Options.ButtonWidth,
       mainMenu.Options.ButtonHeight,
-      mainMenu.Options.ButtonGap);
+      mainMenu.Options.ButtonGap,
+      mainMenu.Options.VerticalAlign,
+      mainMenu.Options.HorizontalAlign);
 
     foreach (var button in grid.Cells)
     {
@@ -116,7 +118,9 @@ public class UIService(
     float gridHeight,
     float cellWidth,
     float cellHeight,
-    float gap)
+    float gap,
+    Align verticalAlign = Align.Begin,
+    Align horizontalAlign = Align.Begin)
     where TCell : UIElement
   {
     var grid = new Grid<TCell>(idGenerator.Next())
@@ -126,6 +130,8 @@ public class UIService(
       CellWidth = cellWidth,
       CellHeight = cellHeight,
       Gap = gap,
+      VerticalAlign = verticalAlign,
+      HorizontalAlign = horizontalAlign,
     };
 
     if (cells.Length == 0)
@@ -136,12 +142,26 @@ public class UIService(
     var c1 = cells[0];
 
     var rowCount = MathX.FittableCount(grid.Height, grid.CellHeight, grid.Gap);
-    var colHeight = MathX.FittableLength(rowCount, grid.CellHeight, grid.Gap);
+    var colHeight = MathX.FittableLength(MathF.Min(cells.Length, rowCount), grid.CellHeight, grid.Gap);
     var colCount = MathF.Ceiling(cells.Length / rowCount);
     var rowWidth = (colCount * (grid.CellWidth + grid.Gap)) - grid.Gap;
 
-    c1.X = grid.X + ((grid.Width - rowWidth) / 2);
-    c1.Y = grid.Y + ((grid.Height - colHeight) / 2);
+    c1.X = grid.HorizontalAlign switch
+    {
+      Align.Begin => grid.X,
+      Align.Center => grid.X + ((grid.Width - rowWidth) / 2),
+      Align.End => grid.Width - rowWidth,
+      _ => throw grid.HorizontalAlign.ArgumentOutOfRangeException(),
+    };
+
+    c1.Y = grid.VerticalAlign switch
+    {
+      Align.Begin => grid.Y,
+      Align.Center => grid.Y + ((grid.Height - colHeight) / 2),
+      Align.End => grid.Height - colHeight,
+      _ => throw grid.VerticalAlign.ArgumentOutOfRangeException(),
+    };
+
     grid.Cells.Add(c1);
 
     if (cells.Length == 1)

@@ -60,6 +60,7 @@ public class GameWindowService : IGameWindowService
       [
         new MainMenuItemDef(() => { }),
         new MainMenuItemDef(() => { }),
+        new MainMenuItemDef(() => { }),
       ]);
   }
 
