@@ -6,5 +6,6 @@ public class Button(int id)
   public override int Id => id;
   public float Width { get; set; }
   public float Height { get; set; }
+  public Action Action { get; set; }
   public ButtonOptions Options { get; set; }
 }
