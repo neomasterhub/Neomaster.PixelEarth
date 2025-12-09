@@ -3,31 +3,32 @@ namespace Neomaster.PixelEarth.Utils;
 public abstract class Menu<TItem>
 {
   public abstract int ItemCount { get; }
+  public int LastIndex => ItemCount - 1;
   public int SelectedIndex { get; protected set; }
   public TItem SelectedItem => this[SelectedIndex];
   public abstract TItem this[int index] { get; }
 
   public void MoveDown()
   {
-    if (SelectedIndex == ItemCount)
+    if (SelectedIndex < LastIndex)
     {
-      SelectedIndex = 0;
+      SelectedIndex++;
     }
     else
     {
-      SelectedIndex++;
+      SelectedIndex = 0;
     }
   }
 
   public void MoveUp()
   {
-    if (SelectedIndex == 0)
+    if (SelectedIndex > 0)
     {
-      SelectedIndex = ItemCount;
+      SelectedIndex--;
     }
     else
     {
-      SelectedIndex--;
+      SelectedIndex = LastIndex;
     }
   }
 }
