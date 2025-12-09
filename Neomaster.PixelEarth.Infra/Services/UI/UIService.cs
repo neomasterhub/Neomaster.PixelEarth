@@ -142,7 +142,7 @@ public class UIService(
     var c1 = cells[0];
 
     var rowCount = MathX.FittableCount(grid.Height, grid.CellHeight, grid.Gap);
-    var colHeight = MathX.FittableLength(rowCount, grid.CellHeight, grid.Gap);
+    var colHeight = MathX.FittableLength(MathF.Min(cells.Length, rowCount), grid.CellHeight, grid.Gap);
     var colCount = MathF.Ceiling(cells.Length / rowCount);
     var rowWidth = (colCount * (grid.CellWidth + grid.Gap)) - grid.Gap;
 
