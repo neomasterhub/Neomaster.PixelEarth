@@ -18,7 +18,7 @@ public class GameWindowService : IGameWindowService
   private readonly IShapeService _shapeService;
   private readonly IUIService _uiService;
 
-  private GameState _gameState = GameState.Menu;
+  private FrameState _gameState = FrameState.Menu;
 
   public GameWindowService(
     WindowSettings windowSettings,
@@ -93,7 +93,7 @@ public class GameWindowService : IGameWindowService
 
   public void RenderMenu()
   {
-    if (_gameState != GameState.Menu)
+    if (_gameState != FrameState.Menu)
     {
       return;
     }
@@ -103,7 +103,7 @@ public class GameWindowService : IGameWindowService
 
   public void UpdateMenu()
   {
-    if (_gameState != GameState.Menu)
+    if (_gameState != FrameState.Menu)
     {
       return;
     }
@@ -122,7 +122,7 @@ public class GameWindowService : IGameWindowService
       switch (_menuService.SelectedIndex)
       {
         case 0:
-          _gameState = GameState.Playing;
+          _gameState = FrameState.Playing;
           break;
         case 1:
           _gameWindow.Close();
