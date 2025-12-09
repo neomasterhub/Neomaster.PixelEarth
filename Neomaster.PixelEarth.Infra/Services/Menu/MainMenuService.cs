@@ -27,14 +27,38 @@ public class MainMenuService(
 
   public void Draw()
   {
+    _mainMenu.SelectedItem.IsSelected = true;
+
     uiService.DrawMainMenu(_mainMenu);
+
+    _mainMenu.SelectedItem.IsSelected = false;
+
+    UpdateSelectedIndex();
   }
 
   public void MoveUp()
   {
+    _mainMenu.MoveUp();
   }
 
   public void MoveDown()
   {
+    _mainMenu.MoveDown();
+  }
+
+  private void UpdateSelectedIndex()
+  {
+    for (var i = 0; i < _mainMenu.ItemCount; i++)
+    {
+      var b = _mainMenu[i];
+
+      if (b.MouseLeftPressed)
+      {
+        _mainMenu.SelectedIndex = i;
+        b.MouseLeftPressed = false;
+
+        break;
+      }
+    }
   }
 }

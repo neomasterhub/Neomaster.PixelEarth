@@ -10,8 +10,6 @@ public class UIService(
   IFrameService frameService)
   : IUIService
 {
-  private int _selectedId;
-
   public void DrawMainMenu(MainMenu mainMenu)
   {
     foreach (var button in mainMenu.Buttons)
@@ -56,7 +54,6 @@ public class UIService(
   {
     shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
 
-    button.IsSelected = button.Id == _selectedId;
     button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
 
     var shapeFillNormal = button.IsSelected
@@ -86,11 +83,9 @@ public class UIService(
 
     UpdateHoveredIds(button);
 
-    if (shapeState.IsMouseLeftPressed)
+    if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
     {
-      _selectedId = shapeState.IsHovered
-        ? button.Id
-        : 0; // TODO: Problem with layers.
+      button.MouseLeftPressed = true;
     }
   }
 
