@@ -5,5 +5,29 @@ public abstract class Menu<TItem>
   public abstract int ItemCount { get; }
   public int SelectedIndex { get; protected set; }
   public TItem SelectedItem => this[SelectedIndex];
-  public abstract TItem this[int index] { get; set; }
+  public abstract TItem this[int index] { get; }
+
+  public void MoveDown()
+  {
+    if (SelectedIndex == ItemCount)
+    {
+      SelectedIndex = 0;
+    }
+    else
+    {
+      SelectedIndex++;
+    }
+  }
+
+  public void MoveUp()
+  {
+    if (SelectedIndex == 0)
+    {
+      SelectedIndex = ItemCount;
+    }
+    else
+    {
+      SelectedIndex--;
+    }
+  }
 }
