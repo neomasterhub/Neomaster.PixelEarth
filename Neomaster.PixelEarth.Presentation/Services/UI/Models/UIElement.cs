@@ -8,4 +8,5 @@ public abstract class UIElement
   public bool MouseHoverCaptured { get; set; }
   public bool IsHovered { get; set; }
   public bool IsSelected { get; set; }
+  public bool SetSelected { get; set; }
 }
