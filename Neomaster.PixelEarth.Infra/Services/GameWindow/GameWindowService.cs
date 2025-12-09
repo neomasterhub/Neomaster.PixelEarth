@@ -12,7 +12,7 @@ public class GameWindowService : IGameWindowService
 {
   private readonly GameWindow _gameWindow;
   private readonly WindowSettings _windowSettings;
-  private readonly IMenuService _menuService;
+  private readonly IMainMenuService _menuService;
   private readonly IMouseService _mouseService;
   private readonly IShaderService _shaderService;
   private readonly IShapeService _shapeService;
@@ -22,7 +22,7 @@ public class GameWindowService : IGameWindowService
 
   public GameWindowService(
     WindowSettings windowSettings,
-    IMenuService menuService,
+    IMainMenuService menuService,
     IMouseService mouseService,
     IShaderService shaderService,
     IShapeService shapeService,
