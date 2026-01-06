@@ -92,7 +92,7 @@ public class ShapeService : IShapeService
       BufferUsageHint.DynamicDraw);
 
     shapeOptions.Value.UseWithProgram();
-    _positionProjection.BindMatrix4(shapeOptions.Value.ShaderProgramId);
+    _positionProjection.BindMatrix4(shapeOptions.Value.FillShaderProgramId);
 
     shapeOptions.Value.CullFaces.Apply();
     GL.FrontFace(_renderSettings.WindingOrder.ToGlType());

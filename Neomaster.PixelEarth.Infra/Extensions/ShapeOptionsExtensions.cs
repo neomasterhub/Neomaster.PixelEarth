@@ -7,7 +7,7 @@ public static class ShapeOptionsExtensions
 {
   public static void UseWithProgram(this ShapeOptions options)
   {
-    GL.UseProgram(options.ShaderProgramId);
-    options.ShaderProgramArgs.Bind(options.ShaderProgramId);
+    GL.UseProgram(options.FillShaderProgramId);
+    options.ShaderProgramArgs.Bind(options.FillShaderProgramId);
   }
 }

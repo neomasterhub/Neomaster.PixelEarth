@@ -4,7 +4,7 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public struct ShapeOptions
 {
-  public int ShaderProgramId; // TODO: rename to "FillShaderProgramId"
+  public int FillShaderProgramId;
   public int TextureShaderProgramId;
 
   public CullFaces CullFaces;
