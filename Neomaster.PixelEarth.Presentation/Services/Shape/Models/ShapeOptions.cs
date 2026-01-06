@@ -4,8 +4,10 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public struct ShapeOptions
 {
+  public int ShaderProgramId; // TODO: rename to "FillShaderProgramId"
+  public int TextureShaderProgramId;
+
   public CullFaces CullFaces;
-  public int ShaderProgramId;
   public ShaderProgramArgs ShaderProgramArgs;
 
   public ShapeOptions IsHovered(bool isHovered)
