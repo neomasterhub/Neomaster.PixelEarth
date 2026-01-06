@@ -110,10 +110,8 @@ public class ShapeService : IShapeService
   {
     _vaoId = GL.GenVertexArray();
     _baoId = GL.GenBuffer();
-
     GL.BindVertexArray(_vaoId);
     GL.BindBuffer(BufferTarget.ArrayBuffer, _baoId);
-
     GL.EnableVertexAttribArray(0);
     GL.VertexAttribPointer(
       index: 0,
@@ -122,6 +120,28 @@ public class ShapeService : IShapeService
       normalized: false,
       stride: 2 * sizeof(float),
       offset: 0);
+    GL.BindVertexArray(0);
+
+    _textureVaoId = GL.GenVertexArray();
+    _textureBaoId = GL.GenBuffer();
+    GL.BindVertexArray(_textureVaoId);
+    GL.BindBuffer(BufferTarget.ArrayBuffer, _textureBaoId);
+    GL.EnableVertexAttribArray(0);
+    GL.VertexAttribPointer(
+        index: 0,
+        size: 2,
+        type: VertexAttribPointerType.Float,
+        normalized: false,
+        stride: 4 * sizeof(float),
+        offset: 0);
+    GL.EnableVertexAttribArray(1);
+    GL.VertexAttribPointer(
+        index: 1,
+        size: 2,
+        type: VertexAttribPointerType.Float,
+        normalized: false,
+        stride: 4 * sizeof(float),
+        offset: 2 * sizeof(float));
     GL.BindVertexArray(0);
   }
 
