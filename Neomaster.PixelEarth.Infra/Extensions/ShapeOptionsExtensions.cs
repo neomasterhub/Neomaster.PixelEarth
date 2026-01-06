@@ -5,9 +5,9 @@ namespace Neomaster.PixelEarth.Infra;
 
 public static class ShapeOptionsExtensions
 {
-  public static void UseWithProgram(this ShapeOptions options)
+  public static void UseWithProgram(this ColorShapeOptions options)
   {
-    GL.UseProgram(options.FillShaderProgramId);
-    options.ShaderProgramArgs.Bind(options.FillShaderProgramId);
+    GL.UseProgram(options.ShaderProgramId);
+    options.ShaderColor.BindColor4(options.ShaderProgramId);
   }
 }

@@ -11,7 +11,7 @@ public interface IUIService
 
   void DrawButton(
     Button button,
-    ShapeOptions? shapeOptions = null);
+    ColorShapeOptions? shapeOptions = null);
 
   Button CreateButton(
     float x,

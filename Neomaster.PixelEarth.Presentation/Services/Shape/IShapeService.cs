@@ -9,18 +9,18 @@ public interface IShapeService
     float y,
     float width,
     float height,
-    ShapeOptions? shapeOptions = null);
+    ColorShapeOptions? shapeOptions = null);
 
   public ShapeState DrawRectangle(
     Vector2 topLeft,
     Vector2 bottomRight,
-    ShapeOptions? shapeOptions = null);
+    ColorShapeOptions? shapeOptions = null);
 
   void DrawTriangle(
     Vector2 a,
     Vector2 b,
     Vector2 c,
-    ShapeOptions? shapeOptions = null);
+    ColorShapeOptions? shapeOptions = null);
 
   void InitializeBuffers();
 }
