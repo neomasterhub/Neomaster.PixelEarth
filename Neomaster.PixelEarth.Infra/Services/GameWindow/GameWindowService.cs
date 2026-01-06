@@ -54,7 +54,7 @@ public class GameWindowService : IGameWindowService
     _shapeService.InitializeBuffers();
 
     // TODO: Map "enum - id".
-    var fillTriangleProgram = _shaderService.CreateShaderProgram("fill.vertex", "fill.fragment");
+    var fillTriangleProgram = _shaderService.CreateShaderProgram("color.vertex", "color.fragment");
     var textureTriangleProgram = _shaderService.CreateShaderProgram("texture.vertex", "texture.fragment");
     PresentationConsts.Shape.DefaultOptions.FillShaderProgramId = fillTriangleProgram.Id;
     PresentationConsts.Shape.DefaultOptions.TextureShaderProgramId = textureTriangleProgram.Id;
