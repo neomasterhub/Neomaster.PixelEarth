@@ -57,6 +57,10 @@ public class GameWindowService : IGameWindowService
     PresentationConsts.Shape.ColorDefaultOptions.ShaderProgramId = colorTriangleProgram.Id;
     PresentationConsts.Shape.ColorDefaultOptions.ShaderColorUniformName = "uColor";
 
+    var textureTriangleProgram = _shaderService.CreateShaderProgram("texture.vertex", "texture.fragment");
+    PresentationConsts.Shape.TextureDefaultOptions.ShaderProgramId = textureTriangleProgram.Id;
+    PresentationConsts.Shape.TextureDefaultOptions.ShaderTextureUniformName = "uTexture";
+
     _mainMenuService.Create(
       [
         new MainMenuItemDef(() => _gameState.FrameState = FrameState.Playing),

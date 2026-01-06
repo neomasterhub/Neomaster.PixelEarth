@@ -38,6 +38,10 @@ public static class PresentationConsts
       ColorSelected = Color.ControlFillSelected,
       ColorSelectedHovered = Color.ControlFillSelectedHovered,
     };
+
+    public static TextureShapeOptions TextureDefaultOptions = new()
+    {
+    };
   }
 
   public static class Button
