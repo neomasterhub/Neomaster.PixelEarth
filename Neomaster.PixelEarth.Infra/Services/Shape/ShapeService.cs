@@ -15,6 +15,8 @@ public class ShapeService : IShapeService
 
   private int _vaoId;
   private int _baoId;
+  private int _textureVaoId;
+  private int _textureBaoId;
 
   public ShapeService(
     RenderSettings renderSettings,
@@ -126,7 +128,10 @@ public class ShapeService : IShapeService
   [Conditional("DEBUG")]
   private void EnsureBuffersInitialized()
   {
-    if (_vaoId == 0 || _baoId == 0)
+    if (_vaoId == 0
+      || _baoId == 0
+      || _textureVaoId == 0
+      || _textureBaoId == 0)
     {
       throw new InvalidOperationException(
         "Buffers not initialized. Call InitializeBuffers() before drawing shapes.");
