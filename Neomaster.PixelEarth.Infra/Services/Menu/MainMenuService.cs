@@ -46,6 +46,11 @@ public class MainMenuService(
     _mainMenu.MoveDown();
   }
 
+  public void ExecuteSelected()
+  {
+    _mainMenu.SelectedItem.Action?.Invoke();
+  }
+
   private void UpdateSelectedIndex()
   {
     for (var i = 0; i < _mainMenu.ItemCount; i++)
