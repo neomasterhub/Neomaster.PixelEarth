@@ -80,6 +80,7 @@ public class GameWindowService : IGameWindowService
   public void OnUpdate(UpdateEventArgs e)
   {
     UpdateMenu();
+    UpdatePlaying();
   }
 
   public void OnExit(ExitEventArgs e)
@@ -92,7 +93,7 @@ public class GameWindowService : IGameWindowService
     _mouseService.UpdateMouseState(e);
   }
 
-  public void RenderMenu()
+  private void RenderMenu()
   {
     if (_gameState.FrameState != FrameState.MainMenu)
     {
@@ -102,7 +103,7 @@ public class GameWindowService : IGameWindowService
     _mainMenuService.Draw();
   }
 
-  public void UpdateMenu()
+  private void UpdateMenu()
   {
     if (_gameState.FrameState != FrameState.MainMenu)
     {
@@ -122,6 +123,21 @@ public class GameWindowService : IGameWindowService
     else if (keyboard.IsKeyPressed(Keys.Enter))
     {
       _mainMenuService.ExecuteSelected();
+    }
+  }
+
+  private void UpdatePlaying()
+  {
+    if (_gameState.FrameState != FrameState.Playing)
+    {
+      return;
+    }
+
+    var keyboard = _gameWindow.KeyboardState;
+
+    if (keyboard.IsKeyPressed(Keys.Escape))
+    {
+      _gameState.FrameState = FrameState.MainMenu;
     }
   }
 }
