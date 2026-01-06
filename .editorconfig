@@ -12,6 +12,7 @@ max_line_length = 100
 [*.cs]
 dotnet_diagnostic.IDE0130.severity = none
 dotnet_diagnostic.IDE0305.severity = none
+dotnet_diagnostic.IDE0290.severity = none
 place_attribute_on_same_line = false
 dotnet_style_qualification_for_event = false:silent
 dotnet_style_qualification_for_field = false:silent
