@@ -44,10 +44,10 @@ public static class PresentationConsts
   {
     public static readonly ButtonOptions DefaultOptions = new()
     {
-      FillNormal = Color.FillNormal,
-      FillHovered = Color.FillHovered,
-      FillSelected = Color.FillSelected,
-      FillSelectedHovered = Color.FillSelectedHovered,
+      Fill = Color.ControlFill,
+      FillHovered = Color.ControlFillHovered,
+      FillSelected = Color.ControlFillSelected,
+      FillSelectedHovered = Color.ControlFillSelectedHovered,
     };
   }
 

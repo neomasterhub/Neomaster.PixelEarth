@@ -43,7 +43,7 @@ public class ShapeService : IShapeService
     float y,
     float width,
     float height,
-    ShapeOptions? shapeOptions = null)
+    ColorShapeOptions? shapeOptions = null)
   {
     return DrawRectangle(
       new S.Vector2(x, y),
@@ -54,12 +54,12 @@ public class ShapeService : IShapeService
   public ShapeState DrawRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
-    ShapeOptions? shapeOptions = null)
+    ColorShapeOptions? shapeOptions = null)
   {
-    shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
+    shapeOptions ??= PresentationConsts.Shape.ColorDefaultOptions;
 
     var areaMouseState = _mouseService.GetRectangleMouseState(topLeft, bottomRight);
-    shapeOptions = shapeOptions.Value.IsHovered(areaMouseState.IsIn);
+    shapeOptions = shapeOptions.Value.SetHovered(areaMouseState.IsIn);
 
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
@@ -73,11 +73,11 @@ public class ShapeService : IShapeService
     S.Vector2 a,
     S.Vector2 b,
     S.Vector2 c,
-    ShapeOptions? shapeOptions = null)
+    ColorShapeOptions? shapeOptions = null)
   {
     EnsureBuffersInitialized();
 
-    shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
+    shapeOptions ??= PresentationConsts.Shape.ColorDefaultOptions;
 
     var vertices = new float[]
     {
@@ -94,7 +94,7 @@ public class ShapeService : IShapeService
       BufferUsageHint.DynamicDraw);
 
     shapeOptions.Value.UseWithProgram();
-    _positionProjection.BindMatrix4(shapeOptions.Value.FillShaderProgramId);
+    _positionProjection.BindMatrix4(shapeOptions.Value.ShaderProgramId);
 
     shapeOptions.Value.CullFaces.Apply();
     GL.FrontFace(_renderSettings.WindingOrder.ToGlType());
