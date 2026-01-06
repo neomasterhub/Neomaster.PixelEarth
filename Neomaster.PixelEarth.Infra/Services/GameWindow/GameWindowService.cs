@@ -59,7 +59,7 @@ public class GameWindowService : IGameWindowService
 
     _mainMenuService.Create(
       [
-        new MainMenuItemDef(() => { }),
+        new MainMenuItemDef(() => _gameState.FrameState = FrameState.Playing),
         new MainMenuItemDef(() => { }),
         new MainMenuItemDef(() => _gameWindow.Close()),
       ]);
