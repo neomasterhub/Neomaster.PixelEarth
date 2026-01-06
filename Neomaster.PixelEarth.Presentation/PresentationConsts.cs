@@ -29,21 +29,14 @@ public static class PresentationConsts
     public static Vector4 ControlFillSelectedHovered = ColorHelper.HexToVector4("64b5f600");
   }
 
-  public static class Shader
-  {
-    public static readonly ShaderProgramArgs DefaultProgramArgs = new()
-    {
-      FillNormal = new($"u{nameof(ShaderProgramArgs.FillNormal)}", Color.FillNormal),
-      FillHovered = new($"u{nameof(ShaderProgramArgs.FillHovered)}", Color.FillHovered),
-      IsHovered = new($"u{nameof(ShaderProgramArgs.IsHovered)}", false),
-    };
-  }
-
   public static class Shape
   {
-    public static ShapeOptions DefaultOptions = new()
+    public static readonly ColorShapeOptions ColorDefaultOptions = new()
     {
-      ShaderProgramArgs = Shader.DefaultProgramArgs,
+      Color = Color.ControlFill,
+      ColorHovered = Color.ControlFillHovered,
+      ColorSelected = Color.ControlFillSelected,
+      ColorSelectedHovered = Color.ControlFillSelectedHovered,
     };
   }
 
