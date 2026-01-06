@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Neomaster.PixelEarth.Infra.Extensions;
 using Neomaster.PixelEarth.Presentation;
 using OpenTK.Graphics.OpenGL4;
@@ -72,6 +73,8 @@ public class ShapeService : IShapeService
     S.Vector2 c,
     ShapeOptions? shapeOptions = null)
   {
+    EnsureBuffersInitialized();
+
     shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
 
     var vertices = new float[]
@@ -118,5 +121,15 @@ public class ShapeService : IShapeService
       stride: 2 * sizeof(float),
       offset: 0);
     GL.BindVertexArray(0);
+  }
+
+  [Conditional("DEBUG")]
+  private void EnsureBuffersInitialized()
+  {
+    if (_vaoId == 0 || _baoId == 0)
+    {
+      throw new InvalidOperationException(
+        "Buffers not initialized. Call InitializeBuffers() before drawing shapes.");
+    }
   }
 }
