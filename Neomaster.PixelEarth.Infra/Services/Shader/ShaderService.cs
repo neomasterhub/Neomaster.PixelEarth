@@ -20,7 +20,14 @@ public class ShaderService : IShaderService
     if (status == 0)
     {
       var log = GL.GetProgramInfoLog(programId);
-      throw new Exception(log); // TODO: Improve
+      throw new ShaderException(
+        "Failed to create shader program.",
+        log,
+        new Dictionary<string, string>()
+        {
+          ["Vertex"] = vertexName,
+          ["Fragment"] = fragmentName,
+        });
     }
 
     GL.DeleteShader(vertex.Id);
@@ -44,7 +51,14 @@ public class ShaderService : IShaderService
     if (status == 0)
     {
       var log = GL.GetShaderInfoLog(id);
-      throw new Exception(log); // TODO: Improve
+      throw new ShaderException(
+        "Failed to create shader.",
+        log,
+        new Dictionary<string, string>()
+        {
+          ["Name"] = name,
+          ["Type"] = shaderType.ToString(),
+        });
     }
 
     return new ShaderInfo
