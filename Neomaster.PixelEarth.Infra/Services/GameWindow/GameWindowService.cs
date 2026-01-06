@@ -39,6 +39,7 @@ public class GameWindowService : IGameWindowService
     });
 
     _gameWindow.Load += OnLoad;
+    _gameWindow.Closing += args => OnExit(args.ToExitEventArgs());
     _gameWindow.RenderFrame += args => OnRender(args.ToRenderEventArgs());
     _gameWindow.UpdateFrame += args => OnUpdate(args.ToUpdateEventArgs());
   }
@@ -79,6 +80,10 @@ public class GameWindowService : IGameWindowService
   public void OnUpdate(UpdateEventArgs e)
   {
     UpdateMenu();
+  }
+
+  public void OnExit(ExitEventArgs e)
+  {
   }
 
   public void UpdateMouseState(MouseStateEventArgs e)

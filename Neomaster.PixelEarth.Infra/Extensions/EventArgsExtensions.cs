@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Neomaster.PixelEarth.Presentation;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -26,5 +27,10 @@ public static class EventArgsExtensions
         e.Y,
         e.IsButtonPressed(MouseButton.Left)),
     };
+  }
+
+  public static ExitEventArgs ToExitEventArgs(this CancelEventArgs e)
+  {
+    return new();
   }
 }
