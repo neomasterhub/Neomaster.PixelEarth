@@ -31,7 +31,7 @@ public static class PresentationConsts
 
   public static class Shape
   {
-    public static readonly ColorShapeOptions ColorDefaultOptions = new()
+    public static ColorShapeOptions ColorDefaultOptions = new()
     {
       Color = Color.ControlFill,
       ColorHovered = Color.ControlFillHovered,
