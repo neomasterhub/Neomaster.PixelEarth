@@ -1,11 +1,9 @@
 #version 330 core
 
 out vec4 FragColor;
-uniform vec4 uFillNormal;
-uniform vec4 uFillHovered;
-uniform bool uIsHovered;
+uniform vec4 uColor;
 
 void main()
 {
-  FragColor = uIsHovered ? uFillHovered : uFillNormal;
+  FragColor = uColor;
 }
