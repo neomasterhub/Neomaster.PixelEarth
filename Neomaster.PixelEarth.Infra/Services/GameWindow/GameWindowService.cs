@@ -60,7 +60,7 @@ public class GameWindowService : IGameWindowService
       [
         new MainMenuItemDef(() => { }),
         new MainMenuItemDef(() => { }),
-        new MainMenuItemDef(() => { }),
+        new MainMenuItemDef(() => _gameWindow.Close()),
       ]);
   }
 
@@ -115,7 +115,7 @@ public class GameWindowService : IGameWindowService
     }
     else if (keyboard.IsKeyPressed(Keys.Enter))
     {
-      // TODO: Update game state
+      _mainMenuService.ExecuteSelected();
     }
   }
 }
