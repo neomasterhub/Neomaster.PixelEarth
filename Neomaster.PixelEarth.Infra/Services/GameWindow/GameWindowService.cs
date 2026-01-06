@@ -84,6 +84,7 @@ public class GameWindowService : IGameWindowService
 
   public void OnExit(ExitEventArgs e)
   {
+    _gameState.FrameState = FrameState.Exiting;
   }
 
   public void UpdateMouseState(MouseStateEventArgs e)
