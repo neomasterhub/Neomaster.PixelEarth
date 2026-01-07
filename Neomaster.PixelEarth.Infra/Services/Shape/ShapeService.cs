@@ -106,6 +106,46 @@ public class ShapeService : IShapeService
     GL.UseProgram(0);
   }
 
+  public void DrawTextureTriangle(
+    S.Vector2 a,
+    S.Vector2 b,
+    S.Vector2 c,
+    S.Vector2 uvA,
+    S.Vector2 uvB,
+    S.Vector2 uvC,
+    TextureShapeOptions? shapeOptions = null)
+  {
+    EnsureBuffersInitialized();
+
+    shapeOptions ??= PresentationConsts.Shape.TextureDefaultOptions;
+
+    var vertices = new float[]
+    {
+        a.X, a.Y, uvA.X, uvA.Y,
+        b.X, b.Y, uvB.X, uvB.Y,
+        c.X, c.Y, uvC.X, uvC.Y,
+    };
+
+    GL.BindBuffer(BufferTarget.ArrayBuffer, _textureBaoId);
+    GL.BufferData(
+      BufferTarget.ArrayBuffer,
+      vertices.Length * sizeof(float),
+      vertices,
+      BufferUsageHint.DynamicDraw);
+
+    GL.ActiveTexture(TextureUnit.Texture0);
+    GL.BindTexture(TextureTarget.Texture2D, 1); // TODO: get from args
+
+    shapeOptions.Value.UseWithProgram();
+    _positionProjection.BindMatrix4(shapeOptions.Value.ShaderProgramId);
+
+    GL.BindVertexArray(_textureVaoId);
+    GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+
+    GL.BindVertexArray(0);
+    GL.UseProgram(0);
+  }
+
   public void InitializeBuffers()
   {
     _colorVaoId = GL.GenVertexArray();
