@@ -10,4 +10,9 @@ public static class ShapeOptionsExtensions
     GL.UseProgram(options.ShaderProgramId);
     options.ShaderColor.BindColor4(options.ShaderProgramId);
   }
+
+  public static void UseWithProgram(this TextureShapeOptions options)
+  {
+    GL.UseProgram(options.ShaderProgramId);
+  }
 }
