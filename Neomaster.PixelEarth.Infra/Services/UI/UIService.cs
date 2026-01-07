@@ -52,27 +52,12 @@ public class UIService(
 
   public void DrawButton(
     Button button,
-    ShapeOptions? shapeOptions = null)
+    ColorShapeOptions? shapeOptions = null)
   {
-    shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
+    shapeOptions ??= PresentationConsts.Shape.ColorDefaultOptions;
+    shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
 
     button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
-
-    var shapeFillNormal = button.IsSelected
-      ? button.Options.FillNormal
-      : button.Options.FillSelected;
-
-    var shapeFillHovered = shapeFillNormal;
-    if (button.IsHovered)
-    {
-      shapeFillHovered = button.IsSelected
-        ? button.Options.FillHovered
-        : button.Options.FillSelectedHovered;
-    }
-
-    shapeOptions = shapeOptions.Value
-      .FillNormal(shapeFillNormal)
-      .FillHovered(shapeFillHovered);
 
     var shapeState = shapeService.DrawRectangle(
       button.X,

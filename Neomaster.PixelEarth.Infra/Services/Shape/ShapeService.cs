@@ -13,8 +13,10 @@ public class ShapeService : IShapeService
   private readonly ShaderProgramArg<Matrix4> _positionProjection;
   private readonly IMouseService _mouseService;
 
-  private int _vaoId;
-  private int _baoId;
+  private int _colorVaoId;
+  private int _colorBaoId;
+  private int _textureVaoId;
+  private int _textureBaoId;
 
   public ShapeService(
     RenderSettings renderSettings,
@@ -41,7 +43,7 @@ public class ShapeService : IShapeService
     float y,
     float width,
     float height,
-    ShapeOptions? shapeOptions = null)
+    ColorShapeOptions? shapeOptions = null)
   {
     return DrawRectangle(
       new S.Vector2(x, y),
@@ -52,12 +54,12 @@ public class ShapeService : IShapeService
   public ShapeState DrawRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
-    ShapeOptions? shapeOptions = null)
+    ColorShapeOptions? shapeOptions = null)
   {
-    shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
+    shapeOptions ??= PresentationConsts.Shape.ColorDefaultOptions;
 
     var areaMouseState = _mouseService.GetRectangleMouseState(topLeft, bottomRight);
-    shapeOptions = shapeOptions.Value.IsHovered(areaMouseState.IsIn);
+    shapeOptions = shapeOptions.Value.SetHovered(areaMouseState.IsIn);
 
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
@@ -71,11 +73,11 @@ public class ShapeService : IShapeService
     S.Vector2 a,
     S.Vector2 b,
     S.Vector2 c,
-    ShapeOptions? shapeOptions = null)
+    ColorShapeOptions? shapeOptions = null)
   {
     EnsureBuffersInitialized();
 
-    shapeOptions ??= PresentationConsts.Shape.DefaultOptions;
+    shapeOptions ??= PresentationConsts.Shape.ColorDefaultOptions;
 
     var vertices = new float[]
     {
@@ -84,7 +86,7 @@ public class ShapeService : IShapeService
         c.X, c.Y,
     };
 
-    GL.BindBuffer(BufferTarget.ArrayBuffer, _baoId);
+    GL.BindBuffer(BufferTarget.ArrayBuffer, _colorBaoId);
     GL.BufferData(
       BufferTarget.ArrayBuffer,
       vertices.Length * sizeof(float),
@@ -97,7 +99,47 @@ public class ShapeService : IShapeService
     shapeOptions.Value.CullFaces.Apply();
     GL.FrontFace(_renderSettings.WindingOrder.ToGlType());
 
-    GL.BindVertexArray(_vaoId);
+    GL.BindVertexArray(_colorVaoId);
+    GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+
+    GL.BindVertexArray(0);
+    GL.UseProgram(0);
+  }
+
+  public void DrawTextureTriangle(
+    S.Vector2 a,
+    S.Vector2 b,
+    S.Vector2 c,
+    S.Vector2 uvA,
+    S.Vector2 uvB,
+    S.Vector2 uvC,
+    TextureShapeOptions? shapeOptions = null)
+  {
+    EnsureBuffersInitialized();
+
+    shapeOptions ??= PresentationConsts.Shape.TextureDefaultOptions;
+
+    var vertices = new float[]
+    {
+        a.X, a.Y, uvA.X, uvA.Y,
+        b.X, b.Y, uvB.X, uvB.Y,
+        c.X, c.Y, uvC.X, uvC.Y,
+    };
+
+    GL.BindBuffer(BufferTarget.ArrayBuffer, _textureBaoId);
+    GL.BufferData(
+      BufferTarget.ArrayBuffer,
+      vertices.Length * sizeof(float),
+      vertices,
+      BufferUsageHint.DynamicDraw);
+
+    GL.ActiveTexture(TextureUnit.Texture0);
+    GL.BindTexture(TextureTarget.Texture2D, 1); // TODO: get from args
+
+    shapeOptions.Value.UseWithProgram();
+    _positionProjection.BindMatrix4(shapeOptions.Value.ShaderProgramId);
+
+    GL.BindVertexArray(_textureVaoId);
     GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
 
     GL.BindVertexArray(0);
@@ -106,12 +148,10 @@ public class ShapeService : IShapeService
 
   public void InitializeBuffers()
   {
-    _vaoId = GL.GenVertexArray();
-    _baoId = GL.GenBuffer();
-
-    GL.BindVertexArray(_vaoId);
-    GL.BindBuffer(BufferTarget.ArrayBuffer, _baoId);
-
+    _colorVaoId = GL.GenVertexArray();
+    _colorBaoId = GL.GenBuffer();
+    GL.BindVertexArray(_colorVaoId);
+    GL.BindBuffer(BufferTarget.ArrayBuffer, _colorBaoId);
     GL.EnableVertexAttribArray(0);
     GL.VertexAttribPointer(
       index: 0,
@@ -121,12 +161,37 @@ public class ShapeService : IShapeService
       stride: 2 * sizeof(float),
       offset: 0);
     GL.BindVertexArray(0);
+
+    _textureVaoId = GL.GenVertexArray();
+    _textureBaoId = GL.GenBuffer();
+    GL.BindVertexArray(_textureVaoId);
+    GL.BindBuffer(BufferTarget.ArrayBuffer, _textureBaoId);
+    GL.EnableVertexAttribArray(0);
+    GL.VertexAttribPointer(
+        index: 0,
+        size: 2,
+        type: VertexAttribPointerType.Float,
+        normalized: false,
+        stride: 4 * sizeof(float),
+        offset: 0);
+    GL.EnableVertexAttribArray(1);
+    GL.VertexAttribPointer(
+        index: 1,
+        size: 2,
+        type: VertexAttribPointerType.Float,
+        normalized: false,
+        stride: 4 * sizeof(float),
+        offset: 2 * sizeof(float));
+    GL.BindVertexArray(0);
   }
 
   [Conditional("DEBUG")]
   private void EnsureBuffersInitialized()
   {
-    if (_vaoId == 0 || _baoId == 0)
+    if (_colorVaoId == 0
+      || _colorBaoId == 0
+      || _textureVaoId == 0
+      || _textureBaoId == 0)
     {
       throw new InvalidOperationException(
         "Buffers not initialized. Call InitializeBuffers() before drawing shapes.");

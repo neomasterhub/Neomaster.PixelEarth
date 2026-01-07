@@ -16,6 +16,7 @@ public class GameWindowService : IGameWindowService
   private readonly IMouseService _mouseService;
   private readonly IShaderService _shaderService;
   private readonly IShapeService _shapeService;
+  private readonly ITextureService _textureService;
 
   public GameWindowService(
     GameState gameState,
@@ -23,13 +24,15 @@ public class GameWindowService : IGameWindowService
     IMainMenuService mainMenuService,
     IMouseService mouseService,
     IShaderService shaderService,
-    IShapeService shapeService)
+    IShapeService shapeService,
+    ITextureService textureService)
   {
     _gameState = gameState;
     _mainMenuService = mainMenuService;
     _mouseService = mouseService;
     _shaderService = shaderService;
     _shapeService = shapeService;
+    _textureService = textureService;
 
     _gameWindow = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings
     {
@@ -53,9 +56,13 @@ public class GameWindowService : IGameWindowService
   {
     _shapeService.InitializeBuffers();
 
-    // TODO: Map "enum - id".
-    var triangleProgram = _shaderService.CreateShaderProgram("vertex", "fragment");
-    PresentationConsts.Shape.DefaultOptions.ShaderProgramId = triangleProgram.Id;
+    var colorTriangleProgram = _shaderService.CreateShaderProgram("color.vertex", "color.fragment");
+    PresentationConsts.Shape.ColorDefaultOptions.ShaderProgramId = colorTriangleProgram.Id;
+    PresentationConsts.Shape.ColorDefaultOptions.ShaderColorUniformName = "uColor";
+
+    var textureTriangleProgram = _shaderService.CreateShaderProgram("texture.vertex", "texture.fragment");
+    PresentationConsts.Shape.TextureDefaultOptions.ShaderProgramId = textureTriangleProgram.Id;
+    PresentationConsts.Shape.TextureDefaultOptions.ShaderTextureUniformName = "uTexture";
 
     _mainMenuService.Create(
       [
@@ -63,6 +70,8 @@ public class GameWindowService : IGameWindowService
         new MainMenuItemDef(() => { }),
         new MainMenuItemDef(() => _gameWindow.Close()),
       ]);
+
+    _textureService.Load("test_512x512.png"); // TODO: load specific group
   }
 
   public void OnRender(RenderEventArgs e)
@@ -73,6 +82,15 @@ public class GameWindowService : IGameWindowService
     RenderMenu();
 
     UpdateMouseState(_gameWindow.MouseState.ToMouseStateEventArgs());
+
+    // TODO: remove after full implementation
+    _shapeService.DrawTextureTriangle(
+      new(0, 0),
+      new(0, 300),
+      new(300, 300),
+      new(0, 1),
+      new(0, 0),
+      new(1, 0));
 
     _gameWindow.SwapBuffers();
   }
