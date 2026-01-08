@@ -97,7 +97,7 @@ public class ShapeService : IShapeService
       vertices,
       BufferUsageHint.DynamicDraw);
 
-    shapeOptions.Value.UseWithProgram();
+    shapeOptions.Value.UseWithShaderProgram(_shaderService.ColorShaderProgramInfo);
     _positionProjection.BindMatrix4(_shaderService.ColorShaderProgramInfo.Id);
 
     shapeOptions.Value.CullFaces.Apply();
@@ -141,7 +141,7 @@ public class ShapeService : IShapeService
     GL.ActiveTexture(TextureUnit.Texture0);
     GL.BindTexture(TextureTarget.Texture2D, 1); // TODO: get from args
 
-    shapeOptions.Value.UseWithProgram();
+    shapeOptions.Value.UseWithShaderProgram(_shaderService.TextureShaderProgramInfo);
     _positionProjection.BindMatrix4(_shaderService.TextureShaderProgramInfo.Id);
 
     GL.BindVertexArray(_textureVaoId);
