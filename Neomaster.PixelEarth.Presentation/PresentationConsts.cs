@@ -19,19 +19,19 @@ public static class PresentationConsts
 
   public static class Color
   {
-    public static Vector4 Red = new(1, 0, 0, 1);
-    public static Vector4 Green = new(0, 1, 0, 1);
-    public static Vector4 Blue = new(0, 0, 1, 1);
-    public static Vector4 Background = new(0.2f, 0.4f, 0.6f, 1.0f);
-    public static Vector4 ControlFill = ColorHelper.HexToVector4("eceff100");
-    public static Vector4 ControlFillHovered = ColorHelper.HexToVector4("cfd8dc00");
-    public static Vector4 ControlFillSelected = ColorHelper.HexToVector4("81d4fa00");
-    public static Vector4 ControlFillSelectedHovered = ColorHelper.HexToVector4("64b5f600");
+    public static readonly Vector4 Red = new(1, 0, 0, 1);
+    public static readonly Vector4 Green = new(0, 1, 0, 1);
+    public static readonly Vector4 Blue = new(0, 0, 1, 1);
+    public static readonly Vector4 Background = new(0.2f, 0.4f, 0.6f, 1.0f);
+    public static readonly Vector4 ControlFill = ColorHelper.HexToVector4("eceff100");
+    public static readonly Vector4 ControlFillHovered = ColorHelper.HexToVector4("cfd8dc00");
+    public static readonly Vector4 ControlFillSelected = ColorHelper.HexToVector4("81d4fa00");
+    public static readonly Vector4 ControlFillSelectedHovered = ColorHelper.HexToVector4("64b5f600");
   }
 
   public static class Shape
   {
-    public static ColorShapeOptions ColorDefaultOptions = new()
+    public static readonly ColorShapeOptions ColorDefaultOptions = new()
     {
       Color = Color.ControlFill,
       ColorHovered = Color.ControlFillHovered,
@@ -39,7 +39,7 @@ public static class PresentationConsts
       ColorSelectedHovered = Color.ControlFillSelectedHovered,
     };
 
-    public static TextureShapeOptions TextureDefaultOptions = new()
+    public static readonly TextureShapeOptions TextureDefaultOptions = new()
     {
     };
   }
