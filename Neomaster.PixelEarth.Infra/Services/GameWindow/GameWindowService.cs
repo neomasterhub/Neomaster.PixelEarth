@@ -54,15 +54,8 @@ public class GameWindowService : IGameWindowService
 
   public void OnLoad()
   {
+    _shaderService.InitializeShaders();
     _shapeService.InitializeBuffers();
-
-    var colorTriangleProgram = _shaderService.CreateShaderProgram("color.vertex", "color.fragment");
-    PresentationConsts.Shape.ColorDefaultOptions.ShaderProgramId = colorTriangleProgram.Id;
-    PresentationConsts.Shape.ColorDefaultOptions.ShaderColorUniformName = "uColor";
-
-    var textureTriangleProgram = _shaderService.CreateShaderProgram("texture.vertex", "texture.fragment");
-    PresentationConsts.Shape.TextureDefaultOptions.ShaderProgramId = textureTriangleProgram.Id;
-    PresentationConsts.Shape.TextureDefaultOptions.ShaderTextureUniformName = "uTexture";
 
     _mainMenuService.Create(
       [

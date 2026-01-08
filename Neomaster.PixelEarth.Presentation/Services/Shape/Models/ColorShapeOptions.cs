@@ -4,13 +4,11 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public struct ColorShapeOptions
 {
-  public int ShaderProgramId;
   public CullFaces CullFaces;
   public Vector4 Color;
   public Vector4 ColorHovered;
   public Vector4 ColorSelected;
   public Vector4 ColorSelectedHovered;
-  public string ShaderColorUniformName;
   public bool IsHovered;
   public bool IsSelected;
 
@@ -18,7 +16,10 @@ public struct ColorShapeOptions
     ? (IsSelected ? ColorSelectedHovered : ColorHovered)
     : (IsSelected ? ColorSelected : Color);
 
-  public readonly ShaderProgramArg<Vector4> ShaderColor => new(ShaderColorUniformName, CurrentColor);
+  public readonly ShaderProgramArg<Vector4> GetShaderColor(string shaderColorUniformName)
+  {
+    return new(shaderColorUniformName, CurrentColor);
+  }
 
   public ColorShapeOptions SetHovered(bool isHovered)
   {
