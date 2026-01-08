@@ -4,7 +4,6 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public struct ColorShapeOptions
 {
-  public int ShaderProgramId;
   public CullFaces CullFaces;
   public Vector4 Color;
   public Vector4 ColorHovered;
