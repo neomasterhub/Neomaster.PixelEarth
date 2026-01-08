@@ -41,20 +41,20 @@ public class ShapeService : IShapeService
     _shaderService = shaderService;
   }
 
-  public ShapeState DrawRectangle(
+  public ShapeState DrawColorRectangle(
     float x,
     float y,
     float width,
     float height,
     ColorShapeOptions? shapeOptions = null)
   {
-    return DrawRectangle(
+    return DrawColorRectangle(
       new S.Vector2(x, y),
       new S.Vector2(x + width, y + height),
       shapeOptions);
   }
 
-  public ShapeState DrawRectangle(
+  public ShapeState DrawColorRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
     ColorShapeOptions? shapeOptions = null)
@@ -66,13 +66,13 @@ public class ShapeService : IShapeService
 
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
-    DrawTriangle(topLeft, bottomLeft, bottomRight, shapeOptions);
-    DrawTriangle(topLeft, bottomRight, topRight, shapeOptions);
+    DrawColorTriangle(topLeft, bottomLeft, bottomRight, shapeOptions);
+    DrawColorTriangle(topLeft, bottomRight, topRight, shapeOptions);
 
     return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
   }
 
-  public void DrawTriangle(
+  public void DrawColorTriangle(
     S.Vector2 a,
     S.Vector2 b,
     S.Vector2 c,

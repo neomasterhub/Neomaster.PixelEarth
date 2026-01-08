@@ -4,19 +4,19 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public interface IShapeService
 {
-  ShapeState DrawRectangle(
+  ShapeState DrawColorRectangle(
     float x,
     float y,
     float width,
     float height,
     ColorShapeOptions? shapeOptions = null);
 
-  ShapeState DrawRectangle(
+  ShapeState DrawColorRectangle(
     Vector2 topLeft,
     Vector2 bottomRight,
     ColorShapeOptions? shapeOptions = null);
 
-  void DrawTriangle(
+  void DrawColorTriangle(
     Vector2 a,
     Vector2 b,
     Vector2 c,
