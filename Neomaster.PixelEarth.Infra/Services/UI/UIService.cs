@@ -59,7 +59,7 @@ public class UIService(
 
     button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
 
-    var shapeState = shapeService.DrawRectangle(
+    var shapeState = shapeService.DrawColorRectangle(
       button.X,
       button.Y,
       button.Width,
