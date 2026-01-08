@@ -8,4 +8,5 @@ public interface IShaderService
   ShaderInfo CreateShader(string name, ShaderType shaderType);
   string GetScript(string name);
   void InitializeShaders();
+  bool ShadersInitialized();
 }

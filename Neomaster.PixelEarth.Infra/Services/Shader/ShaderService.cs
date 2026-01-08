@@ -7,7 +7,7 @@ namespace Neomaster.PixelEarth.Infra;
 public class ShaderService : IShaderService
 {
   private static readonly object _shaderInitLock = new();
-  private static bool _shadersInitialized = false;
+  private static volatile bool _shadersInitialized = false;
 
   public ColorShaderProgramInfo ColorShaderProgramInfo { get; private set; }
   public TextureShaderProgramInfo TextureShaderProgramInfo { get; private set; }
@@ -107,5 +107,10 @@ public class ShaderService : IShaderService
 
       _shadersInitialized = true;
     }
+  }
+
+  public bool ShadersInitialized()
+  {
+    return _shadersInitialized;
   }
 }
