@@ -12,6 +12,7 @@ public class ShapeService : IShapeService
   private readonly RenderSettings _renderSettings;
   private readonly ShaderProgramArg<Matrix4> _positionProjection;
   private readonly IMouseService _mouseService;
+  private readonly IShaderService _shaderService;
 
   private int _colorVaoId;
   private int _colorBaoId;
@@ -21,7 +22,8 @@ public class ShapeService : IShapeService
   public ShapeService(
     RenderSettings renderSettings,
     WindowSettings windowSettings,
-    IMouseService mouseService)
+    IMouseService mouseService,
+    IShaderService shaderService)
   {
     _renderSettings = renderSettings;
 
@@ -36,6 +38,7 @@ public class ShapeService : IShapeService
         1f));
 
     _mouseService = mouseService;
+    _shaderService = shaderService;
   }
 
   public ShapeState DrawRectangle(
@@ -75,6 +78,7 @@ public class ShapeService : IShapeService
     S.Vector2 c,
     ColorShapeOptions? shapeOptions = null)
   {
+    EnsureShadersInitialized();
     EnsureBuffersInitialized();
 
     shapeOptions ??= PresentationConsts.Shape.ColorDefaultOptions;
@@ -94,7 +98,7 @@ public class ShapeService : IShapeService
       BufferUsageHint.DynamicDraw);
 
     shapeOptions.Value.UseWithProgram();
-    _positionProjection.BindMatrix4(shapeOptions.Value.ShaderProgramId);
+    _positionProjection.BindMatrix4(_shaderService.ColorShaderProgramInfo.Id);
 
     shapeOptions.Value.CullFaces.Apply();
     GL.FrontFace(_renderSettings.WindingOrder.ToGlType());
@@ -115,6 +119,7 @@ public class ShapeService : IShapeService
     S.Vector2 uvC,
     TextureShapeOptions? shapeOptions = null)
   {
+    EnsureShadersInitialized();
     EnsureBuffersInitialized();
 
     shapeOptions ??= PresentationConsts.Shape.TextureDefaultOptions;
@@ -137,7 +142,7 @@ public class ShapeService : IShapeService
     GL.BindTexture(TextureTarget.Texture2D, 1); // TODO: get from args
 
     shapeOptions.Value.UseWithProgram();
-    _positionProjection.BindMatrix4(shapeOptions.Value.ShaderProgramId);
+    _positionProjection.BindMatrix4(_shaderService.TextureShaderProgramInfo.Id);
 
     GL.BindVertexArray(_textureVaoId);
     GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
@@ -195,6 +200,16 @@ public class ShapeService : IShapeService
     {
       throw new InvalidOperationException(
         "Buffers not initialized. Call InitializeBuffers() before drawing shapes.");
+    }
+  }
+
+  [Conditional("DEBUG")]
+  private void EnsureShadersInitialized()
+  {
+    if (!_shaderService.ShadersInitialized())
+    {
+      throw new InvalidOperationException(
+        "Shaders not initialized. Call InitializeShaders() before drawing shapes.");
     }
   }
 }
