@@ -1,11 +1,12 @@
 namespace Neomaster.PixelEarth.Presentation;
 
-public record Textures
+public class Textures
 {
-  public TextureGroup[] TextureGroups;
+  private readonly HashSet<TextureGroup> _textureGroups = [];
 
-  public Textures(params TextureGroup[] textureGroups)
+  public Textures AddGroup(TextureGroup group)
   {
-    TextureGroups = textureGroups;
+    _textureGroups.Add(group);
+    return this;
   }
 }

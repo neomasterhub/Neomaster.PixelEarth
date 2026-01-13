@@ -1,21 +1,19 @@
 namespace Neomaster.PixelEarth.Presentation;
 
-public record TextureGroup
+public class TextureGroup
 {
-  private static readonly List<string> _usedNames = [];
-  public string Name { get; }
-  public Texture[] Textures { get; }
+  private readonly HashSet<Texture> _textures = [];
 
-  public TextureGroup(string name, params Texture[] textures)
+  public TextureGroup(string name)
   {
-    if (_usedNames.Contains(name))
-    {
-      throw new ArgumentException($"Texture group with name \"{name}\" already exists.");
-    }
-
-    _usedNames.Add(name);
-
     Name = name;
-    Textures = textures;
+  }
+
+  public string Name { get; }
+
+  public TextureGroup AddTexture(Texture texture)
+  {
+    _textures.Add(texture);
+    return this;
   }
 }
