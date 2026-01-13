@@ -51,4 +51,26 @@ public class TextureService(
       Id = textureId,
     };
   }
+
+  public void Load(Texture texture)
+  {
+    var imageInfo = imageService.GetImageInfo(texture.FileName, flipY: true);
+
+    texture.LoadedId = GL.GenTexture();
+
+    GL.BindTexture(TextureTarget.Texture2D, texture.LoadedId);
+    GL.TexImage2D(
+      target: TextureTarget.Texture2D,
+      level: 0,
+      PixelInternalFormat.Rgba,
+      imageInfo.Width,
+      imageInfo.Height,
+      border: 0,
+      PixelFormat.Rgba,
+      PixelType.UnsignedByte,
+      imageInfo.Bytes);
+    GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+    texture.IsLoaded = true;
+  }
 }
