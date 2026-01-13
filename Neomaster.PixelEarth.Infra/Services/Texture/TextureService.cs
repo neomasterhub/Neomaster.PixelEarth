@@ -7,6 +7,24 @@ public class TextureService(
   IImageService imageService)
   : ITextureService
 {
+  public void Cut(int textureId)
+  {
+    var width = 200;
+
+    GL.BindTexture(TextureTarget.Texture2D, textureId);
+    GL.TexSubImage2D(
+      TextureTarget.Texture2D,
+      0,
+      0,
+      0,
+      width,
+      width,
+      PixelFormat.Rgba,
+      PixelType.UnsignedByte,
+      new byte[width * width * 4]);
+    GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+  }
+
   public TextureInfo Load(string fileName)
   {
     var imageInfo = imageService.GetImageInfo(fileName, flipY: true);
@@ -25,6 +43,8 @@ public class TextureService(
       PixelType.UnsignedByte,
       imageInfo.Bytes);
     GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+    Cut(textureId); // TODO: remove
 
     return new TextureInfo
     {
