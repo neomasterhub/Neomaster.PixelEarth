@@ -4,7 +4,8 @@ using OpenTK.Graphics.OpenGL4;
 namespace Neomaster.PixelEarth.Infra;
 
 public class TextureService(
-  IImageService imageService)
+  IImageService imageService,
+  RenderSettings renderSettings)
   : ITextureService
 {
   public void Cut(int textureId)
@@ -72,5 +73,17 @@ public class TextureService(
     GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
     texture.IsLoaded = true;
+  }
+
+  public void Initialize()
+  {
+    if (renderSettings.AlphaBlendingEnabled)
+    {
+      GL.Enable(EnableCap.Blend);
+    }
+    else
+    {
+      GL.Disable(EnableCap.Blend);
+    }
   }
 }
