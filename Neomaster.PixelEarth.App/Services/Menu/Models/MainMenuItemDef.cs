@@ -1,4 +1,4 @@
-namespace Neomaster.PixelEarth.Presentation;
+namespace Neomaster.PixelEarth.App;
 
 public record MainMenuItemDef(
   Action action,

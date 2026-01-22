@@ -1,6 +1,6 @@
 using Neomaster.PixelEarth.Utils;
 
-namespace Neomaster.PixelEarth.Presentation;
+namespace Neomaster.PixelEarth.App;
 
 public class MainMenu : Menu<MainMenuButton>
 {

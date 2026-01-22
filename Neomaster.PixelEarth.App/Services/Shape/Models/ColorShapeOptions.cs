@@ -1,6 +1,6 @@
 using System.Numerics;
 
-namespace Neomaster.PixelEarth.Presentation;
+namespace Neomaster.PixelEarth.App;
 
 public struct ColorShapeOptions
 {
