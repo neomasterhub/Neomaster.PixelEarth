@@ -69,11 +69,13 @@ public static class PresentationConsts
 
   public static class TextureName
   {
+    public const string Test = "Test";
     public const string Ground = "Ground";
   }
 
   public static class TextureGroupName
   {
+    public const string MainMenu = "Main Menu";
     public const string Level1 = "Level 1";
   }
 }
