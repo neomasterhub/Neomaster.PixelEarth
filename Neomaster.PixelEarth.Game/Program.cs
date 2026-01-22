@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Domain;
 using Neomaster.PixelEarth.Infra;
 using Neomaster.PixelEarth.Presentation;
