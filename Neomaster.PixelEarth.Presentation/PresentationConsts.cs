@@ -8,6 +8,7 @@ public static class PresentationConsts
   public static readonly RenderSettings RenderSettings = new()
   {
     WindingOrder = WindingOrder.CounterClockwise,
+    AlphaBlendingEnabled = true,
   };
 
   public static readonly WindowSettings WindowSettings = new()
