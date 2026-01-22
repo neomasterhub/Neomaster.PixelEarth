@@ -17,6 +17,7 @@ public static class PresentationConsts
     Width = 800,
     Height = 600,
     Title = "Pixel Earth",
+    BackgroundColor = Color.Background,
   };
 
   public static class Color
