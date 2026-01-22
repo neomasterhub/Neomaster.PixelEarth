@@ -56,6 +56,7 @@ public class GameWindowService : IGameWindowService
   {
     _shaderService.InitializeShaders();
     _shapeService.InitializeBuffers();
+    _textureService.Initialize();
 
     _mainMenuService.Create(
       [
@@ -77,8 +78,7 @@ public class GameWindowService : IGameWindowService
     UpdateMouseState(_gameWindow.MouseState.ToMouseStateEventArgs());
 
     // TODO: remove after full implementation
-    GL.Enable(EnableCap.Blend);
-    GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+    _textureService.SetBlending(Blending.Alpha);
     _shapeService.DrawTextureTriangle(
       new(0, 0),
       new(0, 300),
@@ -86,7 +86,7 @@ public class GameWindowService : IGameWindowService
       new(0, 1),
       new(0, 0),
       new(1, 0));
-    GL.BlendFunc(BlendingFactor.One, BlendingFactor.Zero);
+    _textureService.SetBlending(Blending.Replace);
 
     _gameWindow.SwapBuffers();
   }
