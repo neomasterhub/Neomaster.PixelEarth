@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Neomaster.PixelEarth.Domain\Neomaster.PixelEarth.Domain.csproj" />
+    <ProjectReference Include="..\Neomaster.PixelEarth.App\Neomaster.PixelEarth.App.csproj" />
   </ItemGroup>
 
 </Project>
