@@ -1,8 +1,9 @@
-using Neomaster.PixelEarth.Presentation;
+using Neomaster.PixelEarth.App;
 
 namespace Neomaster.PixelEarth.Infra;
 
 public class MainMenuService(
+  ButtonOptions buttonOptions,
   IUIService uiService,
   IIdGenerator<int> idGenerator)
   : IMainMenuService
@@ -18,7 +19,7 @@ public class MainMenuService(
       .Select(i => new MainMenuButton(idGenerator.Next())
       {
         Action = i.Action,
-        Options = i.ButtonOptions ?? sharedButtonOptions ?? PresentationConsts.Button.DefaultOptions,
+        Options = i.ButtonOptions ?? sharedButtonOptions ?? buttonOptions,
       })
       .ToArray();
 

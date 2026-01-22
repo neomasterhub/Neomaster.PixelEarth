@@ -1,13 +1,18 @@
 using Microsoft.Extensions.DependencyInjection;
+using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Domain;
 using Neomaster.PixelEarth.Infra;
 using Neomaster.PixelEarth.Presentation;
-using static Neomaster.PixelEarth.Presentation.PresentationConsts;
+using static Neomaster.PixelEarth.App.AppConsts;
 
 new ServiceCollection()
   .AddSingleton(new GameState())
   .AddSingleton(PresentationConsts.RenderSettings)
   .AddSingleton(PresentationConsts.WindowSettings)
+  .AddSingleton(typeof(ButtonOptions), PresentationConsts.Button.DefaultOptions)
+  .AddSingleton(typeof(MainMenuOptions), PresentationConsts.MainMenu.DefaultOptions)
+  .AddSingleton(typeof(ColorShapeOptions), PresentationConsts.Shape.ColorDefaultOptions)
+  .AddSingleton(typeof(TextureShapeOptions), PresentationConsts.Shape.TextureDefaultOptions)
   .AddSingleton<IIdGenerator<int>, IntIdGenerator>()
   .AddSingleton<IGameWindowService, GameWindowService>()
   .AddSingleton<IMainMenuService, MainMenuService>()

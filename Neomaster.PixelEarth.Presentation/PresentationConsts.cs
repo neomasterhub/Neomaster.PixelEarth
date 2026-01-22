@@ -1,4 +1,5 @@
 using System.Numerics;
+using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Utils;
 
 namespace Neomaster.PixelEarth.Presentation;
@@ -16,6 +17,7 @@ public static class PresentationConsts
     Width = 800,
     Height = 600,
     Title = "Pixel Earth",
+    BackgroundColor = Color.Background,
   };
 
   public static class Color
@@ -66,17 +68,5 @@ public static class PresentationConsts
       VerticalAlign = Align.Center,
       HorizontalAlign = Align.Center,
     };
-  }
-
-  public static class TextureName
-  {
-    public const string Test512x512 = "Test";
-    public const string Ground = "Ground";
-  }
-
-  public static class TextureGroupName
-  {
-    public const string MainMenu = "Main Menu";
-    public const string Level1 = "Level 1";
   }
 }

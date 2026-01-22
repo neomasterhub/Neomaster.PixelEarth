@@ -1,10 +1,11 @@
+using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Domain;
-using Neomaster.PixelEarth.Presentation;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using static Neomaster.PixelEarth.App.AppConsts;
 
 namespace Neomaster.PixelEarth.Infra;
 
@@ -13,6 +14,7 @@ public class GameWindowService : IGameWindowService
   private readonly Textures _textures;
   private readonly GameState _gameState;
   private readonly GameWindow _gameWindow;
+  private readonly WindowSettings _windowSettings;
   private readonly IMainMenuService _mainMenuService;
   private readonly IMouseService _mouseService;
   private readonly IShaderService _shaderService;
@@ -31,6 +33,7 @@ public class GameWindowService : IGameWindowService
   {
     _textures = textures;
     _gameState = gameState;
+    _windowSettings = windowSettings;
     _mainMenuService = mainMenuService;
     _mouseService = mouseService;
     _shaderService = shaderService;
@@ -61,7 +64,7 @@ public class GameWindowService : IGameWindowService
     _shapeService.InitializeBuffers();
     _textureService.Initialize();
 
-    _textureService.Load(_textures[PresentationConsts.TextureGroupName.MainMenu]);
+    _textureService.Load(_textures[TextureGroupName.MainMenu]);
 
     _mainMenuService.Create(
       [
@@ -73,7 +76,7 @@ public class GameWindowService : IGameWindowService
 
   public void OnRender(RenderEventArgs e)
   {
-    GL.ClearColor(PresentationConsts.Color.Background.ToColor4());
+    GL.ClearColor(_windowSettings.BackgroundColor.ToColor4());
     GL.Clear(ClearBufferMask.ColorBufferBit);
 
     RenderMenu();

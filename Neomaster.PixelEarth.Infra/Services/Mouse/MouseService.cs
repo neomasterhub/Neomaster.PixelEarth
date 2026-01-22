@@ -1,5 +1,5 @@
 using System.Numerics;
-using Neomaster.PixelEarth.Presentation;
+using Neomaster.PixelEarth.App;
 
 namespace Neomaster.PixelEarth.Infra;
 

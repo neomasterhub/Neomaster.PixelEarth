@@ -1,10 +1,13 @@
-using Neomaster.PixelEarth.Presentation;
+using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Utils;
 
 namespace Neomaster.PixelEarth.Infra;
 
 public class UIService(
   WindowSettings windowSettings,
+  ButtonOptions buttonOptions,
+  MainMenuOptions mainMenuOptions,
+  ColorShapeOptions colorShapeOptions,
   IIdGenerator<int> idGenerator,
   IShapeService shapeService,
   IFrameService frameService)
@@ -22,7 +25,7 @@ public class UIService(
     MainMenuButton[] buttons,
     MainMenuOptions? options = null)
   {
-    options ??= PresentationConsts.MainMenu.DefaultOptions;
+    options ??= mainMenuOptions;
 
     var mainMenu = new MainMenu()
     {
@@ -54,7 +57,7 @@ public class UIService(
     Button button,
     ColorShapeOptions? shapeOptions = null)
   {
-    shapeOptions ??= PresentationConsts.Shape.ColorDefaultOptions;
+    shapeOptions ??= colorShapeOptions;
     shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
 
     button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
@@ -83,7 +86,7 @@ public class UIService(
     float height,
     ButtonOptions? options = null)
   {
-    options ??= PresentationConsts.Button.DefaultOptions;
+    options ??= buttonOptions;
 
     var button = new Button(idGenerator.Next())
     {

@@ -1,4 +1,4 @@
-using Neomaster.PixelEarth.Presentation;
+using Neomaster.PixelEarth.App;
 using OpenTK.Graphics.OpenGL4;
 
 namespace Neomaster.PixelEarth.Infra.Extensions;
