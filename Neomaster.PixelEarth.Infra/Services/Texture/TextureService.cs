@@ -8,6 +8,8 @@ public class TextureService(
   RenderSettings renderSettings)
   : ITextureService
 {
+  public Blending Blending { get; private set; }
+
   public void Cut(int textureId)
   {
     var width = 200;
@@ -77,6 +79,13 @@ public class TextureService(
 
   public void SetBlending(Blending blending)
   {
+    if (Blending == blending)
+    {
+      return;
+    }
+
+    Blending = blending;
+
     switch (blending)
     {
       case Blending.Alpha:
