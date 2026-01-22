@@ -70,7 +70,7 @@ public static class PresentationConsts
 
   public static class TextureName
   {
-    public const string Test = "Test";
+    public const string Test512x512 = "Test";
     public const string Ground = "Ground";
   }
 
