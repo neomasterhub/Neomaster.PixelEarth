@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Neomaster.PixelEarth.App\Neomaster.PixelEarth.App.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\GameWindow\" />
+  </ItemGroup>
+
 </Project>
