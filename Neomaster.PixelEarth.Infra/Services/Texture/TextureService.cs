@@ -75,6 +75,20 @@ public class TextureService(
     texture.IsLoaded = true;
   }
 
+  public void SetBlending(Blending blending)
+  {
+    switch (blending)
+    {
+      case Blending.Alpha:
+        GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+        break;
+      case Blending.Replace:
+        GL.BlendFunc(BlendingFactor.One, BlendingFactor.Zero);
+        break;
+      default: throw blending.ArgumentOutOfRangeException();
+    }
+  }
+
   public void Initialize()
   {
     if (renderSettings.AlphaBlendingEnabled)
