@@ -10,6 +10,7 @@ namespace Neomaster.PixelEarth.Infra;
 
 public class GameWindowService : IGameWindowService
 {
+  private readonly Textures _textures;
   private readonly GameState _gameState;
   private readonly GameWindow _gameWindow;
   private readonly IMainMenuService _mainMenuService;
@@ -19,6 +20,7 @@ public class GameWindowService : IGameWindowService
   private readonly ITextureService _textureService;
 
   public GameWindowService(
+    Textures textures,
     GameState gameState,
     WindowSettings windowSettings,
     IMainMenuService mainMenuService,
@@ -27,6 +29,7 @@ public class GameWindowService : IGameWindowService
     IShapeService shapeService,
     ITextureService textureService)
   {
+    _textures = textures;
     _gameState = gameState;
     _mainMenuService = mainMenuService;
     _mouseService = mouseService;
@@ -58,14 +61,14 @@ public class GameWindowService : IGameWindowService
     _shapeService.InitializeBuffers();
     _textureService.Initialize();
 
+    _textureService.Load(_textures[PresentationConsts.TextureGroupName.MainMenu]);
+
     _mainMenuService.Create(
       [
         new MainMenuItemDef(() => _gameState.FrameState = FrameState.Playing),
         new MainMenuItemDef(() => { }),
         new MainMenuItemDef(() => _gameWindow.Close()),
       ]);
-
-    _textureService.Load("test_512x512.png"); // TODO: load specific group
   }
 
   public void OnRender(RenderEventArgs e)

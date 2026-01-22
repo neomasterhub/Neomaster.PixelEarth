@@ -8,6 +8,7 @@ public static class PresentationConsts
   public static readonly RenderSettings RenderSettings = new()
   {
     WindingOrder = WindingOrder.CounterClockwise,
+    AlphaBlendingEnabled = true,
   };
 
   public static readonly WindowSettings WindowSettings = new()
@@ -69,11 +70,13 @@ public static class PresentationConsts
 
   public static class TextureName
   {
+    public const string Test512x512 = "Test";
     public const string Ground = "Ground";
   }
 
   public static class TextureGroupName
   {
+    public const string MainMenu = "Main Menu";
     public const string Level1 = "Level 1";
   }
 }
