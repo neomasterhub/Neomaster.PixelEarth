@@ -55,6 +55,14 @@ public class TextureService(
     };
   }
 
+  public void Load(TextureGroup textureGroup)
+  {
+    foreach (var texture in textureGroup.Textures)
+    {
+      Load(texture);
+    }
+  }
+
   public void Load(Texture texture)
   {
     var imageInfo = imageService.GetImageInfo(texture.FileName, flipY: true);
