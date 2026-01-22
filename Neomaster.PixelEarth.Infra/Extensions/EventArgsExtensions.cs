@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using Neomaster.PixelEarth.Presentation;
+using Neomaster.PixelEarth.App;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using GlMouseState = OpenTK.Windowing.GraphicsLibraryFramework.MouseState;

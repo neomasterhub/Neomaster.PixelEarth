@@ -1,6 +1,6 @@
 using System.Diagnostics;
+using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Infra.Extensions;
-using Neomaster.PixelEarth.Presentation;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using S = System.Numerics;
@@ -10,6 +10,8 @@ namespace Neomaster.PixelEarth.Infra;
 public class ShapeService : IShapeService
 {
   private readonly RenderSettings _renderSettings;
+  private readonly ColorShapeOptions _colorShapeOptions;
+  private readonly TextureShapeOptions _textureShapeOptions;
   private readonly ShaderProgramArg<Matrix4> _positionProjection;
   private readonly IMouseService _mouseService;
   private readonly IShaderService _shaderService;
@@ -22,10 +24,14 @@ public class ShapeService : IShapeService
   public ShapeService(
     RenderSettings renderSettings,
     WindowSettings windowSettings,
+    ColorShapeOptions colorShapeOptions,
+    TextureShapeOptions textureShapeOptions,
     IMouseService mouseService,
     IShaderService shaderService)
   {
     _renderSettings = renderSettings;
+    _colorShapeOptions = colorShapeOptions;
+    _textureShapeOptions = textureShapeOptions;
 
     _positionProjection = new ShaderProgramArg<Matrix4>(
       "uProjection",
@@ -59,7 +65,7 @@ public class ShapeService : IShapeService
     S.Vector2 bottomRight,
     ColorShapeOptions? shapeOptions = null)
   {
-    shapeOptions ??= PresentationConsts.Shape.ColorDefaultOptions;
+    shapeOptions ??= _colorShapeOptions;
 
     var areaMouseState = _mouseService.GetRectangleMouseState(topLeft, bottomRight);
     shapeOptions = shapeOptions.Value.SetHovered(areaMouseState.IsIn);
@@ -81,7 +87,7 @@ public class ShapeService : IShapeService
     EnsureShadersInitialized();
     EnsureBuffersInitialized();
 
-    shapeOptions ??= PresentationConsts.Shape.ColorDefaultOptions;
+    shapeOptions ??= _colorShapeOptions;
 
     var vertices = new float[]
     {
@@ -122,7 +128,7 @@ public class ShapeService : IShapeService
     EnsureShadersInitialized();
     EnsureBuffersInitialized();
 
-    shapeOptions ??= PresentationConsts.Shape.TextureDefaultOptions;
+    shapeOptions ??= _textureShapeOptions;
 
     var vertices = new float[]
     {

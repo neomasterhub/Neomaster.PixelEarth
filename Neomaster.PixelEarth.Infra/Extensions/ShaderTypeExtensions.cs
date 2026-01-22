@@ -1,4 +1,4 @@
-using Neomaster.PixelEarth.Presentation;
+using Neomaster.PixelEarth.App;
 using GlShaderType = OpenTK.Graphics.OpenGL4.ShaderType;
 
 namespace Neomaster.PixelEarth.Infra;

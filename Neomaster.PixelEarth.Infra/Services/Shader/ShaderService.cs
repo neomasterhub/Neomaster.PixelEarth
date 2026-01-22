@@ -1,6 +1,5 @@
-using Neomaster.PixelEarth.Presentation;
+using Neomaster.PixelEarth.App;
 using OpenTK.Graphics.OpenGL4;
-using P = Neomaster.PixelEarth.Presentation;
 
 namespace Neomaster.PixelEarth.Infra;
 
@@ -14,8 +13,8 @@ public class ShaderService : IShaderService
 
   public ShaderProgramInfo CreateShaderProgram(string vertexName, string fragmentName)
   {
-    var vertex = CreateShader(vertexName, P.ShaderType.Vertex);
-    var fragment = CreateShader(fragmentName, P.ShaderType.Fragment);
+    var vertex = CreateShader(vertexName, App.ShaderType.Vertex);
+    var fragment = CreateShader(fragmentName, App.ShaderType.Fragment);
     var programId = GL.CreateProgram();
 
     GL.AttachShader(programId, vertex.Id);
@@ -45,7 +44,7 @@ public class ShaderService : IShaderService
     };
   }
 
-  public ShaderInfo CreateShader(string name, P.ShaderType shaderType)
+  public ShaderInfo CreateShader(string name, App.ShaderType shaderType)
   {
     var script = GetScript(name);
     var id = GL.CreateShader(shaderType.ToGlType());

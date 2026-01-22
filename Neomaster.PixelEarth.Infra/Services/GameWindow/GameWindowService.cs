@@ -1,5 +1,5 @@
+using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Domain;
-using Neomaster.PixelEarth.Presentation;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
