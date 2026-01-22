@@ -20,6 +20,8 @@ public class TextureGroup
 
   public string Name { get; }
 
+  public IReadOnlyList<Texture> Textures => _textures.ToList();
+
   public TextureGroup AddTexture(Texture texture)
   {
     _textures.Add(texture);
