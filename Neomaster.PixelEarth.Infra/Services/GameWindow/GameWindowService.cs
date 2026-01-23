@@ -85,13 +85,15 @@ public class GameWindowService : IGameWindowService
 
     // TODO: remove after full implementation
     _textureService.SetBlending(Blending.Alpha);
-    _shapeService.DrawTextureTriangle(
+    var testTexture = _textures[TextureGroupName.MainMenu];
+    _shapeService.DrawTextureRectangle(
       new(0, 0),
-      new(0, 300),
       new(300, 300),
-      new(0, 1),
-      new(0, 0),
-      new(1, 0));
+      new TextureShapeOptions(
+        testTexture[TextureName.Test512x512],
+        testTexture[TextureName.Test512x512Hovered],
+        testTexture[TextureName.Test512x512Selected],
+        testTexture[TextureName.Test512x512SelectedHovered]));
     _textureService.SetBlending(Blending.Replace);
 
     _gameWindow.SwapBuffers();

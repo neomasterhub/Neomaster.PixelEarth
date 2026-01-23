@@ -4,7 +4,10 @@ public static class AppConsts
 {
   public static class TextureName
   {
-    public const string Test512x512 = "Test512x512";
+    public const string Test512x512 = "Test 512x512";
+    public const string Test512x512Hovered = "Test 512x512 Hovered";
+    public const string Test512x512Selected = "Test 512x512 Selected";
+    public const string Test512x512SelectedHovered = "Test 512x512 Selected Hovered";
     public const string Ground = "Ground";
   }
 

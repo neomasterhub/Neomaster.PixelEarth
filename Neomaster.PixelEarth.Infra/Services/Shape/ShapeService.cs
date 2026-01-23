@@ -78,6 +78,24 @@ public class ShapeService : IShapeService
     return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
   }
 
+  public ShapeState DrawTextureRectangle(
+    S.Vector2 topLeft,
+    S.Vector2 bottomRight,
+    TextureShapeOptions? shapeOptions = null)
+  {
+    shapeOptions ??= _textureShapeOptions;
+
+    var areaMouseState = _mouseService.GetRectangleMouseState(topLeft, bottomRight);
+    shapeOptions = shapeOptions.Value.SetHovered(areaMouseState.IsIn);
+
+    var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
+    var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
+    DrawTextureTriangle(topLeft, bottomLeft, bottomRight, new(0, 1), new(0, 0), new(1, 0), shapeOptions);
+    DrawTextureTriangle(topLeft, bottomRight, topRight, new(0, 1), new(1, 0), new(1, 1), shapeOptions);
+
+    return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
+  }
+
   public void DrawColorTriangle(
     S.Vector2 a,
     S.Vector2 b,
@@ -145,7 +163,7 @@ public class ShapeService : IShapeService
       BufferUsageHint.DynamicDraw);
 
     GL.ActiveTexture(TextureUnit.Texture0);
-    GL.BindTexture(TextureTarget.Texture2D, 1); // TODO: get from args
+    GL.BindTexture(TextureTarget.Texture2D, shapeOptions.Value.CurrentTextureId);
 
     shapeOptions.Value.UseWithShaderProgram(_shaderService.TextureShaderProgramInfo);
     _positionProjection.BindMatrix4(_shaderService.TextureShaderProgramInfo.Id);
