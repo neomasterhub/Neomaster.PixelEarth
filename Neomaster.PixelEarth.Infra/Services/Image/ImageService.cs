@@ -16,7 +16,7 @@ public class ImageService : IImageService
 
     if (flipX || flipY)
     {
-      bitmapResult = new SKBitmap(bitmapSrc.Width, bitmapSrc.Height);
+      bitmapResult = new SKBitmap(bitmapSrc.Width, bitmapSrc.Height, SKColorType.Rgba8888, SKAlphaType.Premul);
       using var canvas = new SKCanvas(bitmapResult);
 
       var scaleX = flipX ? -1f : 1f;
