@@ -145,7 +145,7 @@ public class ShapeService : IShapeService
       BufferUsageHint.DynamicDraw);
 
     GL.ActiveTexture(TextureUnit.Texture0);
-    GL.BindTexture(TextureTarget.Texture2D, 1); // TODO: get from args
+    GL.BindTexture(TextureTarget.Texture2D, shapeOptions.Value.CurrentTextureId);
 
     shapeOptions.Value.UseWithShaderProgram(_shaderService.TextureShaderProgramInfo);
     _positionProjection.BindMatrix4(_shaderService.TextureShaderProgramInfo.Id);
