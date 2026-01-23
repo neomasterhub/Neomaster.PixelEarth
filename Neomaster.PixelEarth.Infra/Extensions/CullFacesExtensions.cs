@@ -10,6 +10,7 @@ public static class CullFacesExtensions
     switch (cullFaces)
     {
       case CullFaces.None:
+        GL.Disable(EnableCap.CullFace);
         break;
       case CullFaces.Front:
         GL.Enable(EnableCap.CullFace);
