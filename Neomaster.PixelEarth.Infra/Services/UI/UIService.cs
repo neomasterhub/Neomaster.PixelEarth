@@ -5,7 +5,7 @@ namespace Neomaster.PixelEarth.Infra;
 
 public class UIService(
   WindowSettings windowSettings,
-  ButtonOptions buttonOptions,
+  ColorButtonOptions colorButtonOptions,
   TextureButtonOptions textureButtonOptions,
   MainMenuOptions mainMenuOptions,
   ColorShapeOptions colorShapeOptions,
@@ -111,16 +111,16 @@ public class UIService(
     }
   }
 
-  public Button CreateButton(
+  public ColorButton CreateColorButton(
     float x,
     float y,
     float width,
     float height,
-    ButtonOptions? options = null)
+    ColorButtonOptions? options = null)
   {
-    options ??= buttonOptions;
+    options ??= colorButtonOptions;
 
-    var button = new Button(idGenerator.Next())
+    var button = new ColorButton(idGenerator.Next())
     {
       X = x,
       Y = y,

@@ -17,12 +17,12 @@ public interface IUIService
     TextureButton button,
     TextureShapeOptions? shapeOptions = null);
 
-  Button CreateButton(
+  ColorButton CreateColorButton(
     float x,
     float y,
     float width,
     float height,
-    ButtonOptions? options = null);
+    ColorButtonOptions? options = null);
 
   TextureButton CreateTextureButton(
     float x,
