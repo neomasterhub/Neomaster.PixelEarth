@@ -154,9 +154,9 @@ public class ShapeService : IShapeService
 
     var vertices = new float[]
     {
-        a.X, a.Y, uvA.X, uvA.Y,
-        b.X, b.Y, uvB.X, uvB.Y,
-        c.X, c.Y, uvC.X, uvC.Y,
+      a.X, a.Y, uvA.X, 1f - uvA.Y,
+      b.X, b.Y, uvB.X, 1f - uvB.Y,
+      c.X, c.Y, uvC.X, 1f - uvC.Y,
     };
 
     GL.BindBuffer(BufferTarget.ArrayBuffer, _textureBaoId);
