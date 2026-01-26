@@ -17,8 +17,21 @@ public interface IShapeService
     ColorShapeOptions? shapeOptions = null);
 
   ShapeState DrawTextureRectangle(
+    float x,
+    float y,
+    float width,
+    float height,
+    float uvX,
+    float uvY,
+    float uvWidth,
+    float uvHeight,
+    TextureShapeOptions? shapeOptions = null);
+
+  ShapeState DrawTextureRectangle(
     Vector2 topLeft,
     Vector2 bottomRight,
+    Vector2 uvTopLeft,
+    Vector2 uvBottomRight,
     TextureShapeOptions? shapeOptions = null);
 
   void DrawColorTriangle(

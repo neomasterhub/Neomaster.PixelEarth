@@ -79,8 +79,29 @@ public class ShapeService : IShapeService
   }
 
   public ShapeState DrawTextureRectangle(
+    float x,
+    float y,
+    float width,
+    float height,
+    float uvX,
+    float uvY,
+    float uvWidth,
+    float uvHeight,
+    TextureShapeOptions? shapeOptions = null)
+  {
+    return DrawTextureRectangle(
+      new S.Vector2(x, y),
+      new S.Vector2(x + width, y + height),
+      new S.Vector2(uvX, uvY),
+      new S.Vector2(uvX + uvWidth, uvY + uvHeight),
+      shapeOptions);
+  }
+
+  public ShapeState DrawTextureRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
+    S.Vector2 uvTopLeft,
+    S.Vector2 uvBottomRight,
     TextureShapeOptions? shapeOptions = null)
   {
     shapeOptions ??= _textureShapeOptions;
@@ -90,8 +111,10 @@ public class ShapeService : IShapeService
 
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
-    DrawTextureTriangle(topLeft, bottomLeft, bottomRight, new(0, 1), new(0, 0), new(1, 0), shapeOptions);
-    DrawTextureTriangle(topLeft, bottomRight, topRight, new(0, 1), new(1, 0), new(1, 1), shapeOptions);
+    var uvBottomLeft = new S.Vector2(uvTopLeft.X, uvBottomRight.Y);
+    var uvTopRight = new S.Vector2(uvBottomRight.X, uvTopLeft.Y);
+    DrawTextureTriangle(topLeft, bottomLeft, bottomRight, uvTopLeft, uvBottomLeft, uvBottomRight, shapeOptions);
+    DrawTextureTriangle(topLeft, bottomRight, topRight, uvTopLeft, uvBottomRight, uvTopRight, shapeOptions);
 
     return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
   }
@@ -150,9 +173,9 @@ public class ShapeService : IShapeService
 
     var vertices = new float[]
     {
-        a.X, a.Y, uvA.X, uvA.Y,
-        b.X, b.Y, uvB.X, uvB.Y,
-        c.X, c.Y, uvC.X, uvC.Y,
+      a.X, a.Y, uvA.X, 1f - uvA.Y,
+      b.X, b.Y, uvB.X, 1f - uvB.Y,
+      c.X, c.Y, uvC.X, 1f - uvC.Y,
     };
 
     GL.BindBuffer(BufferTarget.ArrayBuffer, _textureBaoId);

@@ -89,6 +89,8 @@ public class GameWindowService : IGameWindowService
     _shapeService.DrawTextureRectangle(
       new(0, 0),
       new(300, 300),
+      new(0.2f, 0.2f),
+      new(1, 1),
       new TextureShapeOptions(
         testTexture[TextureName.Test512x512],
         testTexture[TextureName.Test512x512Hovered],
