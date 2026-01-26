@@ -4,8 +4,7 @@ public interface IMainMenuService
 {
   void Create(
     MainMenuItemDef[] items,
-    MainMenuOptions? menuOptions = null,
-    ButtonOptions? sharedButtonOptions = null);
+    MainMenuOptions? menuOptions = null);
 
   void Draw();
   void MoveUp();

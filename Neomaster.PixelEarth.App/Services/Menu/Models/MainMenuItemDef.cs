@@ -1,9 +1,7 @@
 namespace Neomaster.PixelEarth.App;
 
 public record MainMenuItemDef(
-  Action action,
-  ButtonOptions? buttonOptions = null)
+  Action action)
 {
   public Action Action => action;
-  public ButtonOptions? ButtonOptions => buttonOptions;
 }

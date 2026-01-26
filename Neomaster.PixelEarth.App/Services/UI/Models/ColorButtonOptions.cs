@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace Neomaster.PixelEarth.App;
 
-public struct ButtonOptions
+public struct ColorButtonOptions
 {
   public Vector4 Fill;
   public Vector4 FillHovered;
