@@ -49,7 +49,7 @@ public static class PresentationConsts
 
   public static class Button
   {
-    public static readonly ButtonOptions DefaultOptions = new()
+    public static readonly ColorButtonOptions ColorDefaultOptions = new()
     {
       Fill = Color.ControlFill,
       FillHovered = Color.ControlFillHovered,
