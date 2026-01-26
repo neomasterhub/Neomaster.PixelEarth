@@ -9,6 +9,7 @@ public class UIService(
   TextureButtonOptions textureButtonOptions,
   MainMenuOptions mainMenuOptions,
   ColorShapeOptions colorShapeOptions,
+  TextureShapeOptions textureShapeOptions,
   IIdGenerator<int> idGenerator,
   IShapeService shapeService,
   IFrameService frameService)
@@ -68,6 +69,36 @@ public class UIService(
       button.Y,
       button.Width,
       button.Height,
+      shapeOptions);
+
+    button.MouseHoverCaptured = shapeState.IsHovered;
+
+    UpdateHoveredIds(button);
+
+    if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
+    {
+      button.MouseLeftPressed = true;
+    }
+  }
+
+  public void DrawTextureButton(
+    TextureButton button,
+    TextureShapeOptions? shapeOptions = null)
+  {
+    shapeOptions ??= textureShapeOptions;
+    shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
+
+    button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
+
+    var shapeState = shapeService.DrawTextureRectangle(
+      button.X,
+      button.Y,
+      button.Width,
+      button.Height,
+      0,
+      0,
+      1,
+      1,
       shapeOptions);
 
     button.MouseHoverCaptured = shapeState.IsHovered;

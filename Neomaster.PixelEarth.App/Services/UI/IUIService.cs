@@ -13,6 +13,10 @@ public interface IUIService
     Button button,
     ColorShapeOptions? shapeOptions = null);
 
+  public void DrawTextureButton(
+    TextureButton button,
+    TextureShapeOptions? shapeOptions = null);
+
   Button CreateButton(
     float x,
     float y,
