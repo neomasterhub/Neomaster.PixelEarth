@@ -81,6 +81,8 @@ public class ShapeService : IShapeService
   public ShapeState DrawTextureRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
+    S.Vector2 uvTopLeft,
+    S.Vector2 uvBottomRight,
     TextureShapeOptions? shapeOptions = null)
   {
     shapeOptions ??= _textureShapeOptions;
@@ -90,8 +92,10 @@ public class ShapeService : IShapeService
 
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
-    DrawTextureTriangle(topLeft, bottomLeft, bottomRight, new(0, 1), new(0, 0), new(1, 0), shapeOptions);
-    DrawTextureTriangle(topLeft, bottomRight, topRight, new(0, 1), new(1, 0), new(1, 1), shapeOptions);
+    var uvBottomLeft = new S.Vector2(uvTopLeft.X, uvBottomRight.Y);
+    var uvTopRight = new S.Vector2(uvBottomRight.X, uvTopLeft.Y);
+    DrawTextureTriangle(topLeft, bottomLeft, bottomRight, uvTopLeft, uvBottomLeft, uvBottomRight, shapeOptions);
+    DrawTextureTriangle(topLeft, bottomRight, topRight, uvTopLeft, uvBottomRight, uvTopRight, shapeOptions);
 
     return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
   }

@@ -19,6 +19,8 @@ public interface IShapeService
   ShapeState DrawTextureRectangle(
     Vector2 topLeft,
     Vector2 bottomRight,
+    Vector2 uvTopLeft,
+    Vector2 uvBottomRight,
     TextureShapeOptions? shapeOptions = null);
 
   void DrawColorTriangle(
