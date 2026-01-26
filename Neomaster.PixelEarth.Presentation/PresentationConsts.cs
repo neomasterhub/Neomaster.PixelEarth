@@ -44,6 +44,10 @@ public static class PresentationConsts
 
     public static readonly TextureShapeOptions TextureDefaultOptions = new()
     {
+      TextureId = 1,
+      TextureIdHovered = 2,
+      TextureIdSelected = 3,
+      TextureIdSelectedHovered = 4,
     };
   }
 
@@ -55,6 +59,14 @@ public static class PresentationConsts
       FillHovered = Color.ControlFillHovered,
       FillSelected = Color.ControlFillSelected,
       FillSelectedHovered = Color.ControlFillSelectedHovered,
+    };
+
+    public static readonly TextureButtonOptions TextureDefaultOptions = new()
+    {
+      TextureId = Shape.TextureDefaultOptions.TextureId,
+      TextureIdHovered = Shape.TextureDefaultOptions.TextureIdHovered,
+      TextureIdSelected = Shape.TextureDefaultOptions.TextureIdSelected,
+      TextureIdSelectedHovered = Shape.TextureDefaultOptions.TextureIdSelectedHovered,
     };
   }
 
