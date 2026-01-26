@@ -64,7 +64,7 @@ public class GameWindowService : IGameWindowService
     _shapeService.InitializeBuffers();
     _textureService.Initialize();
 
-    _textureService.Load(_textures[TextureGroupName.MainMenu]);
+    _textureService.Load(_textures[TextureGroupName.Test]);
 
     _mainMenuService.Create(
       [
@@ -85,7 +85,7 @@ public class GameWindowService : IGameWindowService
 
     // TODO: remove after full implementation
     _textureService.SetBlending(Blending.Alpha);
-    var testTexture = _textures[TextureGroupName.MainMenu];
+    var testTexture = _textures[TextureGroupName.Test];
     _shapeService.DrawTextureRectangle(
       new(0, 0),
       new(300, 300),
