@@ -20,6 +20,13 @@ public interface IUIService
     float height,
     ButtonOptions? options = null);
 
+  TextureButton CreateTextureButton(
+    float x,
+    float y,
+    float width,
+    float height,
+    TextureButtonOptions? options = null);
+
   Grid<TCell> CreateGrid<TCell>(
     TCell[] cells,
     float gridWidth,
