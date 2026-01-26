@@ -3,7 +3,6 @@ using Neomaster.PixelEarth.App;
 namespace Neomaster.PixelEarth.Infra;
 
 public class MainMenuService(
-  ColorButtonOptions buttonOptions,
   IUIService uiService,
   IIdGenerator<int> idGenerator)
   : IMainMenuService
@@ -12,14 +11,12 @@ public class MainMenuService(
 
   public void Create(
     MainMenuItemDef[] items,
-    MainMenuOptions? menuOptions = null,
-    ColorButtonOptions? sharedButtonOptions = null)
+    MainMenuOptions? menuOptions = null)
   {
     var buttons = items
       .Select(i => new MainMenuButton(idGenerator.Next())
       {
         Action = i.Action,
-        Options = i.ButtonOptions ?? sharedButtonOptions ?? buttonOptions,
       })
       .ToArray();
 
