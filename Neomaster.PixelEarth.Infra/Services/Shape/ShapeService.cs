@@ -79,6 +79,25 @@ public class ShapeService : IShapeService
   }
 
   public ShapeState DrawTextureRectangle(
+    float x,
+    float y,
+    float width,
+    float height,
+    float uvX,
+    float uvY,
+    float uvWidth,
+    float uvHeight,
+    TextureShapeOptions? shapeOptions = null)
+  {
+    return DrawTextureRectangle(
+      new S.Vector2(x, y),
+      new S.Vector2(x + width, y + height),
+      new S.Vector2(uvX, uvY),
+      new S.Vector2(uvX + uvWidth, uvY + uvHeight),
+      shapeOptions);
+  }
+
+  public ShapeState DrawTextureRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
     S.Vector2 uvTopLeft,
