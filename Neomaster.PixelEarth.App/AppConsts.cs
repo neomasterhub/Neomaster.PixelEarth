@@ -13,6 +13,7 @@ public static class AppConsts
 
   public static class TextureGroupName
   {
+    public const string Test = "Test";
     public const string MainMenu = "Main Menu";
     public const string Level1 = "Level 1";
   }
