@@ -6,8 +6,10 @@ namespace Neomaster.PixelEarth.Infra;
 public class UIService(
   WindowSettings windowSettings,
   ButtonOptions buttonOptions,
+  TextureButtonOptions textureButtonOptions,
   MainMenuOptions mainMenuOptions,
   ColorShapeOptions colorShapeOptions,
+  TextureShapeOptions textureShapeOptions,
   IIdGenerator<int> idGenerator,
   IShapeService shapeService,
   IFrameService frameService)
@@ -79,6 +81,36 @@ public class UIService(
     }
   }
 
+  public void DrawTextureButton(
+    TextureButton button,
+    TextureShapeOptions? shapeOptions = null)
+  {
+    shapeOptions ??= textureShapeOptions;
+    shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
+
+    button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
+
+    var shapeState = shapeService.DrawTextureRectangle(
+      button.X,
+      button.Y,
+      button.Width,
+      button.Height,
+      0,
+      0,
+      1,
+      1,
+      shapeOptions);
+
+    button.MouseHoverCaptured = shapeState.IsHovered;
+
+    UpdateHoveredIds(button);
+
+    if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
+    {
+      button.MouseLeftPressed = true;
+    }
+  }
+
   public Button CreateButton(
     float x,
     float y,
@@ -89,6 +121,27 @@ public class UIService(
     options ??= buttonOptions;
 
     var button = new Button(idGenerator.Next())
+    {
+      X = x,
+      Y = y,
+      Width = width,
+      Height = height,
+      Options = options.Value,
+    };
+
+    return button;
+  }
+
+  public TextureButton CreateTextureButton(
+    float x,
+    float y,
+    float width,
+    float height,
+    TextureButtonOptions? options = null)
+  {
+    options ??= textureButtonOptions;
+
+    var button = new TextureButton(idGenerator.Next())
     {
       X = x,
       Y = y,

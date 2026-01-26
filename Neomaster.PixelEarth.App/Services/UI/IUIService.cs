@@ -13,12 +13,23 @@ public interface IUIService
     Button button,
     ColorShapeOptions? shapeOptions = null);
 
+  public void DrawTextureButton(
+    TextureButton button,
+    TextureShapeOptions? shapeOptions = null);
+
   Button CreateButton(
     float x,
     float y,
     float width,
     float height,
     ButtonOptions? options = null);
+
+  TextureButton CreateTextureButton(
+    float x,
+    float y,
+    float width,
+    float height,
+    TextureButtonOptions? options = null);
 
   Grid<TCell> CreateGrid<TCell>(
     TCell[] cells,
