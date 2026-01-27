@@ -12,6 +12,10 @@ public struct TextureShapeOptions
   public Vector4 TextureHoveredUvXYWidthHeight;
   public Vector4 TextureSelectedUvXYWidthHeight;
   public Vector4 TextureSelectedHoveredUvXYWidthHeight;
+  public Vector4 TextureUvXYWidthHeightPrc;
+  public Vector4 TextureHoveredUvXYWidthHeightPrc;
+  public Vector4 TextureSelectedUvXYWidthHeightPrc;
+  public Vector4 TextureSelectedHoveredUvXYWidthHeightPrc;
   public bool IsHovered;
   public bool IsSelected;
 
@@ -50,21 +54,40 @@ public struct TextureShapeOptions
       throw new ArgumentException("The normal texture must be loaded and have a valid LoadedId.", nameof(normal));
     }
 
+    hovered ??= normal;
+    selected ??= normal;
+    selectedHovered ??= normal;
+
     TextureId = normal.LoadedId;
-    TextureHoveredId = hovered?.LoadedId ?? TextureId;
-    TextureSelectedId = selected?.LoadedId ?? TextureId;
-    TextureSelectedHoveredId = selectedHovered?.LoadedId ?? TextureId;
+    TextureHoveredId = hovered.LoadedId;
+    TextureSelectedId = selected.LoadedId;
+    TextureSelectedHoveredId = selectedHovered.LoadedId;
 
     TextureUvXYWidthHeight = textureUvXYWidthHeight ?? new Vector4(0, 0, normal.Width, normal.Height);
+    TextureHoveredUvXYWidthHeight = textureHoveredUvXYWidthHeight ?? new Vector4(0, 0, hovered.Width, hovered.Height);
+    TextureSelectedUvXYWidthHeight = textureSelectedUvXYWidthHeight ?? new Vector4(0, 0, selected.Width, selected.Height);
+    TextureSelectedHoveredUvXYWidthHeight = textureSelectedHoveredUvXYWidthHeight ?? new Vector4(0, 0, selectedHovered.Width, selectedHovered.Height);
 
-    TextureHoveredUvXYWidthHeight = textureHoveredUvXYWidthHeight
-      ?? (hovered == null ? TextureUvXYWidthHeight : new Vector4(0, 0, hovered.Width, hovered.Height));
-
-    TextureSelectedUvXYWidthHeight = textureSelectedUvXYWidthHeight
-      ?? (selected == null ? TextureUvXYWidthHeight : new Vector4(0, 0, selected.Width, selected.Height));
-
-    TextureSelectedHoveredUvXYWidthHeight = textureSelectedHoveredUvXYWidthHeight
-      ?? (selectedHovered == null ? TextureUvXYWidthHeight : new Vector4(0, 0, selectedHovered.Width, selectedHovered.Height));
+    TextureUvXYWidthHeightPrc = new Vector4(
+      TextureUvXYWidthHeight.X / normal.Width,
+      TextureUvXYWidthHeight.Y / normal.Height,
+      TextureUvXYWidthHeight.Z / normal.Width,
+      TextureUvXYWidthHeight.W / normal.Height);
+    TextureHoveredUvXYWidthHeightPrc = new Vector4(
+      TextureHoveredUvXYWidthHeight.X / hovered.Width,
+      TextureHoveredUvXYWidthHeight.Y / hovered.Height,
+      TextureHoveredUvXYWidthHeight.Z / hovered.Width,
+      TextureHoveredUvXYWidthHeight.W / hovered.Height);
+    TextureSelectedUvXYWidthHeightPrc = new Vector4(
+      TextureSelectedUvXYWidthHeight.X / selected.Width,
+      TextureSelectedUvXYWidthHeight.Y / selected.Height,
+      TextureSelectedUvXYWidthHeight.Z / selected.Width,
+      TextureSelectedUvXYWidthHeight.W / selected.Height);
+    TextureSelectedHoveredUvXYWidthHeightPrc = new Vector4(
+      TextureSelectedHoveredUvXYWidthHeight.X / selectedHovered.Width,
+      TextureSelectedHoveredUvXYWidthHeight.Y / selectedHovered.Height,
+      TextureSelectedHoveredUvXYWidthHeight.Z / selectedHovered.Width,
+      TextureSelectedHoveredUvXYWidthHeight.W / selectedHovered.Height);
   }
 
   public readonly int CurrentTextureId => IsHovered
