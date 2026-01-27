@@ -22,4 +22,6 @@ public record Texture
   public string FileName { get; }
   public bool IsLoaded { get; set; }
   public int LoadedId { get; set; }
+  public float Width { get; set; }
+  public float Height { get; set; }
 }

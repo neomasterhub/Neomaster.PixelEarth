@@ -41,6 +41,8 @@ public class TextureService(
     var imageInfo = imageService.GetImageInfo(texture.FileName, flipY: true);
 
     texture.LoadedId = GL.GenTexture();
+    texture.Width = imageInfo.Width;
+    texture.Height = imageInfo.Height;
 
     GL.BindTexture(TextureTarget.Texture2D, texture.LoadedId);
     GL.TexImage2D(
