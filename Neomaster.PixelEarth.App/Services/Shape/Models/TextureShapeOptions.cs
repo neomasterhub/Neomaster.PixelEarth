@@ -16,6 +16,24 @@ public struct TextureShapeOptions
   public bool IsSelected;
 
   public TextureShapeOptions(
+    Texture map,
+    Vector4 textureUvXYWidthHeight,
+    Vector4? textureHoveredUvXYWidthHeight = null,
+    Vector4? textureSelectedUvXYWidthHeight = null,
+    Vector4? textureSelectedHoveredUvXYWidthHeight = null)
+    : this(
+      map,
+      null,
+      null,
+      null,
+      textureUvXYWidthHeight,
+      textureHoveredUvXYWidthHeight,
+      textureSelectedUvXYWidthHeight,
+      textureSelectedHoveredUvXYWidthHeight)
+  {
+  }
+
+  public TextureShapeOptions(
     Texture normal,
     Texture hovered = null,
     Texture selected = null,
