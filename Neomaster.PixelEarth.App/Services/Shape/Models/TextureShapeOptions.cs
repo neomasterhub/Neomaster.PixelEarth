@@ -3,9 +3,9 @@ namespace Neomaster.PixelEarth.App;
 public struct TextureShapeOptions
 {
   public int TextureId;
-  public int TextureIdHovered;
-  public int TextureIdSelected;
-  public int TextureIdSelectedHovered;
+  public int TextureHoveredId;
+  public int TextureSelectedId;
+  public int TextureSelectedHoveredId;
   public bool IsHovered;
   public bool IsSelected;
 
@@ -23,14 +23,14 @@ public struct TextureShapeOptions
     }
 
     TextureId = normal.LoadedId;
-    TextureIdHovered = hovered?.LoadedId ?? TextureId;
-    TextureIdSelected = selected?.LoadedId ?? TextureId;
-    TextureIdSelectedHovered = selectedHovered?.LoadedId ?? TextureId;
+    TextureHoveredId = hovered?.LoadedId ?? TextureId;
+    TextureSelectedId = selected?.LoadedId ?? TextureId;
+    TextureSelectedHoveredId = selectedHovered?.LoadedId ?? TextureId;
   }
 
   public readonly int CurrentTextureId => IsHovered
-    ? (IsSelected ? TextureIdSelectedHovered : TextureIdHovered)
-    : (IsSelected ? TextureIdSelected : TextureId);
+    ? (IsSelected ? TextureSelectedHoveredId : TextureHoveredId)
+    : (IsSelected ? TextureSelectedId : TextureId);
 
   public TextureShapeOptions SetHovered(bool isHovered)
   {
