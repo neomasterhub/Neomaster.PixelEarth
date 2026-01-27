@@ -94,6 +94,14 @@ public struct TextureShapeOptions
     ? (IsSelected ? TextureSelectedHoveredId : TextureHoveredId)
     : (IsSelected ? TextureSelectedId : TextureId);
 
+  public readonly Vector4 CurrentTextureUvXYWidthHeight => IsHovered
+    ? (IsSelected ? TextureSelectedHoveredUvXYWidthHeight : TextureHoveredUvXYWidthHeight)
+    : (IsSelected ? TextureSelectedUvXYWidthHeight : TextureUvXYWidthHeight);
+
+  public readonly Vector4 CurrentTextureUvXYWidthHeightPrc => IsHovered
+    ? (IsSelected ? TextureSelectedHoveredUvXYWidthHeightPrc : TextureHoveredUvXYWidthHeightPrc)
+    : (IsSelected ? TextureSelectedUvXYWidthHeightPrc : TextureUvXYWidthHeightPrc);
+
   public TextureShapeOptions SetHovered(bool isHovered)
   {
     IsHovered = isHovered;
