@@ -87,10 +87,22 @@ public class GameWindowService : IGameWindowService
     _textureService.SetBlending(Blending.Alpha);
     var testTexture = _textures[TextureGroupName.Test];
     _shapeService.DrawTextureRectangle(
-      new(0, 0),
-      new(300, 300),
-      new(0.2f, 0.2f),
-      new(1, 1),
+      new(100, 100, 300, 300),
+      new(0, 0, 1, 1),
+      null,
+      null,
+      null,
+      new TextureShapeOptions(
+        testTexture[TextureName.Test512x512],
+        testTexture[TextureName.Test512x512Hovered],
+        testTexture[TextureName.Test512x512Selected],
+        testTexture[TextureName.Test512x512SelectedHovered]));
+    _shapeService.DrawTextureRectangle(
+      new(200, 200, 300, 300),
+      new(0, 0, 1, 1),
+      null,
+      null,
+      null,
       new TextureShapeOptions(
         testTexture[TextureName.Test512x512],
         testTexture[TextureName.Test512x512Hovered],

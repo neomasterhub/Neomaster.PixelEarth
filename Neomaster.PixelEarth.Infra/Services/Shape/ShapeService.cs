@@ -79,6 +79,32 @@ public class ShapeService : IShapeService
   }
 
   public ShapeState DrawTextureRectangle(
+    S.Vector4 xyWidthHeight,
+    S.Vector4 uvXYWidthHeight,
+    S.Vector4? uvHoveredXYWidthHeight = null,
+    S.Vector4? uvSelectedXYWidthHeight = null,
+    S.Vector4? uvSelectedHoveredXYWidthHeight = null,
+    TextureShapeOptions? shapeOptions = null)
+  {
+    shapeOptions ??= _textureShapeOptions;
+
+    var uv = shapeOptions.Value.IsHovered
+      ? (shapeOptions.Value.IsSelected
+        ? uvSelectedHoveredXYWidthHeight ?? uvXYWidthHeight
+        : uvHoveredXYWidthHeight ?? uvXYWidthHeight)
+      : (shapeOptions.Value.IsSelected
+        ? uvSelectedXYWidthHeight ?? uvXYWidthHeight
+        : uvXYWidthHeight);
+
+    return DrawTextureRectangle(
+      new S.Vector2(xyWidthHeight.X, xyWidthHeight.Y),
+      new S.Vector2(xyWidthHeight.X + xyWidthHeight.Z, xyWidthHeight.Y + xyWidthHeight.W),
+      new S.Vector2(uv.X, uv.Y),
+      new S.Vector2(uv.X + uv.Z, uv.Y + uv.W),
+      shapeOptions);
+  }
+
+  public ShapeState DrawTextureRectangle(
     float x,
     float y,
     float width,

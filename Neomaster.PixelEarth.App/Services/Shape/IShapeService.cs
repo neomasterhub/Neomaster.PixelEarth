@@ -17,6 +17,14 @@ public interface IShapeService
     ColorShapeOptions? shapeOptions = null);
 
   ShapeState DrawTextureRectangle(
+    Vector4 xyWidthHeight,
+    Vector4 uvXYWidthHeight,
+    Vector4? uvHoveredXYWidthHeight = null,
+    Vector4? uvSelectedXYWidthHeight = null,
+    Vector4? uvSelectedHoveredXYWidthHeight = null,
+    TextureShapeOptions? shapeOptions = null);
+
+  ShapeState DrawTextureRectangle(
     float x,
     float y,
     float width,
