@@ -31,9 +31,9 @@ public struct TextureShapeOptions
       null,
       null,
       textureUvXYWidthHeight,
-      textureHoveredUvXYWidthHeight,
-      textureSelectedUvXYWidthHeight,
-      textureSelectedHoveredUvXYWidthHeight)
+      textureHoveredUvXYWidthHeight ?? textureUvXYWidthHeight,
+      textureSelectedUvXYWidthHeight ?? textureUvXYWidthHeight,
+      textureSelectedHoveredUvXYWidthHeight ?? textureUvXYWidthHeight)
   {
   }
 
