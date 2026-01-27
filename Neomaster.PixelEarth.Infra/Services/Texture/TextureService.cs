@@ -28,33 +28,6 @@ public class TextureService(
     GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
   }
 
-  public TextureInfo Load(string fileName)
-  {
-    var imageInfo = imageService.GetImageInfo(fileName, flipY: true);
-
-    var textureId = GL.GenTexture();
-
-    GL.BindTexture(TextureTarget.Texture2D, textureId);
-    GL.TexImage2D(
-      target: TextureTarget.Texture2D,
-      level: 0,
-      PixelInternalFormat.Rgba,
-      imageInfo.Width,
-      imageInfo.Height,
-      border: 0,
-      PixelFormat.Rgba,
-      PixelType.UnsignedByte,
-      imageInfo.Bytes);
-    GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
-    Cut(textureId); // TODO: remove
-
-    return new TextureInfo
-    {
-      Id = textureId,
-    };
-  }
-
   public void Load(TextureGroup textureGroup)
   {
     foreach (var texture in textureGroup.Textures)
