@@ -44,6 +44,16 @@ public interface IShapeService
     Vector2 a,
     Vector2 b,
     Vector2 c,
+    Vector2[] uvAbc,
+    Vector2[] uvAbcHovered = null,
+    Vector2[] uvAbcSelected = null,
+    Vector2[] uvAbcSelectedHovered = null,
+    TextureShapeOptions? shapeOptions = null);
+
+  void DrawTextureTriangle(
+    Vector2 a,
+    Vector2 b,
+    Vector2 c,
     Vector2 uvA,
     Vector2 uvB,
     Vector2 uvC,

@@ -161,6 +161,46 @@ public class ShapeService : IShapeService
     S.Vector2 a,
     S.Vector2 b,
     S.Vector2 c,
+    S.Vector2[] uvAbc,
+    S.Vector2[] uvAbcHovered = null,
+    S.Vector2[] uvAbcSelected = null,
+    S.Vector2[] uvAbcSelectedHovered = null,
+    TextureShapeOptions? shapeOptions = null)
+  {
+#if DEBUG
+    if (uvAbc.Length != 3)
+    {
+      throw new ArgumentException($"{nameof(uvAbc)} must have exactly 3 elements.", nameof(uvAbc));
+    }
+
+    if (uvAbcHovered != null && uvAbcHovered.Length != 3)
+    {
+      throw new ArgumentException($"{nameof(uvAbcHovered)} must have exactly 3 elements.", nameof(uvAbcHovered));
+    }
+
+    if (uvAbcSelected != null && uvAbcSelected.Length != 3)
+    {
+      throw new ArgumentException($"{nameof(uvAbcSelected)} must have exactly 3 elements.", nameof(uvAbcSelected));
+    }
+
+    if (uvAbcSelectedHovered != null && uvAbcSelectedHovered.Length != 3)
+    {
+      throw new ArgumentException($"{nameof(uvAbcSelectedHovered)} must have exactly 3 elements.", nameof(uvAbcSelectedHovered));
+    }
+#endif
+    shapeOptions ??= _textureShapeOptions;
+
+    var uv = shapeOptions.Value.IsHovered
+      ? (shapeOptions.Value.IsSelected ? uvAbcSelectedHovered ?? uvAbc : uvAbcHovered ?? uvAbc)
+      : (shapeOptions.Value.IsSelected ? uvAbcSelected ?? uvAbc : uvAbc);
+
+    DrawTextureTriangle(a, b, c, uv[0], uv[1], uv[2], shapeOptions);
+  }
+
+  public void DrawTextureTriangle(
+    S.Vector2 a,
+    S.Vector2 b,
+    S.Vector2 c,
     S.Vector2 uvA,
     S.Vector2 uvB,
     S.Vector2 uvC,
