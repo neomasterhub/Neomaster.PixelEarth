@@ -79,6 +79,32 @@ public class ShapeService : IShapeService
   }
 
   public ShapeState DrawTextureRectangle(
+    S.Vector4 xyWidthHeight,
+    S.Vector4 uvXYWidthHeight,
+    S.Vector4? uvHoveredXYWidthHeight = null,
+    S.Vector4? uvSelectedXYWidthHeight = null,
+    S.Vector4? uvSelectedHoveredXYWidthHeight = null,
+    TextureShapeOptions? shapeOptions = null)
+  {
+    shapeOptions ??= _textureShapeOptions;
+
+    var uv = shapeOptions.Value.IsHovered
+      ? (shapeOptions.Value.IsSelected
+        ? uvSelectedHoveredXYWidthHeight ?? uvXYWidthHeight
+        : uvHoveredXYWidthHeight ?? uvXYWidthHeight)
+      : (shapeOptions.Value.IsSelected
+        ? uvSelectedXYWidthHeight ?? uvXYWidthHeight
+        : uvXYWidthHeight);
+
+    return DrawTextureRectangle(
+      new S.Vector2(xyWidthHeight.X, xyWidthHeight.Y),
+      new S.Vector2(xyWidthHeight.X + xyWidthHeight.Z, xyWidthHeight.Y + xyWidthHeight.W),
+      new S.Vector2(uv.X, uv.Y),
+      new S.Vector2(uv.X + uv.Z, uv.Y + uv.W),
+      shapeOptions);
+  }
+
+  public ShapeState DrawTextureRectangle(
     float x,
     float y,
     float width,
@@ -155,6 +181,46 @@ public class ShapeService : IShapeService
 
     GL.BindVertexArray(0);
     GL.UseProgram(0);
+  }
+
+  public void DrawTextureTriangle(
+    S.Vector2 a,
+    S.Vector2 b,
+    S.Vector2 c,
+    S.Vector2[] uvAbc,
+    S.Vector2[] uvAbcHovered = null,
+    S.Vector2[] uvAbcSelected = null,
+    S.Vector2[] uvAbcSelectedHovered = null,
+    TextureShapeOptions? shapeOptions = null)
+  {
+#if DEBUG
+    if (uvAbc.Length != 3)
+    {
+      throw new ArgumentException($"{nameof(uvAbc)} must have exactly 3 elements.", nameof(uvAbc));
+    }
+
+    if (uvAbcHovered != null && uvAbcHovered.Length != 3)
+    {
+      throw new ArgumentException($"{nameof(uvAbcHovered)} must have exactly 3 elements.", nameof(uvAbcHovered));
+    }
+
+    if (uvAbcSelected != null && uvAbcSelected.Length != 3)
+    {
+      throw new ArgumentException($"{nameof(uvAbcSelected)} must have exactly 3 elements.", nameof(uvAbcSelected));
+    }
+
+    if (uvAbcSelectedHovered != null && uvAbcSelectedHovered.Length != 3)
+    {
+      throw new ArgumentException($"{nameof(uvAbcSelectedHovered)} must have exactly 3 elements.", nameof(uvAbcSelectedHovered));
+    }
+#endif
+    shapeOptions ??= _textureShapeOptions;
+
+    var uv = shapeOptions.Value.IsHovered
+      ? (shapeOptions.Value.IsSelected ? uvAbcSelectedHovered ?? uvAbc : uvAbcHovered ?? uvAbc)
+      : (shapeOptions.Value.IsSelected ? uvAbcSelected ?? uvAbc : uvAbc);
+
+    DrawTextureTriangle(a, b, c, uv[0], uv[1], uv[2], shapeOptions);
   }
 
   public void DrawTextureTriangle(

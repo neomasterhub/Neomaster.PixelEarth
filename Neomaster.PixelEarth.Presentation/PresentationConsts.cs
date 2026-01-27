@@ -45,9 +45,9 @@ public static class PresentationConsts
     public static readonly TextureShapeOptions TextureDefaultOptions = new()
     {
       TextureId = 1,
-      TextureIdHovered = 2,
-      TextureIdSelected = 3,
-      TextureIdSelectedHovered = 4,
+      TextureHoveredId = 2,
+      TextureSelectedId = 3,
+      TextureSelectedHoveredId = 4,
     };
   }
 
@@ -64,9 +64,9 @@ public static class PresentationConsts
     public static readonly TextureButtonOptions TextureDefaultOptions = new()
     {
       TextureId = Shape.TextureDefaultOptions.TextureId,
-      TextureIdHovered = Shape.TextureDefaultOptions.TextureIdHovered,
-      TextureIdSelected = Shape.TextureDefaultOptions.TextureIdSelected,
-      TextureIdSelectedHovered = Shape.TextureDefaultOptions.TextureIdSelectedHovered,
+      TextureIdHovered = Shape.TextureDefaultOptions.TextureHoveredId,
+      TextureIdSelected = Shape.TextureDefaultOptions.TextureSelectedId,
+      TextureIdSelectedHovered = Shape.TextureDefaultOptions.TextureSelectedHoveredId,
     };
   }
 
