@@ -33,10 +33,10 @@ public class MouseService : IMouseService
   {
     var x2 = x + width;
     var y2 = y + height;
-    var xMin = MathF.Min(x, x + x2);
-    var xMax = MathF.Max(x, x + x2);
-    var yMin = MathF.Min(y, y + y2);
-    var yMax = MathF.Max(y, y + y2);
+    var xMin = MathF.Min(x, x2);
+    var xMax = MathF.Max(x, x2);
+    var yMin = MathF.Min(y, y2);
+    var yMax = MathF.Max(y, y2);
 
     var isIn = MouseState.Position.X >= xMin
       && MouseState.Position.X <= xMax
