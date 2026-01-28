@@ -20,6 +20,7 @@ public class GameWindowService : IGameWindowService
   private readonly IShaderService _shaderService;
   private readonly IShapeService _shapeService;
   private readonly ITextureService _textureService;
+  private readonly IFrameService _frameService;
 
   public GameWindowService(
     Textures textures,
@@ -29,7 +30,8 @@ public class GameWindowService : IGameWindowService
     IMouseService mouseService,
     IShaderService shaderService,
     IShapeService shapeService,
-    ITextureService textureService)
+    ITextureService textureService,
+    IFrameService frameService)
   {
     _textures = textures;
     _gameState = gameState;
@@ -39,6 +41,7 @@ public class GameWindowService : IGameWindowService
     _shaderService = shaderService;
     _shapeService = shapeService;
     _textureService = textureService;
+    _frameService = frameService;
 
     _gameWindow = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings
     {
@@ -78,6 +81,7 @@ public class GameWindowService : IGameWindowService
   {
     GL.ClearColor(_windowSettings.BackgroundColor.ToColor4());
     GL.Clear(ClearBufferMask.ColorBufferBit);
+    _frameService.BeginFrame();
 
     RenderMenu();
 
