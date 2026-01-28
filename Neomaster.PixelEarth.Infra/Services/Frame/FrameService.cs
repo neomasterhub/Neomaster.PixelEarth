@@ -12,4 +12,10 @@ public class FrameService : IFrameService
     FrameInfo.CurrentHoveredId = FrameInfo.NextHoveredId;
     FrameInfo.NextHoveredId = currentHoveredId;
   }
+
+  public void ResetFrame()
+  {
+    FrameInfo.CurrentHoveredId = -1;
+    FrameInfo.NextHoveredId = -1;
+  }
 }

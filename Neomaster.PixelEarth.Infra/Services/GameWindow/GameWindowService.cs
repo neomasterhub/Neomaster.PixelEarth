@@ -66,6 +66,7 @@ public class GameWindowService : IGameWindowService
     _shaderService.InitializeShaders();
     _shapeService.InitializeBuffers();
     _textureService.Initialize();
+    _frameService.ResetFrame();
 
     _textureService.Load(_textures[TextureGroupName.Test]);
 
@@ -79,9 +80,10 @@ public class GameWindowService : IGameWindowService
 
   public void OnRender(RenderEventArgs e)
   {
+    _frameService.BeginFrame();
+
     GL.ClearColor(_windowSettings.BackgroundColor.ToColor4());
     GL.Clear(ClearBufferMask.ColorBufferBit);
-    _frameService.BeginFrame();
 
     RenderMenu();
 
