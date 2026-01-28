@@ -60,9 +60,12 @@ public class UIService(
     TextureButton button,
     TextureShapeOptions? shapeOptions = null)
   {
+    button.IsHovered = frameService.FrameInfo.CurrentHoveredId == button.Id;
+    button.IsSelected = frameService.FrameInfo.SelectedId == button.Id;
+
     shapeOptions ??= textureShapeOptions;
     shapeOptions = shapeOptions.Value
-      .SetHovered(frameService.FrameInfo.CurrentHoveredId == button.Id)
+      .SetHovered(button.IsHovered)
       .SetSelected(button.IsSelected);
 
     shapeService.DrawTextureRectangle(
@@ -85,6 +88,11 @@ public class UIService(
     if (mouseState.IsIn)
     {
       frameService.FrameInfo.NextHoveredId = button.Id;
+    }
+
+    if (button.IsHovered && mouseState.LeftPressed)
+    {
+      frameService.FrameInfo.SelectedId = button.Id;
     }
   }
 
@@ -113,6 +121,9 @@ public class UIService(
     Button button,
     ColorShapeOptions? shapeOptions = null)
   {
+    button.IsHovered = frameService.FrameInfo.CurrentHoveredId == button.Id;
+    button.IsSelected = frameService.FrameInfo.SelectedId == button.Id;
+
     shapeOptions ??= colorShapeOptions;
     shapeOptions = shapeOptions.Value
       .SetHovered(frameService.FrameInfo.CurrentHoveredId == button.Id)
@@ -134,6 +145,11 @@ public class UIService(
     if (mouseState.IsIn)
     {
       frameService.FrameInfo.NextHoveredId = button.Id;
+    }
+
+    if (button.IsHovered && mouseState.LeftPressed)
+    {
+      frameService.FrameInfo.SelectedId = button.Id;
     }
   }
 
