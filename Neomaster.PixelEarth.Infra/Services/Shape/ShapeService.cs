@@ -43,7 +43,7 @@ public class ShapeService : IShapeService
         1f));
   }
 
-  public ShapeState DrawTextureRectangle(
+  public void DrawTextureRectangle(
     S.Vector4 xyWidthHeight,
     S.Vector4 uvXYWidthHeight,
     S.Vector4? uvHoveredXYWidthHeight = null,
@@ -61,7 +61,7 @@ public class ShapeService : IShapeService
         ? uvSelectedXYWidthHeight ?? uvXYWidthHeight
         : uvXYWidthHeight);
 
-    return DrawTextureRectangle(
+    DrawTextureRectangle(
       new S.Vector2(xyWidthHeight.X, xyWidthHeight.Y),
       new S.Vector2(xyWidthHeight.X + xyWidthHeight.Z, xyWidthHeight.Y + xyWidthHeight.W),
       new S.Vector2(uv.X, uv.Y),
@@ -69,7 +69,7 @@ public class ShapeService : IShapeService
       shapeOptions);
   }
 
-  public ShapeState DrawTextureRectangle(
+  public void DrawTextureRectangle(
     float x,
     float y,
     float width,
@@ -80,7 +80,7 @@ public class ShapeService : IShapeService
     float uvHeight,
     TextureShapeOptions? shapeOptions = null)
   {
-    return DrawTextureRectangle(
+    DrawTextureRectangle(
       new S.Vector2(x, y),
       new S.Vector2(x + width, y + height),
       new S.Vector2(uvX, uvY),
@@ -88,7 +88,7 @@ public class ShapeService : IShapeService
       shapeOptions);
   }
 
-  public ShapeState DrawTextureRectangle(
+  public void DrawTextureRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
     S.Vector2 uvTopLeft,
@@ -97,17 +97,12 @@ public class ShapeService : IShapeService
   {
     shapeOptions ??= _textureShapeOptions;
 
-    var areaMouseState = _mouseService.GetRectangleMouseState(topLeft, bottomRight);
-    shapeOptions = shapeOptions.Value.SetHovered(areaMouseState.IsIn);
-
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
     var uvBottomLeft = new S.Vector2(uvTopLeft.X, uvBottomRight.Y);
     var uvTopRight = new S.Vector2(uvBottomRight.X, uvTopLeft.Y);
     DrawTextureTriangle(topLeft, bottomLeft, bottomRight, uvTopLeft, uvBottomLeft, uvBottomRight, shapeOptions);
     DrawTextureTriangle(topLeft, bottomRight, topRight, uvTopLeft, uvBottomRight, uvTopRight, shapeOptions);
-
-    return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
   }
 
   public void DrawTextureTriangle(
@@ -191,35 +186,30 @@ public class ShapeService : IShapeService
     GL.UseProgram(0);
   }
 
-  public ShapeState DrawColorRectangle(
+  public void DrawColorRectangle(
     float x,
     float y,
     float width,
     float height,
     ColorShapeOptions? shapeOptions = null)
   {
-    return DrawColorRectangle(
+    DrawColorRectangle(
       new S.Vector2(x, y),
       new S.Vector2(x + width, y + height),
       shapeOptions);
   }
 
-  public ShapeState DrawColorRectangle(
+  public void DrawColorRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
     ColorShapeOptions? shapeOptions = null)
   {
     shapeOptions ??= _colorShapeOptions;
 
-    var areaMouseState = _mouseService.GetRectangleMouseState(topLeft, bottomRight);
-    shapeOptions = shapeOptions.Value.SetHovered(areaMouseState.IsIn);
-
     var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
     var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
     DrawColorTriangle(topLeft, bottomLeft, bottomRight, shapeOptions);
     DrawColorTriangle(topLeft, bottomRight, topRight, shapeOptions);
-
-    return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
   }
 
   public void DrawColorTriangle(
