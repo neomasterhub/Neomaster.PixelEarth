@@ -4,18 +4,6 @@ namespace Neomaster.PixelEarth.App;
 
 public interface IShapeService
 {
-  ShapeState DrawColorRectangle(
-    float x,
-    float y,
-    float width,
-    float height,
-    ColorShapeOptions? shapeOptions = null);
-
-  ShapeState DrawColorRectangle(
-    Vector2 topLeft,
-    Vector2 bottomRight,
-    ColorShapeOptions? shapeOptions = null);
-
   ShapeState DrawTextureRectangle(
     Vector4 xyWidthHeight,
     Vector4 uvXYWidthHeight,
@@ -66,6 +54,18 @@ public interface IShapeService
     Vector2 uvB,
     Vector2 uvC,
     TextureShapeOptions? shapeOptions = null);
+
+  ShapeState DrawColorRectangle(
+    float x,
+    float y,
+    float width,
+    float height,
+    ColorShapeOptions? shapeOptions = null);
+
+  ShapeState DrawColorRectangle(
+    Vector2 topLeft,
+    Vector2 bottomRight,
+    ColorShapeOptions? shapeOptions = null);
 
   void InitializeBuffers();
 }

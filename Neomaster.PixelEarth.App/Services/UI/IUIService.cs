@@ -9,20 +9,9 @@ public interface IUIService
     MainMenuButton[] buttons,
     MainMenuOptions? options = null);
 
-  void DrawButton(
-    Button button,
-    ColorShapeOptions? shapeOptions = null);
-
-  public void DrawTextureButton(
+  void DrawTextureButton(
     TextureButton button,
     TextureShapeOptions? shapeOptions = null);
-
-  ColorButton CreateColorButton(
-    float x,
-    float y,
-    float width,
-    float height,
-    ColorButtonOptions? options = null);
 
   TextureButton CreateTextureButton(
     float x,
@@ -30,6 +19,17 @@ public interface IUIService
     float width,
     float height,
     TextureButtonOptions? options = null);
+
+  void DrawColorButton(
+    Button button,
+    ColorShapeOptions? shapeOptions = null);
+
+  ColorButton CreateColorButton(
+    float x,
+    float y,
+    float width,
+    float height,
+    ColorButtonOptions? options = null);
 
   Grid<TCell> CreateGrid<TCell>(
     TCell[] cells,

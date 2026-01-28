@@ -19,7 +19,7 @@ public class UIService(
   {
     foreach (var button in mainMenu.Buttons)
     {
-      DrawButton(button);
+      DrawColorButton(button);
     }
   }
 
@@ -55,7 +55,7 @@ public class UIService(
     return mainMenu;
   }
 
-  public void DrawButton(
+  public void DrawColorButton(
     Button button,
     ColorShapeOptions? shapeOptions = null)
   {
