@@ -8,9 +8,8 @@ public class FrameService : IFrameService
 
   public void BeginFrame()
   {
-    var currentHoveredId = FrameInfo.CurrentHoveredId;
     FrameInfo.CurrentHoveredId = FrameInfo.NextHoveredId;
-    FrameInfo.NextHoveredId = currentHoveredId;
+    FrameInfo.NextHoveredId = -1;
   }
 
   public void ResetFrame()

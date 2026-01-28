@@ -21,6 +21,11 @@ public class GameWindowService : IGameWindowService
   private readonly IShapeService _shapeService;
   private readonly ITextureService _textureService;
   private readonly IFrameService _frameService;
+  private readonly IUIService _uiService;
+
+  // TODO: remove after full implementation
+  private static TextureButton _textureButton1;
+  private static TextureButton _textureButton2;
 
   public GameWindowService(
     Textures textures,
@@ -31,7 +36,8 @@ public class GameWindowService : IGameWindowService
     IShaderService shaderService,
     IShapeService shapeService,
     ITextureService textureService,
-    IFrameService frameService)
+    IFrameService frameService,
+    IUIService uiService)
   {
     _textures = textures;
     _gameState = gameState;
@@ -42,6 +48,7 @@ public class GameWindowService : IGameWindowService
     _shapeService = shapeService;
     _textureService = textureService;
     _frameService = frameService;
+    _uiService = uiService;
 
     _gameWindow = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings
     {
@@ -76,6 +83,9 @@ public class GameWindowService : IGameWindowService
         new MainMenuItemDef(() => { }),
         new MainMenuItemDef(() => _gameWindow.Close()),
       ]);
+
+    _textureButton1 = _uiService.CreateTextureButton(100f, 100f, 500f, 500f);
+    _textureButton2 = _uiService.CreateTextureButton(200f, 200f, 500f, 500f);
   }
 
   public void OnRender(RenderEventArgs e)
@@ -92,28 +102,8 @@ public class GameWindowService : IGameWindowService
     // TODO: remove after full implementation
     _textureService.SetBlending(Blending.Alpha);
     var testTexture = _textures[TextureGroupName.Test];
-    _shapeService.DrawTextureRectangle(
-      new(100, 100, 300, 300),
-      new(0, 0, 1, 1),
-      null,
-      null,
-      null,
-      new TextureShapeOptions(
-        testTexture[TextureName.Test512x512],
-        testTexture[TextureName.Test512x512Hovered],
-        testTexture[TextureName.Test512x512Selected],
-        testTexture[TextureName.Test512x512SelectedHovered]));
-    _shapeService.DrawTextureRectangle(
-      new(150, 150, 300, 300),
-      new(0, 0, 1, 1),
-      null,
-      null,
-      null,
-      new TextureShapeOptions(
-        testTexture[TextureName.Test512x512],
-        testTexture[TextureName.Test512x512Hovered],
-        testTexture[TextureName.Test512x512Selected],
-        testTexture[TextureName.Test512x512SelectedHovered]));
+    _uiService.DrawTextureButton(_textureButton1);
+    _uiService.DrawTextureButton(_textureButton2);
     _textureService.SetBlending(Blending.Replace);
 
     _gameWindow.SwapBuffers();
