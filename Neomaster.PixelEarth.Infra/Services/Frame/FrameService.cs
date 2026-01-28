@@ -16,5 +16,6 @@ public class FrameService : IFrameService
   {
     FrameInfo.CurrentHoveredId = -1;
     FrameInfo.NextHoveredId = -1;
+    FrameInfo.SelectedId = -1;
   }
 }
