@@ -12,7 +12,8 @@ public class UIService(
   TextureShapeOptions textureShapeOptions,
   IIdGenerator<int> idGenerator,
   IShapeService shapeService,
-  IFrameService frameService)
+  IFrameService frameService,
+  IMouseService mouseService)
   : IUIService
 {
   public void DrawMainMenu(MainMenu mainMenu)
@@ -55,42 +56,19 @@ public class UIService(
     return mainMenu;
   }
 
-  public void DrawColorButton(
-    Button button,
-    ColorShapeOptions? shapeOptions = null)
-  {
-    shapeOptions ??= colorShapeOptions;
-    shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
-
-    button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
-
-    var shapeState = shapeService.DrawColorRectangle(
-      button.X,
-      button.Y,
-      button.Width,
-      button.Height,
-      shapeOptions);
-
-    button.MouseHoverCaptured = shapeState.IsHovered;
-
-    UpdateHoveredIds(button);
-
-    if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
-    {
-      button.MouseLeftPressed = true;
-    }
-  }
-
   public void DrawTextureButton(
     TextureButton button,
     TextureShapeOptions? shapeOptions = null)
   {
+    button.IsHovered = frameService.FrameInfo.CurrentHoveredId == button.Id;
+    button.IsSelected = frameService.FrameInfo.SelectedId == button.Id;
+
     shapeOptions ??= textureShapeOptions;
-    shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
+    shapeOptions = shapeOptions.Value
+      .SetHovered(button.IsHovered)
+      .SetSelected(button.IsSelected);
 
-    button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
-
-    var shapeState = shapeService.DrawTextureRectangle(
+    shapeService.DrawTextureRectangle(
       button.X,
       button.Y,
       button.Width,
@@ -101,13 +79,77 @@ public class UIService(
       1,
       shapeOptions);
 
-    button.MouseHoverCaptured = shapeState.IsHovered;
+    var mouseState = mouseService.GetRectangleMouseState(
+      button.X,
+      button.Y,
+      button.Width,
+      button.Height);
 
-    UpdateHoveredIds(button);
-
-    if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
+    if (mouseState.IsIn)
     {
-      button.MouseLeftPressed = true;
+      frameService.FrameInfo.NextHoveredId = button.Id;
+    }
+
+    if (button.IsHovered && mouseState.LeftPressed)
+    {
+      frameService.FrameInfo.SelectedId = button.Id;
+    }
+  }
+
+  public TextureButton CreateTextureButton(
+    float x,
+    float y,
+    float width,
+    float height,
+    TextureButtonOptions? options = null)
+  {
+    options ??= textureButtonOptions;
+
+    var button = new TextureButton(idGenerator.Next())
+    {
+      X = x,
+      Y = y,
+      Width = width,
+      Height = height,
+      Options = options.Value,
+    };
+
+    return button;
+  }
+
+  public void DrawColorButton(
+    Button button,
+    ColorShapeOptions? shapeOptions = null)
+  {
+    button.IsHovered = frameService.FrameInfo.CurrentHoveredId == button.Id;
+    button.IsSelected = frameService.FrameInfo.SelectedId == button.Id;
+
+    shapeOptions ??= colorShapeOptions;
+    shapeOptions = shapeOptions.Value
+      .SetHovered(frameService.FrameInfo.CurrentHoveredId == button.Id)
+      .SetSelected(button.IsSelected);
+
+    shapeService.DrawColorRectangle(
+      button.X,
+      button.Y,
+      button.Width,
+      button.Height,
+      shapeOptions);
+
+    var mouseState = mouseService.GetRectangleMouseState(
+      button.X,
+      button.Y,
+      button.Width,
+      button.Height);
+
+    if (mouseState.IsIn)
+    {
+      frameService.FrameInfo.NextHoveredId = button.Id;
+    }
+
+    if (button.IsHovered && mouseState.LeftPressed)
+    {
+      frameService.FrameInfo.SelectedId = button.Id;
     }
   }
 
@@ -121,27 +163,6 @@ public class UIService(
     options ??= colorButtonOptions;
 
     var button = new ColorButton(idGenerator.Next())
-    {
-      X = x,
-      Y = y,
-      Width = width,
-      Height = height,
-      Options = options.Value,
-    };
-
-    return button;
-  }
-
-  public TextureButton CreateTextureButton(
-    float x,
-    float y,
-    float width,
-    float height,
-    TextureButtonOptions? options = null)
-  {
-    options ??= textureButtonOptions;
-
-    var button = new TextureButton(idGenerator.Next())
     {
       X = x,
       Y = y,
@@ -241,22 +262,5 @@ public class UIService(
     }
 
     return grid;
-  }
-
-  public void UpdateHoveredIds(UIElement element)
-  {
-    if (element.MouseHoverCaptured)
-    {
-      frameService.FrameInfo.HoveredIds.Add(element.Id);
-    }
-    else
-    {
-      frameService.FrameInfo.HoveredIds.Remove(element.Id);
-    }
-
-    if (frameService.FrameInfo.HoveredIds.Count > 0)
-    {
-      frameService.FrameInfo.HoveredIds = [frameService.FrameInfo.HoveredIds.Max()];
-    }
   }
 }

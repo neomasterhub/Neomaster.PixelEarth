@@ -41,6 +41,4 @@ public interface IUIService
     Align verticalAlign = Align.Begin,
     Align horizontalAlign = Align.Begin)
     where TCell : UIElement;
-
-  void UpdateHoveredIds(UIElement element);
 }

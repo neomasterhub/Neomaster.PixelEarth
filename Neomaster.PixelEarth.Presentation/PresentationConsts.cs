@@ -64,9 +64,9 @@ public static class PresentationConsts
     public static readonly TextureButtonOptions TextureDefaultOptions = new()
     {
       TextureId = Shape.TextureDefaultOptions.TextureId,
-      TextureIdHovered = Shape.TextureDefaultOptions.TextureHoveredId,
-      TextureIdSelected = Shape.TextureDefaultOptions.TextureSelectedId,
-      TextureIdSelectedHovered = Shape.TextureDefaultOptions.TextureSelectedHoveredId,
+      TextureHoveredId = Shape.TextureDefaultOptions.TextureHoveredId,
+      TextureSelectedId = Shape.TextureDefaultOptions.TextureSelectedId,
+      TextureSelectedHoveredId = Shape.TextureDefaultOptions.TextureSelectedHoveredId,
     };
   }
 
