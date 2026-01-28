@@ -1,0 +1,4 @@
+Main Menu Buttons:
+Play		0f, 0f, 200f, 50f
+Demos		0f, 50f, 200f, 50f
+Exit		0f, 100f, 200f, 50f
