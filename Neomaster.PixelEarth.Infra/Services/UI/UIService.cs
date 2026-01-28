@@ -62,8 +62,6 @@ public class UIService(
     shapeOptions ??= colorShapeOptions;
     shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
 
-    button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
-
     var shapeState = shapeService.DrawColorRectangle(
       button.X,
       button.Y,
@@ -72,8 +70,6 @@ public class UIService(
       shapeOptions);
 
     button.MouseHoverCaptured = shapeState.IsHovered;
-
-    UpdateHoveredIds(button);
 
     if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
     {
@@ -88,8 +84,6 @@ public class UIService(
     shapeOptions ??= textureShapeOptions;
     shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
 
-    button.IsHovered = frameService.FrameInfo.HoveredIds.Contains(button.Id);
-
     var shapeState = shapeService.DrawTextureRectangle(
       button.X,
       button.Y,
@@ -102,8 +96,6 @@ public class UIService(
       shapeOptions);
 
     button.MouseHoverCaptured = shapeState.IsHovered;
-
-    UpdateHoveredIds(button);
 
     if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
     {
@@ -241,22 +233,5 @@ public class UIService(
     }
 
     return grid;
-  }
-
-  public void UpdateHoveredIds(UIElement element)
-  {
-    if (element.MouseHoverCaptured)
-    {
-      frameService.FrameInfo.HoveredIds.Add(element.Id);
-    }
-    else
-    {
-      frameService.FrameInfo.HoveredIds.Remove(element.Id);
-    }
-
-    if (frameService.FrameInfo.HoveredIds.Count > 0)
-    {
-      frameService.FrameInfo.HoveredIds = [frameService.FrameInfo.HoveredIds.Max()];
-    }
   }
 }
