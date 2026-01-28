@@ -2,5 +2,6 @@ namespace Neomaster.PixelEarth.App;
 
 public record FrameInfo
 {
-  public int HoveredId { get; set; }
+  public int CurrentHoveredId { get; set; }
+  public int NextHoveredId { get; set; }
 }
