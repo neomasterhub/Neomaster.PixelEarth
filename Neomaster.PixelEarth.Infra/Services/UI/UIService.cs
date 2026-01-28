@@ -73,8 +73,6 @@ public class UIService(
       1,
       shapeOptions);
 
-    button.MouseHoverCaptured = shapeState.IsHovered;
-
     if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
     {
       button.MouseLeftPressed = true;
@@ -115,8 +113,6 @@ public class UIService(
       button.Width,
       button.Height,
       shapeOptions);
-
-    button.MouseHoverCaptured = shapeState.IsHovered;
 
     if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
     {
