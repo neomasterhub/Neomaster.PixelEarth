@@ -12,7 +12,8 @@ public class UIService(
   TextureShapeOptions textureShapeOptions,
   IIdGenerator<int> idGenerator,
   IShapeService shapeService,
-  IFrameService frameService)
+  IFrameService frameService,
+  IMouseService mouseService)
   : IUIService
 {
   public void DrawMainMenu(MainMenu mainMenu)
@@ -62,7 +63,7 @@ public class UIService(
     shapeOptions ??= textureShapeOptions;
     shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
 
-    var shapeState = shapeService.DrawTextureRectangle(
+    shapeService.DrawTextureRectangle(
       button.X,
       button.Y,
       button.Width,
@@ -73,9 +74,15 @@ public class UIService(
       1,
       shapeOptions);
 
-    if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
+    var mouseState = mouseService.GetRectangleMouseState(
+      button.X,
+      button.Y,
+      button.Width,
+      button.Height);
+
+    if (mouseState.IsIn)
     {
-      button.MouseLeftPressed = true;
+      frameService.FrameInfo.NextHoveredId = button.Id;
     }
   }
 
@@ -107,16 +114,22 @@ public class UIService(
     shapeOptions ??= colorShapeOptions;
     shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
 
-    var shapeState = shapeService.DrawColorRectangle(
+    shapeService.DrawColorRectangle(
       button.X,
       button.Y,
       button.Width,
       button.Height,
       shapeOptions);
 
-    if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
+    var mouseState = mouseService.GetRectangleMouseState(
+      button.X,
+      button.Y,
+      button.Width,
+      button.Height);
+
+    if (mouseState.IsIn)
     {
-      button.MouseLeftPressed = true;
+      frameService.FrameInfo.NextHoveredId = button.Id;
     }
   }
 
