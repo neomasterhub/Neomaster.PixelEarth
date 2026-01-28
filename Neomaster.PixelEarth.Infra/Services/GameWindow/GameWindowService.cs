@@ -84,8 +84,8 @@ public class GameWindowService : IGameWindowService
         new MainMenuItemDef(() => _gameWindow.Close()),
       ]);
 
-    _textureButton1 = _uiService.CreateTextureButton(100f, 100f, 500f, 500f);
-    _textureButton2 = _uiService.CreateTextureButton(200f, 200f, 500f, 500f);
+    _textureButton1 = _uiService.CreateTextureButton(100f, 25f, 500f, 500f);
+    _textureButton2 = _uiService.CreateTextureButton(190f, 70f, 500f, 500f);
   }
 
   public void OnRender(RenderEventArgs e)
