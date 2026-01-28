@@ -55,28 +55,6 @@ public class UIService(
     return mainMenu;
   }
 
-  public void DrawColorButton(
-    Button button,
-    ColorShapeOptions? shapeOptions = null)
-  {
-    shapeOptions ??= colorShapeOptions;
-    shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
-
-    var shapeState = shapeService.DrawColorRectangle(
-      button.X,
-      button.Y,
-      button.Width,
-      button.Height,
-      shapeOptions);
-
-    button.MouseHoverCaptured = shapeState.IsHovered;
-
-    if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
-    {
-      button.MouseLeftPressed = true;
-    }
-  }
-
   public void DrawTextureButton(
     TextureButton button,
     TextureShapeOptions? shapeOptions = null)
@@ -103,16 +81,16 @@ public class UIService(
     }
   }
 
-  public ColorButton CreateColorButton(
+  public TextureButton CreateTextureButton(
     float x,
     float y,
     float width,
     float height,
-    ColorButtonOptions? options = null)
+    TextureButtonOptions? options = null)
   {
-    options ??= colorButtonOptions;
+    options ??= textureButtonOptions;
 
-    var button = new ColorButton(idGenerator.Next())
+    var button = new TextureButton(idGenerator.Next())
     {
       X = x,
       Y = y,
@@ -124,16 +102,38 @@ public class UIService(
     return button;
   }
 
-  public TextureButton CreateTextureButton(
+  public void DrawColorButton(
+    Button button,
+    ColorShapeOptions? shapeOptions = null)
+  {
+    shapeOptions ??= colorShapeOptions;
+    shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
+
+    var shapeState = shapeService.DrawColorRectangle(
+      button.X,
+      button.Y,
+      button.Width,
+      button.Height,
+      shapeOptions);
+
+    button.MouseHoverCaptured = shapeState.IsHovered;
+
+    if (shapeState.IsMouseLeftPressed && shapeState.IsHovered)
+    {
+      button.MouseLeftPressed = true;
+    }
+  }
+
+  public ColorButton CreateColorButton(
     float x,
     float y,
     float width,
     float height,
-    TextureButtonOptions? options = null)
+    ColorButtonOptions? options = null)
   {
-    options ??= textureButtonOptions;
+    options ??= colorButtonOptions;
 
-    var button = new TextureButton(idGenerator.Next())
+    var button = new ColorButton(idGenerator.Next())
     {
       X = x,
       Y = y,
