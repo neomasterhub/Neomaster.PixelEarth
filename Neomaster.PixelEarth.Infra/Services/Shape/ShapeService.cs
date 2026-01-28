@@ -47,37 +47,6 @@ public class ShapeService : IShapeService
     _shaderService = shaderService;
   }
 
-  public ShapeState DrawColorRectangle(
-    float x,
-    float y,
-    float width,
-    float height,
-    ColorShapeOptions? shapeOptions = null)
-  {
-    return DrawColorRectangle(
-      new S.Vector2(x, y),
-      new S.Vector2(x + width, y + height),
-      shapeOptions);
-  }
-
-  public ShapeState DrawColorRectangle(
-    S.Vector2 topLeft,
-    S.Vector2 bottomRight,
-    ColorShapeOptions? shapeOptions = null)
-  {
-    shapeOptions ??= _colorShapeOptions;
-
-    var areaMouseState = _mouseService.GetRectangleMouseState(topLeft, bottomRight);
-    shapeOptions = shapeOptions.Value.SetHovered(areaMouseState.IsIn);
-
-    var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
-    var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
-    DrawColorTriangle(topLeft, bottomLeft, bottomRight, shapeOptions);
-    DrawColorTriangle(topLeft, bottomRight, topRight, shapeOptions);
-
-    return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
-  }
-
   public ShapeState DrawTextureRectangle(
     S.Vector4 xyWidthHeight,
     S.Vector4 uvXYWidthHeight,
@@ -143,44 +112,6 @@ public class ShapeService : IShapeService
     DrawTextureTriangle(topLeft, bottomRight, topRight, uvTopLeft, uvBottomRight, uvTopRight, shapeOptions);
 
     return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
-  }
-
-  public void DrawColorTriangle(
-    S.Vector2 a,
-    S.Vector2 b,
-    S.Vector2 c,
-    ColorShapeOptions? shapeOptions = null)
-  {
-    EnsureShadersInitialized();
-    EnsureBuffersInitialized();
-
-    shapeOptions ??= _colorShapeOptions;
-
-    var vertices = new float[]
-    {
-        a.X, a.Y,
-        b.X, b.Y,
-        c.X, c.Y,
-    };
-
-    GL.BindBuffer(BufferTarget.ArrayBuffer, _colorBaoId);
-    GL.BufferData(
-      BufferTarget.ArrayBuffer,
-      vertices.Length * sizeof(float),
-      vertices,
-      BufferUsageHint.DynamicDraw);
-
-    shapeOptions.Value.UseWithShaderProgram(_shaderService.ColorShaderProgramInfo);
-    _positionProjection.BindMatrix4(_shaderService.ColorShaderProgramInfo.Id);
-
-    shapeOptions.Value.CullFaces.Apply();
-    GL.FrontFace(_renderSettings.WindingOrder.ToGlType());
-
-    GL.BindVertexArray(_colorVaoId);
-    GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
-
-    GL.BindVertexArray(0);
-    GL.UseProgram(0);
   }
 
   public void DrawTextureTriangle(
@@ -258,6 +189,75 @@ public class ShapeService : IShapeService
     _positionProjection.BindMatrix4(_shaderService.TextureShaderProgramInfo.Id);
 
     GL.BindVertexArray(_textureVaoId);
+    GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+
+    GL.BindVertexArray(0);
+    GL.UseProgram(0);
+  }
+
+  public ShapeState DrawColorRectangle(
+    float x,
+    float y,
+    float width,
+    float height,
+    ColorShapeOptions? shapeOptions = null)
+  {
+    return DrawColorRectangle(
+      new S.Vector2(x, y),
+      new S.Vector2(x + width, y + height),
+      shapeOptions);
+  }
+
+  public ShapeState DrawColorRectangle(
+    S.Vector2 topLeft,
+    S.Vector2 bottomRight,
+    ColorShapeOptions? shapeOptions = null)
+  {
+    shapeOptions ??= _colorShapeOptions;
+
+    var areaMouseState = _mouseService.GetRectangleMouseState(topLeft, bottomRight);
+    shapeOptions = shapeOptions.Value.SetHovered(areaMouseState.IsIn);
+
+    var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
+    var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
+    DrawColorTriangle(topLeft, bottomLeft, bottomRight, shapeOptions);
+    DrawColorTriangle(topLeft, bottomRight, topRight, shapeOptions);
+
+    return new(areaMouseState.IsIn, areaMouseState.LeftPressed);
+  }
+
+  public void DrawColorTriangle(
+    S.Vector2 a,
+    S.Vector2 b,
+    S.Vector2 c,
+    ColorShapeOptions? shapeOptions = null)
+  {
+    EnsureShadersInitialized();
+    EnsureBuffersInitialized();
+
+    shapeOptions ??= _colorShapeOptions;
+
+    var vertices = new float[]
+    {
+        a.X, a.Y,
+        b.X, b.Y,
+        c.X, c.Y,
+    };
+
+    GL.BindBuffer(BufferTarget.ArrayBuffer, _colorBaoId);
+    GL.BufferData(
+      BufferTarget.ArrayBuffer,
+      vertices.Length * sizeof(float),
+      vertices,
+      BufferUsageHint.DynamicDraw);
+
+    shapeOptions.Value.UseWithShaderProgram(_shaderService.ColorShaderProgramInfo);
+    _positionProjection.BindMatrix4(_shaderService.ColorShaderProgramInfo.Id);
+
+    shapeOptions.Value.CullFaces.Apply();
+    GL.FrontFace(_renderSettings.WindingOrder.ToGlType());
+
+    GL.BindVertexArray(_colorVaoId);
     GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
 
     GL.BindVertexArray(0);
