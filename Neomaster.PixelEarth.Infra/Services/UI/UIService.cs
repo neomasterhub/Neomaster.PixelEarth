@@ -61,7 +61,9 @@ public class UIService(
     TextureShapeOptions? shapeOptions = null)
   {
     shapeOptions ??= textureShapeOptions;
-    shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
+    shapeOptions = shapeOptions.Value
+      .SetHovered(frameService.FrameInfo.CurrentHoveredId == button.Id)
+      .SetSelected(button.IsSelected);
 
     shapeService.DrawTextureRectangle(
       button.X,
@@ -112,7 +114,9 @@ public class UIService(
     ColorShapeOptions? shapeOptions = null)
   {
     shapeOptions ??= colorShapeOptions;
-    shapeOptions = shapeOptions.Value.SetSelected(button.IsSelected);
+    shapeOptions = shapeOptions.Value
+      .SetHovered(frameService.FrameInfo.CurrentHoveredId == button.Id)
+      .SetSelected(button.IsSelected);
 
     shapeService.DrawColorRectangle(
       button.X,
