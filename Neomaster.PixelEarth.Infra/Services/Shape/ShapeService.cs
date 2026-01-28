@@ -9,12 +9,11 @@ namespace Neomaster.PixelEarth.Infra;
 
 public class ShapeService : IShapeService
 {
+  private readonly IShaderService _shaderService;
   private readonly RenderSettings _renderSettings;
   private readonly ColorShapeOptions _colorShapeOptions;
   private readonly TextureShapeOptions _textureShapeOptions;
   private readonly ShaderProgramArg<Matrix4> _positionProjection;
-  private readonly IMouseService _mouseService;
-  private readonly IShaderService _shaderService;
 
   private int _colorVaoId;
   private int _colorBaoId;
@@ -22,13 +21,13 @@ public class ShapeService : IShapeService
   private int _textureBaoId;
 
   public ShapeService(
+    IShaderService shaderService,
     RenderSettings renderSettings,
     WindowSettings windowSettings,
     ColorShapeOptions colorShapeOptions,
-    TextureShapeOptions textureShapeOptions,
-    IMouseService mouseService,
-    IShaderService shaderService)
+    TextureShapeOptions textureShapeOptions)
   {
+    _shaderService = shaderService;
     _renderSettings = renderSettings;
     _colorShapeOptions = colorShapeOptions;
     _textureShapeOptions = textureShapeOptions;
@@ -42,9 +41,6 @@ public class ShapeService : IShapeService
         0,
         -1f,
         1f));
-
-    _mouseService = mouseService;
-    _shaderService = shaderService;
   }
 
   public ShapeState DrawTextureRectangle(
