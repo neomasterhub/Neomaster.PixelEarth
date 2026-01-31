@@ -24,7 +24,7 @@ public struct TextureShapeOptions
 
     hovered ??= normal;
     selected ??= normal;
-    selectedHovered ??= normal;
+    selectedHovered ??= selected;
 
     TextureId = normal.LoadedId;
     TextureHoveredId = hovered.LoadedId;
