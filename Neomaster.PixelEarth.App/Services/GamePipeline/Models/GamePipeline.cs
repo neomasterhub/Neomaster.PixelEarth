@@ -4,13 +4,9 @@ public class GamePipeline
 {
   private readonly HashSet<GameStage> _stages = [];
 
-  private GameStage _currentStage;
-
-  public GamePipeline(GameStage firstStage)
+  public GamePipeline AddStage(GameStage stage)
   {
-    _stages.Add(firstStage);
-    _currentStage = firstStage;
+    _stages.Add(stage);
+    return this;
   }
-
-  public GameStage CurrentStage => _currentStage;
 }
