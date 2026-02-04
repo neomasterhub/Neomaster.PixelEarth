@@ -8,7 +8,7 @@ using static Neomaster.PixelEarth.App.AppConsts;
 
 new ServiceCollection()
   .AddSingleton(new GameState())
-  .AddSingleton(new GamePipeline(new()))
+  .AddSingleton(new GamePipeline())
   .AddSingleton(PresentationConsts.RenderSettings)
   .AddSingleton(PresentationConsts.WindowSettings)
   .AddSingleton(typeof(ColorButtonOptions), PresentationConsts.Button.ColorDefaultOptions)
