@@ -6,10 +6,9 @@ public class GameStage
   {
     OnWindowRender = () => { };
     OnWindowUpdate = () => { };
-    NextCondition = () => false;
   }
 
+  public int Id { get; set; }
   public Action OnWindowRender { get; set; }
   public Action OnWindowUpdate { get; set; }
-  public Func<bool> NextCondition { get; set; }
 }
