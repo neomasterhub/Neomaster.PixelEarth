@@ -14,6 +14,12 @@ public class GamePipeline
     return this;
   }
 
+  public GamePipeline AddStage(Func<GamePipeline, GameStage> stageFactory)
+  {
+    _stages.Add(stageFactory(this));
+    return this;
+  }
+
   public void Next()
   {
     _currentStages = _stages
