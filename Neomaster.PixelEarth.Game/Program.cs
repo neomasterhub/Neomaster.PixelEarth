@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Neomaster.PixelEarth;
 using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Domain;
 using Neomaster.PixelEarth.Infra;
@@ -7,6 +8,7 @@ using static Neomaster.PixelEarth.App.AppConsts;
 
 new ServiceCollection()
   .AddSingleton(new GameState())
+  .AddSingleton(new GamePipeline())
   .AddSingleton(PresentationConsts.RenderSettings)
   .AddSingleton(PresentationConsts.WindowSettings)
   .AddSingleton(typeof(ColorButtonOptions), PresentationConsts.Button.ColorDefaultOptions)

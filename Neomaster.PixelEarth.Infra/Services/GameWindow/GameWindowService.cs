@@ -14,6 +14,7 @@ public class GameWindowService : IGameWindowService
   private readonly Textures _textures;
   private readonly GameState _gameState;
   private readonly GameWindow _gameWindow;
+  private readonly GamePipeline _gamePipeline;
   private readonly WindowSettings _windowSettings;
   private readonly IMainMenuService _mainMenuService;
   private readonly IMouseService _mouseService;
@@ -30,6 +31,7 @@ public class GameWindowService : IGameWindowService
   public GameWindowService(
     Textures textures,
     GameState gameState,
+    GamePipeline gamePipeline,
     WindowSettings windowSettings,
     IMainMenuService mainMenuService,
     IMouseService mouseService,
@@ -41,6 +43,7 @@ public class GameWindowService : IGameWindowService
   {
     _textures = textures;
     _gameState = gameState;
+    _gamePipeline = gamePipeline;
     _windowSettings = windowSettings;
     _mainMenuService = mainMenuService;
     _mouseService = mouseService;
@@ -75,6 +78,8 @@ public class GameWindowService : IGameWindowService
     _textureService.Initialize();
     _frameService.ResetFrame();
 
+    _gamePipeline.Update();
+
     _textureService.Load(_textures[TextureGroupName.Test]);
 
     _mainMenuService.Create(
@@ -95,6 +100,9 @@ public class GameWindowService : IGameWindowService
     GL.ClearColor(_windowSettings.BackgroundColor.ToColor4());
     GL.Clear(ClearBufferMask.ColorBufferBit);
 
+    _gamePipeline.Next();
+    _gamePipeline.Render(e);
+
     RenderMenu();
 
     UpdateMouseState(_gameWindow.MouseState.ToMouseStateEventArgs());
@@ -111,6 +119,8 @@ public class GameWindowService : IGameWindowService
 
   public void OnUpdate(UpdateEventArgs e)
   {
+    _gamePipeline.Update(e);
+
     UpdateMenu();
     UpdatePlaying();
   }
