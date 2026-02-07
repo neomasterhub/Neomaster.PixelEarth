@@ -4,6 +4,6 @@ using Neomaster.PixelEarth.Presentation;
 GameEngineBuilder
   .Create()
   .AddDefaultServices()
-  .AddGameStage(new GameStage())
+  .AddGameStage(new GameStage { Condition = () => true })
   .Build()
   .Run();
