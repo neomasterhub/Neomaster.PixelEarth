@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Neomaster.PixelEarth.App;
+using Neomaster.PixelEarth.Domain;
 using Neomaster.PixelEarth.Infra;
 using static Neomaster.PixelEarth.App.AppConsts;
 
@@ -40,6 +41,7 @@ public class GameEngineBuilder
       .AddSingleton<IImageService, ImageService>()
       .AddSingleton<ITextureService, TextureService>()
       .AddSingleton<IFrameService, FrameService>()
+      .AddSingleton(new GameState())
       .AddSingleton(new Textures()
         .AddGroup(new TextureGroup(TextureGroupName.Test)
           .AddTexture(new(TextureName.Test512x512, "test_512x512.png"))
