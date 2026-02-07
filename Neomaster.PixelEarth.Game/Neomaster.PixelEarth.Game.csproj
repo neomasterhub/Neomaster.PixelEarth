@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Neomaster.PixelEarth.Infra\Neomaster.PixelEarth.Infra.csproj" />
     <ProjectReference Include="..\Neomaster.PixelEarth.Presentation\Neomaster.PixelEarth.Presentation.csproj" />
   </ItemGroup>
