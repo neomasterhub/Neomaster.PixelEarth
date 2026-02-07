@@ -24,7 +24,7 @@ public class GameWindowService : IGameWindowService
   private readonly IFrameService _frameService;
   private readonly IUIService _uiService;
 
-  // TODO: remove after full implementation
+  // TODO: move to first game stage
   private static TextureButton _textureButton1;
   private static TextureButton _textureButton2;
 
@@ -82,9 +82,10 @@ public class GameWindowService : IGameWindowService
 
     _textureService.Load(_textures[TextureGroupName.Test]);
 
+    // TODO: move to first game stage
     _mainMenuService.Create(
       [
-        new MainMenuItemDef(() => _gameState.FrameState = FrameState.Playing),
+        new MainMenuItemDef(() => { }),
         new MainMenuItemDef(() => { }),
         new MainMenuItemDef(() => _gameWindow.Close()),
       ]);
@@ -122,12 +123,10 @@ public class GameWindowService : IGameWindowService
     _gamePipeline.Update(e);
 
     UpdateMenu();
-    UpdatePlaying();
   }
 
   public void OnExit(ExitEventArgs e)
   {
-    _gameState.FrameState = FrameState.Exiting;
   }
 
   public void UpdateMouseState(MouseStateEventArgs e)
@@ -135,23 +134,15 @@ public class GameWindowService : IGameWindowService
     _mouseService.UpdateMouseState(e);
   }
 
+  // TODO: move to first game stage
   private void RenderMenu()
   {
-    if (_gameState.FrameState != FrameState.MainMenu)
-    {
-      return;
-    }
-
     _mainMenuService.Draw();
   }
 
+  // TODO: move to first game stage
   private void UpdateMenu()
   {
-    if (_gameState.FrameState != FrameState.MainMenu)
-    {
-      return;
-    }
-
     var keyboard = _gameWindow.KeyboardState;
 
     if (keyboard.IsKeyPressed(Keys.Down))
@@ -165,21 +156,6 @@ public class GameWindowService : IGameWindowService
     else if (keyboard.IsKeyPressed(Keys.Enter))
     {
       _mainMenuService.ExecuteSelected();
-    }
-  }
-
-  private void UpdatePlaying()
-  {
-    if (_gameState.FrameState != FrameState.Playing)
-    {
-      return;
-    }
-
-    var keyboard = _gameWindow.KeyboardState;
-
-    if (keyboard.IsKeyPressed(Keys.Escape))
-    {
-      _gameState.FrameState = FrameState.MainMenu;
     }
   }
 }
