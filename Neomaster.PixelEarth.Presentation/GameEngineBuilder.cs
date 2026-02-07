@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Neomaster.PixelEarth.App;
-using Neomaster.PixelEarth.Domain;
 using Neomaster.PixelEarth.Infra;
 using static Neomaster.PixelEarth.App.AppConsts;
 
@@ -23,7 +22,6 @@ public class GameEngineBuilder
   public GameEngineBuilder AddDefaultServices()
   {
     _services
-      .AddSingleton(new GameState()) // TODO: remove, check exists
       .AddSingleton(_gamePipeline)
       .AddSingleton(PresentationConsts.RenderSettings)
       .AddSingleton(PresentationConsts.WindowSettings)
@@ -60,13 +58,13 @@ public class GameEngineBuilder
     return this;
   }
 
-  public GameEngineBuilder AddStage(Func<GamePipeline, GameStage> stageFactory)
+  public GameEngineBuilder AddGameStage(Func<GamePipeline, GameStage> stageFactory)
   {
     _gamePipeline.AddStage(stageFactory);
     return this;
   }
 
-  public GameEngineBuilder AddStage(GameStage stage)
+  public GameEngineBuilder AddGameStage(GameStage stage)
   {
     _gamePipeline.AddStage(stage);
     return this;

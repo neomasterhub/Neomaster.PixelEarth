@@ -1,6 +1,4 @@
-using Neomaster.PixelEarth.App;
-
-namespace Neomaster.PixelEarth;
+namespace Neomaster.PixelEarth.App;
 
 public class GamePipeline
 {
