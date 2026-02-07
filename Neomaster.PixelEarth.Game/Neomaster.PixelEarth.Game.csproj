@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Neomaster.PixelEarth.Infra\Neomaster.PixelEarth.Infra.csproj" />
     <ProjectReference Include="..\Neomaster.PixelEarth.Presentation\Neomaster.PixelEarth.Presentation.csproj" />
   </ItemGroup>
 
