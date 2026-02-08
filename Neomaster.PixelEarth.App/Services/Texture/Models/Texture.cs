@@ -2,23 +2,22 @@ namespace Neomaster.PixelEarth.App;
 
 public record Texture
 {
-  private static readonly HashSet<string> _usedNames = [];
+  private static readonly HashSet<int> _usedIds = [];
 
-  public Texture(string name, string fileName)
+  public Texture(int id, string fileName)
   {
-    ArgumentException.ThrowIfNullOrWhiteSpace(name);
     ArgumentException.ThrowIfNullOrWhiteSpace(fileName);
 
-    if (_usedNames.Contains(name))
+    if (_usedIds.Contains(id))
     {
-      throw new ArgumentException($"Texture with name \"{name}\" is already set.");
+      throw new ArgumentException($"Texture with id \"{id}\" is already set.");
     }
 
-    Name = name;
+    Id = id;
     FileName = fileName;
   }
 
-  public string Name { get; }
+  public int Id { get; }
   public string FileName { get; }
   public bool IsLoaded { get; set; }
   public int LoadedId { get; set; }

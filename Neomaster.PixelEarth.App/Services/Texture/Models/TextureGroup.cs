@@ -22,7 +22,7 @@ public class TextureGroup
 
   public IReadOnlyList<Texture> Textures => _textures.ToList();
 
-  public Texture this[string textureName] => _textures.Single(t => t.Name == textureName);
+  public Texture this[int textureId] => _textures.Single(t => t.Id == textureId);
 
   public TextureGroup AddTexture(Texture texture)
   {
