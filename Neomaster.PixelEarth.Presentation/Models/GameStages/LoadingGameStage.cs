@@ -32,13 +32,11 @@ public sealed class LoadingGameStage : BaseGameStage
 
   protected override bool RequiresStart()
   {
-    return _gamePipeline.HasGameStateFlag(GameStateFlag.None);
+    return _gamePipeline.HasGameStateFlag(GameStateFlag.Loading);
   }
 
   protected override void OnUpdate(UpdateEventArgs? e = null)
   {
-    _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
-
     _textureService.Load(_textures[TextureGroupName.Test]);
 
     _buttonPlay = _uiService.CreateTextureButton(100f, 25f, 500f, 500f);
