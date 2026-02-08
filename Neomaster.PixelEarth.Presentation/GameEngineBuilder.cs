@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Neomaster.PixelEarth.App;
-using Neomaster.PixelEarth.Domain;
 using Neomaster.PixelEarth.Infra;
 using static Neomaster.PixelEarth.App.AppConsts;
 
@@ -10,6 +9,8 @@ public class GameEngineBuilder
 {
   private readonly GamePipeline _gamePipeline = new();
   private readonly IServiceCollection _services = new ServiceCollection();
+
+  private IServiceProvider _serviceProvider;
 
   private GameEngineBuilder()
   {
@@ -41,7 +42,6 @@ public class GameEngineBuilder
       .AddSingleton<IImageService, ImageService>()
       .AddSingleton<ITextureService, TextureService>()
       .AddSingleton<IFrameService, FrameService>()
-      .AddSingleton(new GameState())
       .AddSingleton(new Textures()
         .AddGroup(new TextureGroup(TextureGroupName.Test)
           .AddTexture(new(TextureName.Test512x512, "test_512x512.png"))
@@ -50,6 +50,14 @@ public class GameEngineBuilder
           .AddTexture(new(TextureName.Test512x512SelectedHovered, "test_512x512_SH.png")))
         .AddGroup(new TextureGroup(TextureGroupName.Level1)
           .AddTexture(new(TextureName.Ground, "ground.png"))));
+
+    _serviceProvider = _services.BuildServiceProvider();
+
+    var loadingGameStage = new LoadingGameStage(_gamePipeline, _serviceProvider);
+
+    _gamePipeline
+      .AddStage(loadingGameStage)
+      .AddStage(p => new MainMenuGameStage(p, loadingGameStage.ButtonPlay, loadingGameStage.ButtonExit, _serviceProvider));
 
     return this;
   }
@@ -79,8 +87,6 @@ public class GameEngineBuilder
       throw new InvalidOperationException("Cannot build the engine because the pipeline has no stages.");
     }
 
-    return new GameEngine(_services
-      .BuildServiceProvider()
-      .GetRequiredService<IGameWindowService>());
+    return new GameEngine(_serviceProvider.GetRequiredService<IGameWindowService>());
   }
 }
