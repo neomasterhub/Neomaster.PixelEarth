@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Neomaster.PixelEarth.App;
-using Neomaster.PixelEarth.Domain;
 using Neomaster.PixelEarth.Infra;
 using static Neomaster.PixelEarth.App.AppConsts;
 
@@ -10,6 +9,8 @@ public class GameEngineBuilder
 {
   private readonly GamePipeline _gamePipeline = new();
   private readonly IServiceCollection _services = new ServiceCollection();
+
+  private IServiceProvider _serviceProvider;
 
   private GameEngineBuilder()
   {
@@ -41,7 +42,6 @@ public class GameEngineBuilder
       .AddSingleton<IImageService, ImageService>()
       .AddSingleton<ITextureService, TextureService>()
       .AddSingleton<IFrameService, FrameService>()
-      .AddSingleton(new GameState())
       .AddSingleton(new Textures()
         .AddGroup(new TextureGroup(TextureGroupName.Test)
           .AddTexture(new(TextureName.Test512x512, "test_512x512.png"))
@@ -54,8 +54,27 @@ public class GameEngineBuilder
     return this;
   }
 
+  public GameEngineBuilder AddDefaultGameStages()
+  {
+    _serviceProvider = _services.BuildServiceProvider();
+
+    _gamePipeline.AddGameStateFlag(GameStateFlag.Loading);
+
+    _gamePipeline
+      .AddStageBuffer(new MainMenuGameStageBuffer())
+      ;
+
+    _gamePipeline
+      .AddStage(p => new LoadingGameStage(p, _serviceProvider))
+      .AddStage(p => new MainMenuGameStage(p, _serviceProvider))
+      ;
+
+    return this;
+  }
+
   public GameEngineBuilder AddServices(Action<IServiceCollection> configure)
   {
+    ThrowIfPipelineHasStages();
     configure(_services);
     return this;
   }
@@ -79,8 +98,17 @@ public class GameEngineBuilder
       throw new InvalidOperationException("Cannot build the engine because the pipeline has no stages.");
     }
 
-    return new GameEngine(_services
-      .BuildServiceProvider()
+    return new GameEngine(
+      (_serviceProvider ?? _services.BuildServiceProvider())
       .GetRequiredService<IGameWindowService>());
+  }
+
+  private void ThrowIfPipelineHasStages()
+  {
+    if (_gamePipeline.StageCount > 0)
+    {
+      throw new InvalidOperationException(
+        "Cannot register services after stages have been added to the game pipeline.");
+    }
   }
 }

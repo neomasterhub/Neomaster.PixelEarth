@@ -9,5 +9,16 @@ public abstract class BaseGameStage : GameStage
   protected BaseGameStage(IServiceProvider serviceProvider)
   {
     _serviceProvider = serviceProvider;
+    OnWindowUpdate += OnUpdate;
+    OnWindowRender += OnRender;
+    NextCondition = RequiresStart;
+  }
+
+  protected abstract bool RequiresStart();
+
+  protected abstract void OnUpdate(UpdateEventArgs? e = null);
+
+  protected virtual void OnRender(RenderEventArgs? e = null)
+  {
   }
 }
