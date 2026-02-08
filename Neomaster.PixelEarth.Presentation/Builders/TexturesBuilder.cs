@@ -27,7 +27,19 @@ public class TexturesBuilder
 
   public TexturesBuilder WithTexture(TextureId id, string fileName)
   {
+    if (_lastTextureGroup == null)
+    {
+      throw new InvalidOperationException(
+        "Target texture group should be initialized before adding textures.");
+    }
+
     _lastTextureGroup.AddTexture(new((int)id, fileName));
+
     return this;
+  }
+
+  public Textures Build()
+  {
+    return _textures;
   }
 }
