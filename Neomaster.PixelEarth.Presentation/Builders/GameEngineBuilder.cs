@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Infra;
-using static Neomaster.PixelEarth.App.AppConsts;
 
 namespace Neomaster.PixelEarth.Presentation;
 
