@@ -2,23 +2,21 @@ namespace Neomaster.PixelEarth.App;
 
 public class TextureGroup
 {
-  private static readonly HashSet<string> _usedNames = [];
+  private static readonly HashSet<int> _usedIds = [];
 
   private readonly HashSet<Texture> _textures = [];
 
-  public TextureGroup(string name)
+  public TextureGroup(int id)
   {
-    ArgumentException.ThrowIfNullOrWhiteSpace(name);
-
-    if (_usedNames.Contains(name))
+    if (_usedIds.Contains(id))
     {
-      throw new ArgumentException($"Texture group with name \"{name}\" is already set.");
+      throw new ArgumentException($"Texture group with name \"{id}\" is already set.");
     }
 
-    Name = name;
+    Id = id;
   }
 
-  public string Name { get; }
+  public int Id { get; }
 
   public IReadOnlyList<Texture> Textures => _textures.ToList();
 

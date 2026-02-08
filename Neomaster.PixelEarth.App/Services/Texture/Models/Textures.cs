@@ -6,9 +6,9 @@ public class Textures
 
   public IReadOnlyList<TextureGroup> TextureGroups => _textureGroups.ToList();
 
-  public TextureGroup this[string textureGroupName]
+  public TextureGroup this[int textureGroupId]
   {
-    get => _textureGroups.Single(g => g.Name == textureGroupName);
+    get => _textureGroups.Single(g => g.Id == textureGroupId);
   }
 
   public Textures AddGroup(TextureGroup group)
