@@ -9,5 +9,8 @@ public abstract class BaseGameStage : GameStage
   protected BaseGameStage(IServiceProvider serviceProvider)
   {
     _serviceProvider = serviceProvider;
+    OnWindowUpdate += OnUpdate;
   }
+
+  protected abstract void OnUpdate(UpdateEventArgs? e = null);
 }
