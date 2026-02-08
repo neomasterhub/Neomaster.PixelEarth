@@ -1,6 +1,6 @@
 namespace Neomaster.PixelEarth.App;
 
-public class GameStage
+public abstract class GameStage
 {
   public GameStage()
   {
