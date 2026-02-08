@@ -74,6 +74,11 @@ public class GameEngineBuilder
 
   public IGameEngine Build()
   {
+    if (_gamePipeline.StageCount == 0)
+    {
+      throw new InvalidOperationException("Cannot build the engine because the pipeline has no stages.");
+    }
+
     return new GameEngine(_services
       .BuildServiceProvider()
       .GetRequiredService<IGameWindowService>());
