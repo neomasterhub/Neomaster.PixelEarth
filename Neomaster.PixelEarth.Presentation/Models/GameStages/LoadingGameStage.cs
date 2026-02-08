@@ -12,9 +12,6 @@ public sealed class LoadingGameStage : BaseGameStage
   private readonly ITextureService _textureService;
   private readonly IUIService _uiService;
 
-  private TextureButton _buttonPlay;
-  private TextureButton _buttonExit;
-
   public LoadingGameStage(
     GamePipeline gamePipeline,
     IServiceProvider serviceProvider)
@@ -27,9 +24,6 @@ public sealed class LoadingGameStage : BaseGameStage
     _uiService = serviceProvider.GetRequiredService<IUIService>();
   }
 
-  public TextureButton ButtonPlay => _buttonPlay;
-  public TextureButton ButtonExit => _buttonExit;
-
   protected override bool RequiresStart()
   {
     return _gamePipeline.HasGameStateFlag(GameStateFlag.Loading);
@@ -39,8 +33,13 @@ public sealed class LoadingGameStage : BaseGameStage
   {
     _textureService.Load(_textures[TextureGroupName.Test]);
 
-    _buttonPlay = _uiService.CreateTextureButton(100f, 25f, 500f, 500f);
-    _buttonExit = _uiService.CreateTextureButton(190f, 70f, 500f, 500f);
+    var buffer = new MainMenuGameStageBuffer
+    {
+      PlayButton = _uiService.CreateTextureButton(100f, 25f, 500f, 500f),
+      ExitButton = _uiService.CreateTextureButton(190f, 70f, 500f, 500f),
+    };
+
+    _gamePipeline.AddStageBuffer(buffer);
 
     _mainMenuService.Create(
       [
