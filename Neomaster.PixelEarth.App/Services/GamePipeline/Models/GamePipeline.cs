@@ -6,6 +6,7 @@ public class GamePipeline
 {
   private readonly GameState _gameState = new();
   private readonly HashSet<GameStage> _stages = [];
+  private readonly HashSet<GameStageBuffer> _stageBuffers = [];
 
   private List<GameStage> _currentStages = [];
 
@@ -23,6 +24,17 @@ public class GamePipeline
   {
     _stages.Add(stageFactory(this));
     return this;
+  }
+
+  public GamePipeline AddStageBuffer(GameStageBuffer stageBuffer)
+  {
+    _stageBuffers.Add(stageBuffer);
+    return this;
+  }
+
+  public GameStageBuffer GetGameStageBuffer(int id)
+  {
+    return _stageBuffers.First(b => b.Id == id);
   }
 
   public void Next()
