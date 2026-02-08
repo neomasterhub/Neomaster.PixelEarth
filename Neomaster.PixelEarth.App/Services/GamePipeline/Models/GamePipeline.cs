@@ -6,6 +6,8 @@ public class GamePipeline
 
   private List<GameStage> _currentStages = [];
 
+  public int StageCount => _stages.Count;
+
   public GamePipeline AddStage(GameStage stage)
   {
     _stages.Add(stage);
