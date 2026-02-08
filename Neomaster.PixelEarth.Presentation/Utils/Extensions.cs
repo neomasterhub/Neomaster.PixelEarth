@@ -5,6 +5,12 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public static class Extensions
 {
+  public static TGameStageBuffer GetGameStageBuffer<TGameStageBuffer>(this GamePipeline pipeline, GameStageBufferId bufferId)
+    where TGameStageBuffer : BaseGameStageBuffer
+  {
+    return (TGameStageBuffer)pipeline.GetGameStageBuffer((int)bufferId);
+  }
+
   public static bool HasGameStateFlag(this GamePipeline pipeline, GameStateFlag flag)
   {
     return pipeline.GameState.HasFlag(flag);
