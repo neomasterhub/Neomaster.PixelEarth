@@ -28,7 +28,7 @@ public class GamePipeline
   public void Next()
   {
     _currentStages = _stages
-      .Where(s => s.Condition())
+      .Where(s => s.RequiresStart())
       .ToList();
   }
 
