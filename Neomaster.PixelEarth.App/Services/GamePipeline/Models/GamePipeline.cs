@@ -40,7 +40,7 @@ public class GamePipeline
   public void Next()
   {
     _currentStages = _stages
-      .Where(s => s.RequiresStart())
+      .Where(s => s.NextCondition())
       .ToList();
   }
 

@@ -11,7 +11,7 @@ public abstract class BaseGameStage : GameStage
     _serviceProvider = serviceProvider;
     OnWindowUpdate += OnUpdate;
     OnWindowRender += OnRender;
-    Condition = RequiresStart;
+    NextCondition = RequiresStart;
   }
 
   protected abstract bool RequiresStart();
