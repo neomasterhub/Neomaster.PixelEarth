@@ -7,17 +7,20 @@ namespace Neomaster.PixelEarth.Presentation;
 public sealed class LoadingGameStage : BaseGameStage
 {
   private readonly Textures _textures;
+  private readonly GamePipeline _gamePipeline;
   private readonly IMainMenuService _mainMenuService;
   private readonly ITextureService _textureService;
   private readonly IUIService _uiService;
 
   private TextureButton _buttonPlay;
   private TextureButton _buttonExit;
-  private bool _requiresStart = true;
 
-  public LoadingGameStage(IServiceProvider serviceProvider)
+  public LoadingGameStage(
+    GamePipeline gamePipeline,
+    IServiceProvider serviceProvider)
     : base(serviceProvider)
   {
+    _gamePipeline = gamePipeline;
     _textures = serviceProvider.GetRequiredService<Textures>();
     _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
@@ -29,11 +32,13 @@ public sealed class LoadingGameStage : BaseGameStage
 
   protected override bool RequiresStart()
   {
-    return _requiresStart;
+    return _gamePipeline.HasGameStateFlag(GameStateFlag.None);
   }
 
   protected override void OnUpdate(UpdateEventArgs? e = null)
   {
+    _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
+
     _textureService.Load(_textures[TextureGroupName.Test]);
 
     _buttonPlay = _uiService.CreateTextureButton(100f, 25f, 500f, 500f);
@@ -45,6 +50,7 @@ public sealed class LoadingGameStage : BaseGameStage
         new MainMenuItemDef(() => { }),
       ]);
 
-    _requiresStart = false;
+    _gamePipeline.RemoveGameStateFlag(GameStateFlag.Loading);
+    _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
   }
 }

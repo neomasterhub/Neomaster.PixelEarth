@@ -5,9 +5,19 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public static class Extensions
 {
-  public static bool HasStateFlag(this GamePipeline pipeline, GameStateFlag flag)
+  public static bool HasGameStateFlag(this GamePipeline pipeline, GameStateFlag flag)
   {
     return pipeline.GameState.HasFlag(flag);
+  }
+
+  public static void AddGameStateFlag(this GamePipeline pipeline, GameStateFlag flag)
+  {
+    pipeline.GameState.Flags |= (int)flag;
+  }
+
+  public static void RemoveGameStateFlag(this GamePipeline pipeline, GameStateFlag flag)
+  {
+    pipeline.GameState.Flags &= ~(int)flag;
   }
 
   public static bool HasFlag(this GameState state, GameStateFlag flag)

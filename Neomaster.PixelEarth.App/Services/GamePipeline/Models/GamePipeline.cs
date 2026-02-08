@@ -4,7 +4,7 @@ namespace Neomaster.PixelEarth.App;
 
 public class GamePipeline
 {
-  private readonly GameState _gameState;
+  private readonly GameState _gameState = new();
   private readonly HashSet<GameStage> _stages = [];
 
   private List<GameStage> _currentStages = [];
