@@ -10,7 +10,12 @@ public abstract class BaseGameStage : GameStage
   {
     _serviceProvider = serviceProvider;
     OnWindowUpdate += OnUpdate;
+    OnWindowRender += OnRender;
   }
 
   protected abstract void OnUpdate(UpdateEventArgs? e = null);
+
+  protected virtual void OnRender(RenderEventArgs? e = null)
+  {
+  }
 }
