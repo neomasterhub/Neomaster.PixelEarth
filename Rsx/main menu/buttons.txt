@@ -1,0 +1,6 @@
+play normal	0, 0, 70, 20
+play selected	0, 20, 70, 20
+demos normal	0, 40, 70, 20
+demos selected	0, 60, 70, 20
+exit normal	0, 80, 70, 20
+exit selected	0, 100, 70, 20
