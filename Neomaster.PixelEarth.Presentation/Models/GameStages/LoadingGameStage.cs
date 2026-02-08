@@ -7,6 +7,7 @@ namespace Neomaster.PixelEarth.Presentation;
 public sealed class LoadingGameStage : BaseGameStage
 {
   private readonly Textures _textures;
+  private readonly MainMenuGameStageBuffer _mainMenuGameStageBuffer;
   private readonly GamePipeline _gamePipeline;
   private readonly IMainMenuService _mainMenuService;
   private readonly ITextureService _textureService;
@@ -18,6 +19,7 @@ public sealed class LoadingGameStage : BaseGameStage
     : base(serviceProvider)
   {
     _gamePipeline = gamePipeline;
+    _mainMenuGameStageBuffer = _gamePipeline.GetGameStageBuffer<MainMenuGameStageBuffer>(GameStageBufferId.MainMenu);
     _textures = serviceProvider.GetRequiredService<Textures>();
     _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
@@ -33,13 +35,8 @@ public sealed class LoadingGameStage : BaseGameStage
   {
     _textureService.Load(_textures[TextureGroupName.Test]);
 
-    var buffer = new MainMenuGameStageBuffer
-    {
-      PlayButton = _uiService.CreateTextureButton(100f, 25f, 500f, 500f),
-      ExitButton = _uiService.CreateTextureButton(190f, 70f, 500f, 500f),
-    };
-
-    _gamePipeline.AddStageBuffer(buffer);
+    _mainMenuGameStageBuffer.PlayButton = _uiService.CreateTextureButton(100f, 25f, 500f, 500f);
+    _mainMenuGameStageBuffer.ExitButton = _uiService.CreateTextureButton(190f, 70f, 500f, 500f);
 
     _mainMenuService.Create(
       [

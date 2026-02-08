@@ -51,19 +51,30 @@ public class GameEngineBuilder
         .AddGroup(new TextureGroup(TextureGroupName.Level1)
           .AddTexture(new(TextureName.Ground, "ground.png"))));
 
+    return this;
+  }
+
+  public GameEngineBuilder AddDefaultGameStages()
+  {
     _serviceProvider = _services.BuildServiceProvider();
 
-    var loadingGameStage = new LoadingGameStage(_gamePipeline, _serviceProvider);
+    _gamePipeline.AddGameStateFlag(GameStateFlag.Loading);
 
     _gamePipeline
-      .AddStage(loadingGameStage)
-      .AddStage(p => new MainMenuGameStage(p, loadingGameStage.ButtonPlay, loadingGameStage.ButtonExit, _serviceProvider));
+      .AddStageBuffer(new MainMenuGameStageBuffer())
+      ;
+
+    _gamePipeline
+      .AddStage(p => new LoadingGameStage(p, _serviceProvider))
+      .AddStage(p => new MainMenuGameStage(p, _serviceProvider))
+      ;
 
     return this;
   }
 
   public GameEngineBuilder AddServices(Action<IServiceCollection> configure)
   {
+    ThrowIfPipelineHasStages();
     configure(_services);
     return this;
   }
@@ -87,6 +98,17 @@ public class GameEngineBuilder
       throw new InvalidOperationException("Cannot build the engine because the pipeline has no stages.");
     }
 
-    return new GameEngine(_serviceProvider.GetRequiredService<IGameWindowService>());
+    return new GameEngine(
+      (_serviceProvider ?? _services.BuildServiceProvider())
+      .GetRequiredService<IGameWindowService>());
+  }
+
+  private void ThrowIfPipelineHasStages()
+  {
+    if (_gamePipeline.StageCount > 0)
+    {
+      throw new InvalidOperationException(
+        "Cannot register services after stages have been added to the game pipeline.");
+    }
   }
 }
