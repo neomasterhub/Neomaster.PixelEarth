@@ -24,4 +24,10 @@ public class TexturesBuilder
 
     return this;
   }
+
+  public TexturesBuilder WithTexture(TextureId id, string fileName)
+  {
+    _lastTextureGroup.AddTexture(new((int)id, fileName));
+    return this;
+  }
 }
