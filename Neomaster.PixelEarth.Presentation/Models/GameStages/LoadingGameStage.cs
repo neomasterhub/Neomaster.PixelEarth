@@ -33,7 +33,7 @@ public sealed class LoadingGameStage : BaseGameStage
 
   protected override void OnUpdate(UpdateEventArgs? e = null)
   {
-    _textureService.Load(_textures[(int)TextureGroupId.Test]);
+    _textureService.Load(_textures.Get(TextureGroupId.Test));
 
     _mainMenuGameStageBuffer.PlayButton = _uiService.CreateTextureButton(100f, 25f, 500f, 500f);
     _mainMenuGameStageBuffer.ExitButton = _uiService.CreateTextureButton(190f, 70f, 500f, 500f);

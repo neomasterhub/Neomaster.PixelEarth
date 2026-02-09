@@ -5,6 +5,16 @@ namespace Neomaster.PixelEarth.Presentation;
 
 public static class Extensions
 {
+  public static Texture Get(this Textures textures, TextureGroupId groupId, TextureId textureId)
+  {
+    return textures.Get(groupId)[(int)textureId];
+  }
+
+  public static TextureGroup Get(this Textures textures, TextureGroupId groupId)
+  {
+    return textures[(int)groupId];
+  }
+
   public static TGameStageBuffer GetGameStageBuffer<TGameStageBuffer>(this GamePipeline pipeline, GameStageBufferId bufferId)
     where TGameStageBuffer : BaseGameStageBuffer
   {
