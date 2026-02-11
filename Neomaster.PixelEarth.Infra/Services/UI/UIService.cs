@@ -63,8 +63,7 @@ public class UIService(
     button.IsHovered = frameService.FrameInfo.CurrentHoveredId == button.Id;
     button.IsSelected = frameService.FrameInfo.SelectedId == button.Id;
 
-    shapeOptions ??= textureShapeOptions;
-    shapeOptions = shapeOptions.Value
+    var so = (shapeOptions ?? textureShapeOptions)
       .SetHovered(button.IsHovered)
       .SetSelected(button.IsSelected);
 
@@ -73,11 +72,7 @@ public class UIService(
       button.Y,
       button.Width,
       button.Height,
-      0,
-      0,
-      1,
-      1,
-      shapeOptions);
+      so);
 
     var mouseState = mouseService.GetRectangleMouseState(
       button.X,

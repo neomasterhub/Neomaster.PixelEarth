@@ -44,65 +44,34 @@ public class ShapeService : IShapeService
   }
 
   public void DrawTextureRectangle(
-    S.Vector4 xyWidthHeight,
-    S.Vector4 uvXYWidthHeight,
-    S.Vector4? uvHoveredXYWidthHeight = null,
-    S.Vector4? uvSelectedXYWidthHeight = null,
-    S.Vector4? uvSelectedHoveredXYWidthHeight = null,
-    TextureShapeOptions? shapeOptions = null)
-  {
-    shapeOptions ??= _textureShapeOptions;
-
-    var uv = shapeOptions.Value.IsHovered
-      ? (shapeOptions.Value.IsSelected
-        ? uvSelectedHoveredXYWidthHeight ?? uvXYWidthHeight
-        : uvHoveredXYWidthHeight ?? uvXYWidthHeight)
-      : (shapeOptions.Value.IsSelected
-        ? uvSelectedXYWidthHeight ?? uvXYWidthHeight
-        : uvXYWidthHeight);
-
-    DrawTextureRectangle(
-      new S.Vector2(xyWidthHeight.X, xyWidthHeight.Y),
-      new S.Vector2(xyWidthHeight.X + xyWidthHeight.Z, xyWidthHeight.Y + xyWidthHeight.W),
-      new S.Vector2(uv.X, uv.Y),
-      new S.Vector2(uv.X + uv.Z, uv.Y + uv.W),
-      shapeOptions);
-  }
-
-  public void DrawTextureRectangle(
     float x,
     float y,
     float width,
     float height,
-    float uvX,
-    float uvY,
-    float uvWidth,
-    float uvHeight,
     TextureShapeOptions? shapeOptions = null)
   {
     DrawTextureRectangle(
       new S.Vector2(x, y),
       new S.Vector2(x + width, y + height),
-      new S.Vector2(uvX, uvY),
-      new S.Vector2(uvX + uvWidth, uvY + uvHeight),
       shapeOptions);
   }
 
   public void DrawTextureRectangle(
     S.Vector2 topLeft,
     S.Vector2 bottomRight,
-    S.Vector2 uvTopLeft,
-    S.Vector2 uvBottomRight,
     TextureShapeOptions? shapeOptions = null)
   {
-    shapeOptions ??= _textureShapeOptions;
+    var so = shapeOptions ?? _textureShapeOptions;
 
-    var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
-    var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
-    var uvBottomLeft = new S.Vector2(uvTopLeft.X, uvBottomRight.Y);
-    var uvTopRight = new S.Vector2(uvBottomRight.X, uvTopLeft.Y);
-    //DrawTextureTriangle(topLeft, bottomLeft, bottomRight, uvTopLeft, uvBottomLeft, uvBottomRight, shapeOptions);
-    //DrawTextureTriangle(topLeft, bottomRight, topRight, uvTopLeft, uvBottomRight, uvTopRight, shapeOptions);
+    so.UV ??= [new(0, 0), new(1, 1)];
+    so.UVHovered ??= so.UV;
+    so.UVSelected ??= so.UV;
+    so.UVSelectedHovered ??= so.UVSelected;
+
+    var (tr1so, tr2so) = so.AsRectangleToTriangles();
+
+    DrawTextureTriangle(topLeft, new(topLeft.X, bottomRight.Y), bottomRight, tr1so);
+    DrawTextureTriangle(topLeft, bottomRight, new(bottomRight.X, topLeft.Y), tr2so);
   }
 
   public void DrawTextureTriangle(
@@ -114,9 +83,8 @@ public class ShapeService : IShapeService
     EnsureShadersInitialized();
     EnsureBuffersInitialized();
 
-    shapeOptions ??= _textureShapeOptions;
-
-    var currentShapeState = shapeOptions.Value.GetCurrentState();
+    var so = shapeOptions ?? _textureShapeOptions;
+    var currentShapeState = so.GetCurrentState();
     var uvA = currentShapeState.UV[0];
     var uvB = currentShapeState.UV[1];
     var uvC = currentShapeState.UV[2];
