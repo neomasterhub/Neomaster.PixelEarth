@@ -17,12 +17,7 @@ public interface IShapeService
     Vector2 bottomRight,
     TextureShapeOptions? shapeOptions = null);
 
-  void DrawTextureTriangle(
-    Vector2 a,
-    Vector2 b,
-    Vector2 c,
-    TextureShapeOptions? shapeOptions = null);
-
+  void DrawTextureTriangle(Triangle triangle, TextureShapeOptions? shapeOptions = null);
   void DrawColorRectangle(Rectangle rectangle, ColorShapeOptions? shapeOptions = null);
   void DrawColorTriangle(Triangle triangle, ColorShapeOptions? shapeOptions = null);
   void InitializeBuffers();

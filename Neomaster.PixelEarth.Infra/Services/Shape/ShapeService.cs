@@ -75,11 +75,7 @@ public class ShapeService : IShapeService
     DrawTextureTriangle(topLeft, bottomRight, new(bottomRight.X, topLeft.Y), tr2so);
   }
 
-  public void DrawTextureTriangle(
-    S.Vector2 a,
-    S.Vector2 b,
-    S.Vector2 c,
-    TextureShapeOptions? shapeOptions = null)
+  public void DrawTextureTriangle(Triangle triangle, TextureShapeOptions? shapeOptions = null)
   {
     EnsureShadersInitialized();
     EnsureBuffersInitialized();
@@ -92,9 +88,9 @@ public class ShapeService : IShapeService
 
     var vertices = new float[]
     {
-      a.X, a.Y, uvA.X, 1f - uvA.Y,
-      b.X, b.Y, uvB.X, 1f - uvB.Y,
-      c.X, c.Y, uvC.X, 1f - uvC.Y,
+      triangle.A.X, triangle.A.Y, uvA.X, 1f - uvA.Y,
+      triangle.B.X, triangle.B.Y, uvB.X, 1f - uvB.Y,
+      triangle.C.X, triangle.C.Y, uvC.X, 1f - uvC.Y,
     };
 
     GL.BindBuffer(BufferTarget.ArrayBuffer, _textureBaoId);
@@ -107,7 +103,7 @@ public class ShapeService : IShapeService
     GL.ActiveTexture(TextureUnit.Texture0);
     GL.BindTexture(TextureTarget.Texture2D, currentShapeState.TextureId);
 
-    shapeOptions.Value.UseWithShaderProgram(_shaderService.TextureShaderProgramInfo);
+    so.UseWithShaderProgram(_shaderService.TextureShaderProgramInfo);
     _positionProjection.BindMatrix4(_shaderService.TextureShaderProgramInfo.Id);
 
     GL.BindVertexArray(_textureVaoId);
@@ -133,9 +129,9 @@ public class ShapeService : IShapeService
 
     var vertices = new float[]
     {
-        triangle.A.X, triangle.A.Y,
-        triangle.B.X, triangle.B.Y,
-        triangle.C.X, triangle.C.Y,
+      triangle.A.X, triangle.A.Y,
+      triangle.B.X, triangle.B.Y,
+      triangle.C.X, triangle.C.Y,
     };
 
     GL.BindBuffer(BufferTarget.ArrayBuffer, _colorBaoId);
