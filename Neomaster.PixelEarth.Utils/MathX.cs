@@ -25,11 +25,6 @@ public static class MathX
 
   public static class Rectangle
   {
-    public static (Vector2 topLeft, Vector2 bottomRight) GetPoints(float x, float y, float width, float height)
-    {
-      return (new(x, y), new(x + width, y + height));
-    }
-
     public static Vector2[] GetTrianglePoints_TopRight(Vector2[] topLeft_bottomRight)
     {
       return GetTrianglePoints_TopRight(topLeft_bottomRight[0], topLeft_bottomRight[1]);

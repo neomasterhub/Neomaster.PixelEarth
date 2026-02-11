@@ -59,7 +59,7 @@ public struct TextureShapeOptions
     UV = uv;
     UVHovered = uvHovered ?? UV;
     UVSelected = uvSelected ?? UV;
-    UVSelectedHovered = uvSelectedHovered ?? uvSelected;
+    UVSelectedHovered = uvSelectedHovered ?? UVSelected;
   }
 
   public readonly TextureShapeState GetCurrentState()
