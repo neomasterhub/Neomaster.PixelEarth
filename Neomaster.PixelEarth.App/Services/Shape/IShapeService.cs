@@ -1,4 +1,5 @@
 using System.Numerics;
+using Neomaster.PixelEarth.Utils;
 
 namespace Neomaster.PixelEarth.App;
 
@@ -34,11 +35,7 @@ public interface IShapeService
     Vector2 bottomRight,
     ColorShapeOptions? shapeOptions = null);
 
-  void DrawColorTriangle(
-    Vector2 a,
-    Vector2 b,
-    Vector2 c,
-    ColorShapeOptions? shapeOptions = null);
+  void DrawColorTriangle(Triangle triangle, ColorShapeOptions? shapeOptions = null);
 
   void InitializeBuffers();
 }

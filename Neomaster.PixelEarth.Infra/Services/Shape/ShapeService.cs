@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Infra.Extensions;
+using Neomaster.PixelEarth.Utils;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using S = System.Numerics;
@@ -142,22 +143,18 @@ public class ShapeService : IShapeService
     DrawColorTriangle(topLeft, bottomRight, topRight, shapeOptions);
   }
 
-  public void DrawColorTriangle(
-    S.Vector2 a,
-    S.Vector2 b,
-    S.Vector2 c,
-    ColorShapeOptions? shapeOptions = null)
+  public void DrawColorTriangle(Triangle triangle, ColorShapeOptions? shapeOptions = null)
   {
     EnsureShadersInitialized();
     EnsureBuffersInitialized();
 
-    shapeOptions ??= _colorShapeOptions;
+    var so = shapeOptions ?? _colorShapeOptions;
 
     var vertices = new float[]
     {
-        a.X, a.Y,
-        b.X, b.Y,
-        c.X, c.Y,
+        triangle.A.X, triangle.A.Y,
+        triangle.B.X, triangle.B.Y,
+        triangle.C.X, triangle.C.Y,
     };
 
     GL.BindBuffer(BufferTarget.ArrayBuffer, _colorBaoId);
@@ -167,10 +164,10 @@ public class ShapeService : IShapeService
       vertices,
       BufferUsageHint.DynamicDraw);
 
-    shapeOptions.Value.UseWithShaderProgram(_shaderService.ColorShaderProgramInfo);
+    so.UseWithShaderProgram(_shaderService.ColorShaderProgramInfo);
     _positionProjection.BindMatrix4(_shaderService.ColorShaderProgramInfo.Id);
 
-    shapeOptions.Value.CullFaces.Apply();
+    so.CullFaces.Apply();
     GL.FrontFace(_renderSettings.WindingOrder.ToGlType());
 
     GL.BindVertexArray(_colorVaoId);
