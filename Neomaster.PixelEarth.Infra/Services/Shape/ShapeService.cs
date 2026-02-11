@@ -4,7 +4,6 @@ using Neomaster.PixelEarth.Infra.Extensions;
 using Neomaster.PixelEarth.Utils;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
-using S = System.Numerics;
 
 namespace Neomaster.PixelEarth.Infra;
 
@@ -44,35 +43,14 @@ public class ShapeService : IShapeService
         1f));
   }
 
-  public void DrawTextureRectangle(
-    float x,
-    float y,
-    float width,
-    float height,
-    TextureShapeOptions? shapeOptions = null)
-  {
-    DrawTextureRectangle(
-      new S.Vector2(x, y),
-      new S.Vector2(x + width, y + height),
-      shapeOptions);
-  }
-
-  public void DrawTextureRectangle(
-    S.Vector2 topLeft,
-    S.Vector2 bottomRight,
-    TextureShapeOptions? shapeOptions = null)
+  public void DrawTextureRectangle(Rectangle rectangle, TextureShapeOptions? shapeOptions = null)
   {
     var so = shapeOptions ?? _textureShapeOptions;
-
-    so.UV ??= [new(0, 0), new(1, 1)];
-    so.UVHovered ??= so.UV;
-    so.UVSelected ??= so.UV;
-    so.UVSelectedHovered ??= so.UVSelected;
-
+    var (tr1, tr2) = rectangle.GetTriangles();
     var (tr1so, tr2so) = so.AsRectangleToTriangles();
 
-    DrawTextureTriangle(topLeft, new(topLeft.X, bottomRight.Y), bottomRight, tr1so);
-    DrawTextureTriangle(topLeft, bottomRight, new(bottomRight.X, topLeft.Y), tr2so);
+    DrawTextureTriangle(tr1, tr1so);
+    DrawTextureTriangle(tr2, tr2so);
   }
 
   public void DrawTextureTriangle(Triangle triangle, TextureShapeOptions? shapeOptions = null)
@@ -126,7 +104,6 @@ public class ShapeService : IShapeService
     EnsureBuffersInitialized();
 
     var so = shapeOptions ?? _colorShapeOptions;
-
     var vertices = new float[]
     {
       triangle.A.X, triangle.A.Y,
