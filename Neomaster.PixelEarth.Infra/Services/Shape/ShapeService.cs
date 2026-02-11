@@ -117,30 +117,11 @@ public class ShapeService : IShapeService
     GL.UseProgram(0);
   }
 
-  public void DrawColorRectangle(
-    float x,
-    float y,
-    float width,
-    float height,
-    ColorShapeOptions? shapeOptions = null)
+  public void DrawColorRectangle(Rectangle rectangle, ColorShapeOptions? shapeOptions = null)
   {
-    DrawColorRectangle(
-      new S.Vector2(x, y),
-      new S.Vector2(x + width, y + height),
-      shapeOptions);
-  }
-
-  public void DrawColorRectangle(
-    S.Vector2 topLeft,
-    S.Vector2 bottomRight,
-    ColorShapeOptions? shapeOptions = null)
-  {
-    shapeOptions ??= _colorShapeOptions;
-
-    var bottomLeft = new S.Vector2(topLeft.X, bottomRight.Y);
-    var topRight = new S.Vector2(bottomRight.X, topLeft.Y);
-    DrawColorTriangle(topLeft, bottomLeft, bottomRight, shapeOptions);
-    DrawColorTriangle(topLeft, bottomRight, topRight, shapeOptions);
+    var (tr1, tr2) = rectangle.GetTriangles();
+    DrawColorTriangle(tr1, shapeOptions);
+    DrawColorTriangle(tr2, shapeOptions);
   }
 
   public void DrawColorTriangle(Triangle triangle, ColorShapeOptions? shapeOptions = null)

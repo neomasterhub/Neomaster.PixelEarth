@@ -23,19 +23,7 @@ public interface IShapeService
     Vector2 c,
     TextureShapeOptions? shapeOptions = null);
 
-  void DrawColorRectangle(
-    float x,
-    float y,
-    float width,
-    float height,
-    ColorShapeOptions? shapeOptions = null);
-
-  void DrawColorRectangle(
-    Vector2 topLeft,
-    Vector2 bottomRight,
-    ColorShapeOptions? shapeOptions = null);
-
+  void DrawColorRectangle(Rectangle rectangle, ColorShapeOptions? shapeOptions = null);
   void DrawColorTriangle(Triangle triangle, ColorShapeOptions? shapeOptions = null);
-
   void InitializeBuffers();
 }
