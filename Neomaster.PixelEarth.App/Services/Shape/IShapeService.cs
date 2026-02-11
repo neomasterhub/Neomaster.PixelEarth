@@ -30,20 +30,10 @@ public interface IShapeService
     Vector2 uvBottomRight,
     TextureShapeOptions? shapeOptions = null);
 
-  void DrawColorTriangle(
-    Vector2 a,
-    Vector2 b,
-    Vector2 c,
-    ColorShapeOptions? shapeOptions = null);
-
   void DrawTextureTriangle(
     Vector2 a,
     Vector2 b,
     Vector2 c,
-    Vector2[] uvAbc,
-    Vector2[] uvAbcHovered = null,
-    Vector2[] uvAbcSelected = null,
-    Vector2[] uvAbcSelectedHovered = null,
     TextureShapeOptions? shapeOptions = null);
 
   void DrawColorRectangle(
@@ -58,14 +48,11 @@ public interface IShapeService
     Vector2 bottomRight,
     ColorShapeOptions? shapeOptions = null);
 
-  void DrawTextureTriangle(
+  void DrawColorTriangle(
     Vector2 a,
     Vector2 b,
     Vector2 c,
-    Vector2 uvA,
-    Vector2 uvB,
-    Vector2 uvC,
-    TextureShapeOptions? shapeOptions = null);
+    ColorShapeOptions? shapeOptions = null);
 
   void InitializeBuffers();
 }
