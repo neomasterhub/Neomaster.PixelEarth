@@ -21,4 +21,9 @@ public static class MathX
   {
     return (elementCount * (elementLength + gap)) - gap;
   }
+
+  public static class Rectangle
+  {
+
+  }
 }
