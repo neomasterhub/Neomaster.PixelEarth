@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace Neomaster.PixelEarth.App;
 
 public struct TextureShapeOptions
@@ -6,10 +8,10 @@ public struct TextureShapeOptions
   public int TextureHoveredId;
   public int TextureSelectedId;
   public int TextureSelectedHoveredId;
-  public float[] UV;
-  public float[] UVHovered;
-  public float[] UVSelected;
-  public float[] UVSelectedHovered;
+  public Vector2[] UV;
+  public Vector2[] UVHovered;
+  public Vector2[] UVSelected;
+  public Vector2[] UVSelectedHovered;
   public bool IsHovered;
   public bool IsSelected;
 
@@ -18,10 +20,10 @@ public struct TextureShapeOptions
     Texture hovered = null,
     Texture selected = null,
     Texture selectedHovered = null,
-    float[] uv = null,
-    float[] uvHovered = null,
-    float[] uvSelected = null,
-    float[] uvSelectedHovered = null)
+    Vector2[] uv = null,
+    Vector2[] uvHovered = null,
+    Vector2[] uvSelected = null,
+    Vector2[] uvSelectedHovered = null)
   {
     ArgumentNullException.ThrowIfNull(normal);
 
@@ -39,15 +41,10 @@ public struct TextureShapeOptions
     TextureSelectedId = selected.LoadedId;
     TextureSelectedHoveredId = selectedHovered.LoadedId;
 
-    uv ??= [0, 0, 1, 1];
-    uvHovered ??= uv;
-    uvSelected ??= uv;
-    uvSelectedHovered ??= uvSelected;
-
-    UV = uv;
-    UVHovered = uvHovered;
-    UVSelected = uvSelected;
-    UVSelectedHovered = uvSelectedHovered;
+    UV = uv ?? [];
+    UVHovered = uvHovered ?? UV;
+    UVSelected = uvSelected ?? UV;
+    UVSelectedHovered = uvSelectedHovered ?? uvSelected;
   }
 
   public readonly TextureShapeState GetCurrentState()
