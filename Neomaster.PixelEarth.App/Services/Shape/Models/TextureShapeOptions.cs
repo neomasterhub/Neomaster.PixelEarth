@@ -54,6 +54,41 @@ public struct TextureShapeOptions
     ? (IsSelected ? TextureSelectedHoveredId : TextureHoveredId)
     : (IsSelected ? TextureSelectedId : TextureId);
 
+  public readonly (int textureId, float[] uv) Current()
+  {
+    int textureId;
+    float[] uv;
+
+    if (IsHovered)
+    {
+      if (IsSelected)
+      {
+        textureId = TextureSelectedHoveredId;
+        uv = UVSelectedHovered;
+      }
+      else
+      {
+        textureId = TextureHoveredId;
+        uv = UVHovered;
+      }
+    }
+    else
+    {
+      if (IsSelected)
+      {
+        textureId = TextureSelectedId;
+        uv = UVSelected;
+      }
+      else
+      {
+        textureId = TextureId;
+        uv = UV;
+      }
+    }
+
+    return (textureId, uv);
+  }
+
   public TextureShapeOptions SetHovered(bool isHovered)
   {
     IsHovered = isHovered;
