@@ -17,6 +17,20 @@ public struct TextureShapeOptions
   public bool IsSelected;
 
   public TextureShapeOptions(
+    Texture map,
+    Vector2[] uvPx,
+    Vector2[] uvHoveredPx = null,
+    Vector2[] uvSelectedPx = null,
+    Vector2[] uvSelectedHoveredPx = null)
+    : this(map, null, null, null, null, null, null)
+  {
+    UV = GetUvFromPx(uvPx, map.Width, map.Height);
+    UVHovered = GetUvFromPx(uvHoveredPx, map.Width, map.Height) ?? UV;
+    UVSelected = GetUvFromPx(uvSelectedPx, map.Width, map.Height) ?? UV;
+    UVSelectedHovered = GetUvFromPx(uvSelectedHoveredPx, map.Width, map.Height) ?? UVSelected;
+  }
+
+  public TextureShapeOptions(
     Texture normal,
     Texture hovered = null,
     Texture selected = null,
@@ -121,5 +135,10 @@ public struct TextureShapeOptions
     topRight.UVSelectedHovered = MathX.Rectangle.GetTrianglePoints_TopRight(UVSelectedHovered);
 
     return (bottomLeft, topRight);
+  }
+
+  private static Vector2[] GetUvFromPx(Vector2[] uvPx, float width, float height)
+  {
+    return uvPx?.Select(uv => new Vector2(uv.X / width, uv.Y / height)).ToArray();
   }
 }
