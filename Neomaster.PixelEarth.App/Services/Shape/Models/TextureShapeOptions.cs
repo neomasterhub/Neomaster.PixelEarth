@@ -62,6 +62,32 @@ public struct TextureShapeOptions
     UVSelectedHovered = uvSelectedHovered ?? UVSelected;
   }
 
+  public static TextureShapeOptions CreateForRectangle(
+    Texture map,
+    Vector4 uvXywhPx,
+    Vector4? uvXywhHoveredPx = null,
+    Vector4? uvXywhSelectedPx = null,
+    Vector4? uvXywhSelectedHoveredPx = null)
+  {
+    var uvPx = MathX.Rectangle.Points.TopRight_BottomLeft(uvXywhPx);
+
+    var uvHoveredPx = uvXywhHoveredPx != null
+      ? MathX.Rectangle.Points.TopRight_BottomLeft(uvXywhHoveredPx.Value)
+      : uvPx;
+
+    var uvSelectedPx = uvXywhSelectedPx != null
+      ? MathX.Rectangle.Points.TopRight_BottomLeft(uvXywhSelectedPx.Value)
+      : uvPx;
+
+    var uvSelectedHoveredPx = uvXywhSelectedHoveredPx != null
+      ? MathX.Rectangle.Points.TopRight_BottomLeft(uvXywhSelectedHoveredPx.Value)
+      : uvSelectedPx;
+
+    var opt = new TextureShapeOptions(map, uvPx, uvHoveredPx, uvSelectedPx, uvSelectedHoveredPx);
+
+    return opt;
+  }
+
   public readonly TextureShapeState GetCurrentState()
   {
     TextureShapeState state;

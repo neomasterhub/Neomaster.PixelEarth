@@ -25,6 +25,19 @@ public static class MathX
 
   public static class Rectangle
   {
+    public static class Points
+    {
+      public static Vector2[] TopRight_BottomLeft(Vector4 xywh)
+      {
+        return [new(xywh.X, xywh.Y), new(xywh.X + xywh.Z, xywh.Y + xywh.W)];
+      }
+
+      public static Vector2[] TopRight_BottomLeft(float x, float y, float width, float height)
+      {
+        return [new(x, y), new(x + width, y + height)];
+      }
+    }
+
     public static Vector2[] GetTrianglePoints_TopRight(Vector2[] topLeft_bottomRight)
     {
       return GetTrianglePoints_TopRight(topLeft_bottomRight[0], topLeft_bottomRight[1]);
