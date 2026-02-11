@@ -64,17 +64,17 @@ public struct TextureShapeOptions
 
   public static TextureShapeOptions CreateForRectangle(
     Texture map,
-    Rectangle uvXywhPx,
-    Rectangle uvXywhHoveredPx = null,
-    Rectangle uvXywhSelectedPx = null,
-    Rectangle uvXywhSelectedHoveredPx = null)
+    Rectangle uvPx,
+    Rectangle? uvHoveredPx = null,
+    Rectangle? uvSelectedPx = null,
+    Rectangle? uvSelectedHoveredPx = null)
   {
-    var uvPx = uvXywhPx.GetVerticies_TL_BR();
-    var uvHoveredPx = uvXywhHoveredPx?.GetVerticies_TL_BR() ?? uvPx;
-    var uvSelectedPx = uvXywhSelectedPx?.GetVerticies_TL_BR() ?? uvPx;
-    var uvSelectedHoveredPx = uvXywhSelectedHoveredPx?.GetVerticies_TL_BR() ?? uvSelectedPx;
+    var vUvPx = uvPx.GetVerticies_TL_BR();
+    var vUvHoveredPx = uvHoveredPx?.GetVerticies_TL_BR() ?? vUvPx;
+    var vUvSelectedPx = uvSelectedPx?.GetVerticies_TL_BR() ?? vUvPx;
+    var vUvSelectedHoveredPx = uvSelectedHoveredPx?.GetVerticies_TL_BR() ?? vUvSelectedPx;
 
-    var opt = new TextureShapeOptions(map, uvPx, uvHoveredPx, uvSelectedPx, uvSelectedHoveredPx);
+    var opt = new TextureShapeOptions(map, vUvPx, vUvHoveredPx, vUvSelectedPx, vUvSelectedHoveredPx);
 
     return opt;
   }
