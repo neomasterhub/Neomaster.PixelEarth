@@ -2,11 +2,11 @@ using System.Numerics;
 
 namespace Neomaster.PixelEarth.Utils;
 
-public record Triangle
+public struct Triangle
 {
-  public Triangle()
-  {
-  }
+  public Vector2 A;
+  public Vector2 B;
+  public Vector2 C;
 
   public Triangle(Vector2 a, Vector2 b, Vector2 c)
   {
@@ -15,11 +15,7 @@ public record Triangle
     C = c;
   }
 
-  public Vector2 A { get; set; }
-  public Vector2 B { get; set; }
-  public Vector2 C { get; set; }
-
-  public Vector2[] GetVerticies()
+  public readonly Vector2[] GetVerticies()
   {
     return [A, B, C];
   }

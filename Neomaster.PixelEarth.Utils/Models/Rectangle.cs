@@ -2,10 +2,19 @@ using System.Numerics;
 
 namespace Neomaster.PixelEarth.Utils;
 
-public record Rectangle
+public struct Rectangle
 {
-  public Rectangle()
+  public float X;
+  public float Y;
+  public float Width;
+  public float Height;
+
+  public Rectangle(float x, float y, float width, float height)
   {
+    X = x;
+    Y = y;
+    Width = width;
+    Height = height;
   }
 
   public Rectangle(Vector4 v)
@@ -16,12 +25,14 @@ public record Rectangle
     Height = v.W;
   }
 
-  public float X { get; set; }
-  public float Y { get; set; }
-  public float Width { get; set; }
-  public float Height { get; set; }
+  public readonly (Triangle tr, Triangle bl) GetTriangles()
+  {
+    return (
+      new(new(X, Y), new(X + Width, Y + Height), new(X + Width, Y)),
+      new(new(X, Y), new(X, Y + Height), new(X + Width, Y + Height)));
+  }
 
-  public Vector2[] GetVerticies_TL_BR()
+  public readonly Vector2[] GetVerticies_TL_BR()
   {
     return [new(X, Y), new(X + Width, Y + Height)];
   }
