@@ -1,4 +1,5 @@
 using System.Numerics;
+using Neomaster.PixelEarth.Utils;
 
 namespace Neomaster.PixelEarth.App;
 
@@ -103,5 +104,22 @@ public struct TextureShapeOptions
   {
     IsSelected = isSelected;
     return this;
+  }
+
+  public readonly (TextureShapeOptions bottomLeft, TextureShapeOptions topRight) AsRectangleToTriangles()
+  {
+    var bottomLeft = this;
+    bottomLeft.UV = MathX.Rectangle.GetTrianglePoints_BottomLeft(UV);
+    bottomLeft.UVHovered = MathX.Rectangle.GetTrianglePoints_BottomLeft(UVHovered);
+    bottomLeft.UVSelected = MathX.Rectangle.GetTrianglePoints_BottomLeft(UVSelected);
+    bottomLeft.UVSelectedHovered = MathX.Rectangle.GetTrianglePoints_BottomLeft(UVSelectedHovered);
+
+    var topRight = this;
+    topRight.UV = MathX.Rectangle.GetTrianglePoints_TopRight(UV);
+    topRight.UVHovered = MathX.Rectangle.GetTrianglePoints_TopRight(UVHovered);
+    topRight.UVSelected = MathX.Rectangle.GetTrianglePoints_TopRight(UVSelected);
+    topRight.UVSelectedHovered = MathX.Rectangle.GetTrianglePoints_TopRight(UVSelectedHovered);
+
+    return (bottomLeft, topRight);
   }
 }
