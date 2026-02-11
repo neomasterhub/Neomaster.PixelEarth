@@ -56,7 +56,7 @@ public struct TextureShapeOptions
     TextureSelectedId = selected.LoadedId;
     TextureSelectedHoveredId = selectedHovered.LoadedId;
 
-    UV = uv ?? [];
+    UV = uv;
     UVHovered = uvHovered ?? UV;
     UVSelected = uvSelected ?? UV;
     UVSelectedHovered = uvSelectedHovered ?? uvSelected;
