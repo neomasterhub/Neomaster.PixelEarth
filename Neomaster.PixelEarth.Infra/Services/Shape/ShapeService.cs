@@ -12,7 +12,6 @@ public class ShapeService : IShapeService
   private readonly IShaderService _shaderService;
   private readonly RenderSettings _renderSettings;
   private readonly ColorShapeOptions _colorShapeOptions;
-  private readonly TextureShapeOptions _textureShapeOptions;
   private readonly ShaderProgramArg<Matrix4> _positionProjection;
 
   private int _colorVaoId;
@@ -24,13 +23,11 @@ public class ShapeService : IShapeService
     IShaderService shaderService,
     RenderSettings renderSettings,
     WindowSettings windowSettings,
-    ColorShapeOptions colorShapeOptions,
-    TextureShapeOptions textureShapeOptions)
+    ColorShapeOptions colorShapeOptions)
   {
     _shaderService = shaderService;
     _renderSettings = renderSettings;
     _colorShapeOptions = colorShapeOptions;
-    _textureShapeOptions = textureShapeOptions;
 
     _positionProjection = new ShaderProgramArg<Matrix4>(
       "uProjection",
@@ -43,20 +40,18 @@ public class ShapeService : IShapeService
         1f));
   }
 
-  public void DrawTextureRectangle(Rectangle rectangle, TextureShapeOptions? shapeOptions = null)
+  public void DrawTextureRectangle(Rectangle rectangle, TextureShapeOptions shapeOptions)
   {
-    var so = shapeOptions ?? _textureShapeOptions;
-    DrawTextureTriangle(rectangle.GetTriangle_BL(), so.FromRectangleForTriangle_BL());
-    DrawTextureTriangle(rectangle.GetTriangle_TR(), so.FromRectangleForTriangle_TR());
+    DrawTextureTriangle(rectangle.GetTriangle_BL(), shapeOptions.FromRectangleForTriangle_BL());
+    DrawTextureTriangle(rectangle.GetTriangle_TR(), shapeOptions.FromRectangleForTriangle_TR());
   }
 
-  public void DrawTextureTriangle(Triangle triangle, TextureShapeOptions? shapeOptions = null)
+  public void DrawTextureTriangle(Triangle triangle, TextureShapeOptions shapeOptions)
   {
     EnsureShadersInitialized();
     EnsureBuffersInitialized();
 
-    var so = shapeOptions ?? _textureShapeOptions;
-    var currentShapeState = so.GetCurrentState();
+    var currentShapeState = shapeOptions.GetCurrentState();
     var uvA = currentShapeState.UV[0];
     var uvB = currentShapeState.UV[1];
     var uvC = currentShapeState.UV[2];
@@ -78,7 +73,7 @@ public class ShapeService : IShapeService
     GL.ActiveTexture(TextureUnit.Texture0);
     GL.BindTexture(TextureTarget.Texture2D, currentShapeState.TextureId);
 
-    so.UseWithShaderProgram(_shaderService.TextureShaderProgramInfo);
+    shapeOptions.UseWithShaderProgram(_shaderService.TextureShaderProgramInfo);
     _positionProjection.BindMatrix4(_shaderService.TextureShaderProgramInfo.Id);
 
     GL.BindVertexArray(_textureVaoId);
