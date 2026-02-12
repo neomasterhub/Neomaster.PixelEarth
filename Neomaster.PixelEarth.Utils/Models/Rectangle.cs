@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 
 namespace Neomaster.PixelEarth.Utils;
@@ -25,11 +26,25 @@ public struct Rectangle
     Height = v.W;
   }
 
-  public readonly (Triangle tr, Triangle bl) GetTriangles()
+  public Rectangle(Vector2[] tl_br)
+  {
+    if (tl_br.Length != 2)
+    {
+      throw new InvalidOperationException(
+        "The array must contain exactly two points: [top-left, bottom-right].");
+    }
+
+    X = tl_br[0].X;
+    Y = tl_br[0].Y;
+    Width = tl_br[1].X - X;
+    Height = tl_br[1].Y - Y;
+  }
+
+  public readonly (Triangle bl, Triangle tr) GetTriangles()
   {
     return (
-      new(new(X, Y), new(X + Width, Y + Height), new(X + Width, Y)),
-      new(new(X, Y), new(X, Y + Height), new(X + Width, Y + Height)));
+      new(new(X, Y), new(X, Y + Height), new(X + Width, Y + Height)),
+      new(new(X, Y), new(X + Width, Y + Height), new(X + Width, Y)));
   }
 
   public readonly Vector2[] GetVerticies_TL_BR()
