@@ -64,12 +64,12 @@ public struct TextureShapeOptions
 
   public static TextureShapeOptions CreateForRectangle(
     Texture map,
-    Rectangle uvPx,
+    Rectangle? uvPx = null,
     Rectangle? uvHoveredPx = null,
     Rectangle? uvSelectedPx = null,
     Rectangle? uvSelectedHoveredPx = null)
   {
-    var vUvPx = uvPx.GetVerticies_TL_BR();
+    var vUvPx = (uvPx ?? new(0, 0, map.Width, map.Height)).GetVerticies_TL_BR();
     var vUvHoveredPx = uvHoveredPx?.GetVerticies_TL_BR() ?? vUvPx;
     var vUvSelectedPx = uvSelectedPx?.GetVerticies_TL_BR() ?? vUvPx;
     var vUvSelectedHoveredPx = uvSelectedHoveredPx?.GetVerticies_TL_BR() ?? vUvSelectedPx;
