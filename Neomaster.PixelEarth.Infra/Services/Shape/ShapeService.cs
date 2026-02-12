@@ -46,11 +46,8 @@ public class ShapeService : IShapeService
   public void DrawTextureRectangle(Rectangle rectangle, TextureShapeOptions? shapeOptions = null)
   {
     var so = shapeOptions ?? _textureShapeOptions;
-    var (tr1, tr2) = rectangle.GetTriangles();
-    var (tr1so, tr2so) = so.AsRectangleToTriangles();
-
-    DrawTextureTriangle(tr1, tr1so);
-    DrawTextureTriangle(tr2, tr2so);
+    DrawTextureTriangle(rectangle.GetTriangle_BL(), so.FromRectangleForTriangle_BL());
+    DrawTextureTriangle(rectangle.GetTriangle_TR(), so.FromRectangleForTriangle_TR());
   }
 
   public void DrawTextureTriangle(Triangle triangle, TextureShapeOptions? shapeOptions = null)
@@ -93,9 +90,8 @@ public class ShapeService : IShapeService
 
   public void DrawColorRectangle(Rectangle rectangle, ColorShapeOptions? shapeOptions = null)
   {
-    var (tr1, tr2) = rectangle.GetTriangles();
-    DrawColorTriangle(tr1, shapeOptions);
-    DrawColorTriangle(tr2, shapeOptions);
+    DrawColorTriangle(rectangle.GetTriangle_BL(), shapeOptions);
+    DrawColorTriangle(rectangle.GetTriangle_TR(), shapeOptions);
   }
 
   public void DrawColorTriangle(Triangle triangle, ColorShapeOptions? shapeOptions = null)
