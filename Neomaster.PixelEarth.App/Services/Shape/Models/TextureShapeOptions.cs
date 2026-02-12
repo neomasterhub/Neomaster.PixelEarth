@@ -137,6 +137,18 @@ public struct TextureShapeOptions
     return this;
   }
 
+  public readonly TextureShapeOptions FromRectangleForTriangle_TR()
+  {
+    var tr = this;
+
+    tr.UV = new Rectangle(UV).GetTriangle_TR().GetVerticies();
+    tr.UVHovered = new Rectangle(UVHovered).GetTriangle_TR().GetVerticies();
+    tr.UVSelected = new Rectangle(UVSelected).GetTriangle_TR().GetVerticies();
+    tr.UVSelectedHovered = new Rectangle(UVSelectedHovered).GetTriangle_TR().GetVerticies();
+
+    return tr;
+  }
+
   public readonly TextureShapeOptions FromRectangleForTriangle_BL()
   {
     var tr = this;
