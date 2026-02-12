@@ -1,7 +1,7 @@
 namespace Neomaster.PixelEarth.App;
 
-public class TextureButton(int id)
+public abstract class TextureButton(int id)
   : Button(id)
 {
-  public TextureShapeOptions TextureShapeOptions { get; set; }
+  public virtual TextureShapeOptions TextureShapeOptions { get; set; }
 }
