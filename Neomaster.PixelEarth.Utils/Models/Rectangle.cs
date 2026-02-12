@@ -40,11 +40,14 @@ public struct Rectangle
     Height = tl_br[1].Y - Y;
   }
 
-  public readonly (Triangle bl, Triangle tr) GetTriangles()
+  public readonly Triangle GetTriangle_TR()
   {
-    return (
-      new(new(X, Y), new(X, Y + Height), new(X + Width, Y + Height)),
-      new(new(X, Y), new(X + Width, Y + Height), new(X + Width, Y)));
+    return new(new(X, Y), new(X + Width, Y + Height), new(X + Width, Y));
+  }
+
+  public readonly Triangle GetTriangle_BL()
+  {
+    return new(new(X, Y), new(X, Y + Height), new(X + Width, Y + Height));
   }
 
   public readonly Vector2[] GetVerticies_TL_BR()
