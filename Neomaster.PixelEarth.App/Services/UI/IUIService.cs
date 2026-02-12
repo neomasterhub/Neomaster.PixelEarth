@@ -2,34 +2,11 @@ namespace Neomaster.PixelEarth.App;
 
 public interface IUIService
 {
-  void DrawMainMenu(
-    MainMenu mainMenu);
+  void DrawMainMenu(MainMenu mainMenu);
+  MainMenu CreateMainMenu(MainMenuButton[] buttons, MainMenuOptions? options = null);
 
-  MainMenu CreateMainMenu(
-    MainMenuButton[] buttons,
-    MainMenuOptions? options = null);
-
-  void DrawTextureButton(
-    TextureButton button,
-    TextureShapeOptions? shapeOptions = null);
-
-  TextureButton CreateTextureButton(
-    float x,
-    float y,
-    float width,
-    float height,
-    TextureButtonOptions? options = null);
-
-  void DrawColorButton(
-    Button button,
-    ColorShapeOptions? shapeOptions = null);
-
-  ColorButton CreateColorButton(
-    float x,
-    float y,
-    float width,
-    float height,
-    ColorButtonOptions? options = null);
+  void DrawRectangleTextureButton(RectangleTextureButton button);
+  TextureButton CreateRectangleTextureButton(RectangleTextureButton button);
 
   Grid<TCell> CreateGrid<TCell>(
     TCell[] cells,
