@@ -137,21 +137,16 @@ public struct TextureShapeOptions
     return this;
   }
 
-  public readonly (TextureShapeOptions bottomLeft, TextureShapeOptions topRight) AsRectangleToTriangles()
+  public readonly TextureShapeOptions FromRectangleForTriangle_BL()
   {
-    var bottomLeft = this;
-    bottomLeft.UV = MathX.Rectangle.GetTrianglePoints_BottomLeft(UV);
-    bottomLeft.UVHovered = MathX.Rectangle.GetTrianglePoints_BottomLeft(UVHovered);
-    bottomLeft.UVSelected = MathX.Rectangle.GetTrianglePoints_BottomLeft(UVSelected);
-    bottomLeft.UVSelectedHovered = MathX.Rectangle.GetTrianglePoints_BottomLeft(UVSelectedHovered);
+    var tr = this;
 
-    var topRight = this;
-    topRight.UV = MathX.Rectangle.GetTrianglePoints_TopRight(UV);
-    topRight.UVHovered = MathX.Rectangle.GetTrianglePoints_TopRight(UVHovered);
-    topRight.UVSelected = MathX.Rectangle.GetTrianglePoints_TopRight(UVSelected);
-    topRight.UVSelectedHovered = MathX.Rectangle.GetTrianglePoints_TopRight(UVSelectedHovered);
+    tr.UV = new Rectangle(UV).GetTriangle_BL().GetVerticies();
+    tr.UVHovered = new Rectangle(UVHovered).GetTriangle_BL().GetVerticies();
+    tr.UVSelected = new Rectangle(UVSelected).GetTriangle_BL().GetVerticies();
+    tr.UVSelectedHovered = new Rectangle(UVSelectedHovered).GetTriangle_BL().GetVerticies();
 
-    return (bottomLeft, topRight);
+    return tr;
   }
 
   private static Vector2[] GetUvFromPx(Vector2[] uvPx, float width, float height)
