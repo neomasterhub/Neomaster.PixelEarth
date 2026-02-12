@@ -5,6 +5,8 @@ namespace Neomaster.PixelEarth.App;
 
 public struct TextureShapeOptions
 {
+  private static readonly Vector2[] _defaultUV = [new(0, 0), new(1, 1)];
+
   public int TextureId;
   public int TextureHoveredId;
   public int TextureSelectedId;
@@ -18,16 +20,35 @@ public struct TextureShapeOptions
 
   public TextureShapeOptions(
     Texture map,
-    Vector2[] uvPx,
+    Rectangle? uvPx = null,
+    Rectangle? uvHoveredPx = null,
+    Rectangle? uvSelectedPx = null,
+    Rectangle? uvSelectedHoveredPx = null)
+    : this(
+        map,
+        uvPx?.GetVerticies_TL_BR(),
+        uvHoveredPx?.GetVerticies_TL_BR(),
+        uvSelectedPx?.GetVerticies_TL_BR(),
+        uvSelectedHoveredPx?.GetVerticies_TL_BR())
+  {
+  }
+
+  public TextureShapeOptions(
+    Texture map,
+    Vector2[] uvPx = null,
     Vector2[] uvHoveredPx = null,
     Vector2[] uvSelectedPx = null,
     Vector2[] uvSelectedHoveredPx = null)
-    : this(map, null, null, null, null, null, null)
+    : this(
+        map,
+        null,
+        null,
+        null,
+        GetUvFromPx(uvPx, map.Width, map.Height),
+        GetUvFromPx(uvHoveredPx, map.Width, map.Height),
+        GetUvFromPx(uvSelectedPx, map.Width, map.Height),
+        GetUvFromPx(uvSelectedHoveredPx, map.Width, map.Height))
   {
-    UV = GetUvFromPx(uvPx, map.Width, map.Height);
-    UVHovered = GetUvFromPx(uvHoveredPx, map.Width, map.Height) ?? UV;
-    UVSelected = GetUvFromPx(uvSelectedPx, map.Width, map.Height) ?? UV;
-    UVSelectedHovered = GetUvFromPx(uvSelectedHoveredPx, map.Width, map.Height) ?? UVSelected;
   }
 
   public TextureShapeOptions(
@@ -56,27 +77,10 @@ public struct TextureShapeOptions
     TextureSelectedId = selected.LoadedId;
     TextureSelectedHoveredId = selectedHovered.LoadedId;
 
-    UV = uv;
+    UV = uv ?? _defaultUV;
     UVHovered = uvHovered ?? UV;
     UVSelected = uvSelected ?? UV;
     UVSelectedHovered = uvSelectedHovered ?? UVSelected;
-  }
-
-  public static TextureShapeOptions CreateForRectangle(
-    Texture map,
-    Rectangle? uvPx = null,
-    Rectangle? uvHoveredPx = null,
-    Rectangle? uvSelectedPx = null,
-    Rectangle? uvSelectedHoveredPx = null)
-  {
-    var vUvPx = (uvPx ?? new(0, 0, map.Width, map.Height)).GetVerticies_TL_BR();
-    var vUvHoveredPx = uvHoveredPx?.GetVerticies_TL_BR() ?? vUvPx;
-    var vUvSelectedPx = uvSelectedPx?.GetVerticies_TL_BR() ?? vUvPx;
-    var vUvSelectedHoveredPx = uvSelectedHoveredPx?.GetVerticies_TL_BR() ?? vUvSelectedPx;
-
-    var opt = new TextureShapeOptions(map, vUvPx, vUvHoveredPx, vUvSelectedPx, vUvSelectedHoveredPx);
-
-    return opt;
   }
 
   public readonly TextureShapeState GetCurrentState()
