@@ -63,11 +63,7 @@ public class UIService(
 
     shapeService.DrawTextureRectangle(button.Rectangle, shapeOptions);
 
-    var mouseState = mouseService.GetRectangleMouseState(
-      button.X,
-      button.Y,
-      button.Width,
-      button.Height);
+    var mouseState = mouseService.GetMouseState(button.Rectangle);
 
     if (mouseState.IsIn)
     {
