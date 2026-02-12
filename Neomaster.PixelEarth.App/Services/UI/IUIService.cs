@@ -6,7 +6,6 @@ public interface IUIService
   MainMenu CreateMainMenu(MainMenuButton[] buttons, MainMenuOptions? options = null);
 
   void DrawRectangleTextureButton(RectangleTextureButton button);
-  TextureButton CreateRectangleTextureButton(RectangleTextureButton button);
 
   Grid<TCell> CreateGrid<TCell>(
     TCell[] cells,
