@@ -11,7 +11,6 @@ public sealed class LoadingGameStage : BaseGameStage
   private readonly GamePipeline _gamePipeline;
   private readonly IMainMenuService _mainMenuService;
   private readonly ITextureService _textureService;
-  private readonly IUIService _uiService;
   private readonly IIdGenerator<int> _idGenerator;
 
   public LoadingGameStage(
@@ -24,7 +23,6 @@ public sealed class LoadingGameStage : BaseGameStage
     _textures = serviceProvider.GetRequiredService<Textures>();
     _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
-    _uiService = serviceProvider.GetRequiredService<IUIService>();
     _idGenerator = serviceProvider.GetRequiredService<IIdGenerator<int>>();
   }
 
@@ -39,29 +37,21 @@ public sealed class LoadingGameStage : BaseGameStage
 
     var texMap = _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenu);
 
-    _mainMenuGameStageBuffer.PlayButton = new RectangleTextureButton(_idGenerator.Next())
-    {
-      X = 100,
-      Y = 100,
-      Width = 70,
-      Height = 20,
-      TextureShapeOptions = new(
-        texMap,
-        new Utils.Rectangle(0, 0, 70, 20),
-        uvSelectedPx: new Utils.Rectangle(0, 20, 70, 20)),
-    };
+    _mainMenuGameStageBuffer.PlayButton = RectangleTextureButtonBuilder
+      .Create(texMap)
+      .Position(100, 100)
+      .Size(140, 40)
+      .UvPx(0, 0, 70, 20)
+      .UvSelectedPx(0, 20, 70, 20)
+      .Build(_idGenerator.Next());
 
-    _mainMenuGameStageBuffer.ExitButton = new RectangleTextureButton(_idGenerator.Next())
-    {
-      X = 100,
-      Y = 200,
-      Width = 70 * 2,
-      Height = 20 * 2,
-      TextureShapeOptions = new(
-        texMap,
-        new Utils.Rectangle(0, 40, 70, 20),
-        uvSelectedPx: new Utils.Rectangle(0, 60, 70, 20)),
-    };
+    _mainMenuGameStageBuffer.ExitButton = RectangleTextureButtonBuilder
+      .Create(texMap)
+      .Position(100, 200)
+      .Size(140, 40)
+      .UvPx(0, 40, 70, 20)
+      .UvSelectedPx(0, 60, 70, 20)
+      .Build(_idGenerator.Next());
 
     _mainMenuService.Create(
       [
