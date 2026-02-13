@@ -5,6 +5,6 @@ namespace Neomaster.PixelEarth.Presentation;
 public sealed class MainMenuGameStageBuffer()
   : BaseGameStageBuffer(GameStageBufferId.MainMenu)
 {
-  public TextureButton PlayButton { get; set; }
-  public TextureButton ExitButton { get; set; }
+  public RectangleTextureButton PlayButton { get; set; }
+  public RectangleTextureButton ExitButton { get; set; }
 }

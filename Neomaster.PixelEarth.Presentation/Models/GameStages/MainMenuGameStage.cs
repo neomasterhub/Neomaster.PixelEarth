@@ -34,8 +34,8 @@ public sealed class MainMenuGameStage : BaseGameStage
 
     // TODO: implement keyboard map
     _textureService.SetBlending(Blending.Alpha);
-    _uiService.DrawTextureButton(_mainMenuGameStageBuffer.PlayButton);
-    _uiService.DrawTextureButton(_mainMenuGameStageBuffer.ExitButton);
+    _uiService.DrawRectangleTextureButton(_mainMenuGameStageBuffer.PlayButton);
+    _uiService.DrawRectangleTextureButton(_mainMenuGameStageBuffer.ExitButton);
     _textureService.SetBlending(Blending.Replace);
   }
 

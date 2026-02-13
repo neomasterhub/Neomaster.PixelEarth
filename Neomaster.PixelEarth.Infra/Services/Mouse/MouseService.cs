@@ -1,5 +1,5 @@
-using System.Numerics;
 using Neomaster.PixelEarth.App;
+using Neomaster.PixelEarth.Utils;
 
 namespace Neomaster.PixelEarth.Infra;
 
@@ -12,31 +12,14 @@ public class MouseService : IMouseService
     MouseState = e.MouseState;
   }
 
-  public AreaMouseState GetRectangleMouseState(Vector2 topLeft, Vector2 bottomRight)
+  public AreaMouseState GetMouseState(Rectangle rectangle)
   {
-    var xMin = MathF.Min(topLeft.X, bottomRight.X);
-    var xMax = MathF.Max(topLeft.X, bottomRight.X);
-    var yMin = MathF.Min(topLeft.Y, bottomRight.Y);
-    var yMax = MathF.Max(topLeft.Y, bottomRight.Y);
-
-    var isIn = MouseState.Position.X >= xMin
-      && MouseState.Position.X <= xMax
-      && MouseState.Position.Y >= yMin
-      && MouseState.Position.Y <= yMax;
-
-    return new AreaMouseState(
-      isIn,
-      MouseState.LeftPressed);
-  }
-
-  public AreaMouseState GetRectangleMouseState(float x, float y, float width, float height)
-  {
-    var x2 = x + width;
-    var y2 = y + height;
-    var xMin = MathF.Min(x, x2);
-    var xMax = MathF.Max(x, x2);
-    var yMin = MathF.Min(y, y2);
-    var yMax = MathF.Max(y, y2);
+    var x2 = rectangle.X + rectangle.Width;
+    var y2 = rectangle.Y + rectangle.Height;
+    var xMin = MathF.Min(rectangle.X, x2);
+    var xMax = MathF.Max(rectangle.X, x2);
+    var yMin = MathF.Min(rectangle.Y, y2);
+    var yMax = MathF.Max(rectangle.Y, y2);
 
     var isIn = MouseState.Position.X >= xMin
       && MouseState.Position.X <= xMax

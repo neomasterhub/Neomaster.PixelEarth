@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Neomaster.PixelEarth.App;
 using Neomaster.PixelEarth.Infra;
-using static Neomaster.PixelEarth.App.AppConsts;
 
 namespace Neomaster.PixelEarth.Presentation;
 
@@ -23,15 +22,14 @@ public class GameEngineBuilder
 
   public GameEngineBuilder AddDefaultServices()
   {
+    ThrowIfPipelineHasStages();
+
     _services
       .AddSingleton(_gamePipeline)
       .AddSingleton(PresentationConsts.RenderSettings)
       .AddSingleton(PresentationConsts.WindowSettings)
-      .AddSingleton(typeof(ColorButtonOptions), PresentationConsts.Button.ColorDefaultOptions)
       .AddSingleton(typeof(MainMenuOptions), PresentationConsts.MainMenu.DefaultOptions)
       .AddSingleton(typeof(ColorShapeOptions), PresentationConsts.Shape.ColorDefaultOptions)
-      .AddSingleton(typeof(TextureShapeOptions), PresentationConsts.Shape.TextureDefaultOptions)
-      .AddSingleton(typeof(TextureButtonOptions), PresentationConsts.Button.TextureDefaultOptions)
       .AddSingleton<IIdGenerator<int>, IntIdGenerator>()
       .AddSingleton<IGameWindowService, GameWindowService>()
       .AddSingleton<IMainMenuService, MainMenuService>()
@@ -42,14 +40,27 @@ public class GameEngineBuilder
       .AddSingleton<IImageService, ImageService>()
       .AddSingleton<ITextureService, TextureService>()
       .AddSingleton<IFrameService, FrameService>()
-      .AddSingleton(new Textures()
-        .AddGroup(new TextureGroup(TextureGroupName.Test)
-          .AddTexture(new(TextureName.Test512x512, "test_512x512.png"))
-          .AddTexture(new(TextureName.Test512x512Hovered, "test_512x512_H.png"))
-          .AddTexture(new(TextureName.Test512x512Selected, "test_512x512_S.png"))
-          .AddTexture(new(TextureName.Test512x512SelectedHovered, "test_512x512_SH.png")))
-        .AddGroup(new TextureGroup(TextureGroupName.Level1)
-          .AddTexture(new(TextureName.Ground, "ground.png"))));
+      ;
+
+    return this;
+  }
+
+  public GameEngineBuilder AddDefaultTextures()
+  {
+    ThrowIfPipelineHasStages();
+
+    var textures = TexturesBuilder
+      .Create()
+      .AddTextureGroup(TextureGroupId.Test)
+      .WithTexture(TextureId.Test512x512, "test_512x512.png")
+      .WithTexture(TextureId.Test512x512Hovered, "test_512x512_H.png")
+      .WithTexture(TextureId.Test512x512Selected, "test_512x512_S.png")
+      .WithTexture(TextureId.Test512x512SelectedHovered, "test_512x512_SH.png")
+      .AddTextureGroup(TextureGroupId.MainMenu)
+      .WithTexture(TextureId.MainMenu, "buttons.png")
+      .Build();
+
+    _services.AddSingleton(textures);
 
     return this;
   }
@@ -76,6 +87,7 @@ public class GameEngineBuilder
   {
     ThrowIfPipelineHasStages();
     configure(_services);
+
     return this;
   }
 

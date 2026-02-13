@@ -41,33 +41,6 @@ public static class PresentationConsts
       ColorSelected = Color.ControlFillSelected,
       ColorSelectedHovered = Color.ControlFillSelectedHovered,
     };
-
-    public static readonly TextureShapeOptions TextureDefaultOptions = new()
-    {
-      TextureId = 1,
-      TextureHoveredId = 2,
-      TextureSelectedId = 3,
-      TextureSelectedHoveredId = 4,
-    };
-  }
-
-  public static class Button
-  {
-    public static readonly ColorButtonOptions ColorDefaultOptions = new()
-    {
-      Fill = Color.ControlFill,
-      FillHovered = Color.ControlFillHovered,
-      FillSelected = Color.ControlFillSelected,
-      FillSelectedHovered = Color.ControlFillSelectedHovered,
-    };
-
-    public static readonly TextureButtonOptions TextureDefaultOptions = new()
-    {
-      TextureId = Shape.TextureDefaultOptions.TextureId,
-      TextureHoveredId = Shape.TextureDefaultOptions.TextureHoveredId,
-      TextureSelectedId = Shape.TextureDefaultOptions.TextureSelectedId,
-      TextureSelectedHoveredId = Shape.TextureDefaultOptions.TextureSelectedHoveredId,
-    };
   }
 
   public static class MainMenu
