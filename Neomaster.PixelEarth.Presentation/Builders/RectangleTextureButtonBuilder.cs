@@ -42,61 +42,33 @@ public class RectangleTextureButtonBuilder
   }
 
   public RectangleTextureButtonBuilder UvPx(
-    float x,
-    float y,
-    float? width = null,
-    float? height = null)
+    float x, float y, float? width = null, float? height = null)
   {
-    _uvPx = new Rectangle(
-      x,
-      y,
-      width ?? _width ?? _textureMap.Width,
-      height ?? _height ?? _textureMap.Height);
+    _uvPx = GetUvPx(x, y, width, height);
 
     return this;
   }
 
   public RectangleTextureButtonBuilder UvHoveredPx(
-    float x,
-    float y,
-    float? width = null,
-    float? height = null)
+    float x, float y, float? width = null, float? height = null)
   {
-    _uvHoveredPx = new Rectangle(
-      x,
-      y,
-      width ?? _width ?? _textureMap.Width,
-      height ?? _height ?? _textureMap.Height);
+    _uvHoveredPx = GetUvPx(x, y, width, height);
 
     return this;
   }
 
   public RectangleTextureButtonBuilder UvSelectedPx(
-    float x,
-    float y,
-    float? width = null,
-    float? height = null)
+    float x, float y, float? width = null, float? height = null)
   {
-    _uvSelectedPx = new Rectangle(
-      x,
-      y,
-      width ?? _width ?? _textureMap.Width,
-      height ?? _height ?? _textureMap.Height);
+    _uvSelectedPx = GetUvPx(x, y, width, height);
 
     return this;
   }
 
   public RectangleTextureButtonBuilder UvSelectedHoveredPx(
-    float x,
-    float y,
-    float? width = null,
-    float? height = null)
+    float x, float y, float? width = null, float? height = null)
   {
-    _uvSelectedHoveredPx = new Rectangle(
-      x,
-      y,
-      width ?? _width ?? _textureMap.Width,
-      height ?? _height ?? _textureMap.Height);
+    _uvSelectedHoveredPx = GetUvPx(x, y, width, height);
 
     return this;
   }
@@ -116,5 +88,14 @@ public class RectangleTextureButtonBuilder
         _uvSelectedPx,
         _uvSelectedHoveredPx),
     };
+  }
+
+  private Rectangle GetUvPx(float x, float y, float? width = null, float? height = null)
+  {
+    return new Rectangle(
+      x,
+      y,
+      width ?? _width ?? _textureMap.Width,
+      height ?? _height ?? _textureMap.Height);
   }
 }
