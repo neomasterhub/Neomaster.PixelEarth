@@ -57,6 +57,7 @@ public class GameEngineBuilder
       .WithTexture(TextureId.Test512x512Selected, "test_512x512_S.png")
       .WithTexture(TextureId.Test512x512SelectedHovered, "test_512x512_SH.png")
       .AddTextureGroup(TextureGroupId.MainMenu)
+      .WithTexture(TextureId.MainMenu, "buttons.png")
       .Build();
 
     _services.AddSingleton(textures);

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Neomaster.PixelEarth.App;
-using static Neomaster.PixelEarth.App.AppConsts;
+using Neomaster.PixelEarth.Infra;
 
 namespace Neomaster.PixelEarth.Presentation;
 
@@ -12,6 +12,7 @@ public sealed class LoadingGameStage : BaseGameStage
   private readonly IMainMenuService _mainMenuService;
   private readonly ITextureService _textureService;
   private readonly IUIService _uiService;
+  private readonly IIdGenerator<int> _idGenerator;
 
   public LoadingGameStage(
     GamePipeline gamePipeline,
@@ -24,6 +25,7 @@ public sealed class LoadingGameStage : BaseGameStage
     _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
     _uiService = serviceProvider.GetRequiredService<IUIService>();
+    _idGenerator = serviceProvider.GetRequiredService<IIdGenerator<int>>();
   }
 
   protected override bool RequiresStart()
@@ -33,10 +35,33 @@ public sealed class LoadingGameStage : BaseGameStage
 
   protected override void OnUpdate(UpdateEventArgs? e = null)
   {
-    _textureService.Load(_textures.Get(TextureGroupId.Test));
+    _textureService.Load(_textures.Get(TextureGroupId.MainMenu));
 
-    _mainMenuGameStageBuffer.PlayButton = _uiService.CreateTextureButton(100f, 25f, 500f, 500f);
-    _mainMenuGameStageBuffer.ExitButton = _uiService.CreateTextureButton(190f, 70f, 500f, 500f);
+    var texMap = _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenu);
+
+    _mainMenuGameStageBuffer.PlayButton = new RectangleTextureButton(_idGenerator.Next())
+    {
+      X = 100,
+      Y = 100,
+      Width = 70,
+      Height = 20,
+      TextureShapeOptions = new(
+        texMap,
+        new Utils.Rectangle(0, 0, 70, 20),
+        uvSelectedPx: new Utils.Rectangle(0, 20, 70, 20)),
+    };
+
+    _mainMenuGameStageBuffer.ExitButton = new RectangleTextureButton(_idGenerator.Next())
+    {
+      X = 100,
+      Y = 200,
+      Width = 70 * 2,
+      Height = 20 * 2,
+      TextureShapeOptions = new(
+        texMap,
+        new Utils.Rectangle(0, 40, 70, 20),
+        uvSelectedPx: new Utils.Rectangle(0, 60, 70, 20)),
+    };
 
     _mainMenuService.Create(
       [
