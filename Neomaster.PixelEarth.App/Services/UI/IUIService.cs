@@ -2,9 +2,6 @@ namespace Neomaster.PixelEarth.App;
 
 public interface IUIService
 {
-  void DrawMainMenu(MainMenu mainMenu);
-  MainMenu CreateMainMenu(MainMenuButton[] buttons, MainMenuOptions? options = null);
-
   void DrawRectangleTextureButton(RectangleTextureButton button);
 
   Grid<TCell> CreateGrid<TCell>(

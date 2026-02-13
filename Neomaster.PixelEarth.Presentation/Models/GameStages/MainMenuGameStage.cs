@@ -6,10 +6,8 @@ namespace Neomaster.PixelEarth.Presentation;
 public sealed class MainMenuGameStage : BaseGameStage
 {
   private readonly GamePipeline _gamePipeline;
-  private readonly MainMenuGameStageBuffer _mainMenuGameStageBuffer;
   private readonly IMainMenuService _mainMenuService;
   private readonly ITextureService _textureService;
-  private readonly IUIService _uiService;
 
   public MainMenuGameStage(
     GamePipeline gamePipeline,
@@ -17,10 +15,8 @@ public sealed class MainMenuGameStage : BaseGameStage
     : base(serviceProvider)
   {
     _gamePipeline = gamePipeline;
-    _mainMenuGameStageBuffer = _gamePipeline.GetGameStageBuffer<MainMenuGameStageBuffer>(GameStageBufferId.MainMenu);
     _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
-    _uiService = serviceProvider.GetRequiredService<IUIService>();
   }
 
   protected override bool RequiresStart()
@@ -30,12 +26,8 @@ public sealed class MainMenuGameStage : BaseGameStage
 
   protected override void OnRender(RenderEventArgs? e = null)
   {
-    _mainMenuService.Draw();
-
-    // TODO: implement keyboard map
     _textureService.SetBlending(Blending.Alpha);
-    _uiService.DrawRectangleTextureButton(_mainMenuGameStageBuffer.PlayButton);
-    _uiService.DrawRectangleTextureButton(_mainMenuGameStageBuffer.ExitButton);
+    _mainMenuService.Draw();
     _textureService.SetBlending(Blending.Replace);
   }
 
