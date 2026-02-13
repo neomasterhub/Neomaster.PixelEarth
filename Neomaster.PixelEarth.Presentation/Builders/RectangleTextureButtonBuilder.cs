@@ -14,7 +14,6 @@ public class RectangleTextureButtonBuilder
   private Rectangle? _uvHoveredPx;
   private Rectangle? _uvSelectedPx;
   private Rectangle? _uvSelectedHoveredPx;
-  private bool _isSelected;
 
   private RectangleTextureButtonBuilder(Texture map)
   {
@@ -38,13 +37,6 @@ public class RectangleTextureButtonBuilder
   {
     _width = width;
     _height = height;
-
-    return this;
-  }
-
-  public RectangleTextureButtonBuilder IsSelected(bool value = true)
-  {
-    _isSelected = value;
 
     return this;
   }
@@ -89,7 +81,6 @@ public class RectangleTextureButtonBuilder
       Y = _y,
       Width = _width ?? _textureMap.Width,
       Height = _height ?? _textureMap.Height,
-      IsSelected = _isSelected,
       TextureShapeOptions = new(
         _textureMap,
         _uvPx,
