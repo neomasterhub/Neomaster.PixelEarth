@@ -4,54 +4,12 @@ using Neomaster.PixelEarth.Utils;
 namespace Neomaster.PixelEarth.Infra;
 
 public class UIService(
-  WindowSettings windowSettings,
-  MainMenuOptions mainMenuOptions,
   IIdGenerator<int> idGenerator,
   IShapeService shapeService,
   IFrameService frameService,
   IMouseService mouseService)
   : IUIService
 {
-  public void DrawMainMenu(MainMenu mainMenu)
-  {
-    foreach (var button in mainMenu.Buttons)
-    {
-      // TODO: draw buttons
-    }
-  }
-
-  public MainMenu CreateMainMenu(
-    MainMenuButton[] buttons,
-    MainMenuOptions? options = null)
-  {
-    options ??= mainMenuOptions;
-
-    var mainMenu = new MainMenu()
-    {
-      Options = options.Value,
-    };
-
-    var grid = CreateGrid(
-      buttons,
-      windowSettings.Width,
-      windowSettings.Height,
-      mainMenu.Options.ButtonWidth,
-      mainMenu.Options.ButtonHeight,
-      mainMenu.Options.ButtonGap,
-      mainMenu.Options.VerticalAlign,
-      mainMenu.Options.HorizontalAlign);
-
-    foreach (var button in grid.Cells)
-    {
-      button.Width = grid.CellWidth;
-      button.Height = grid.CellHeight;
-    }
-
-    mainMenu.Buttons = grid.Cells;
-
-    return mainMenu;
-  }
-
   public void DrawRectangleTextureButton(RectangleTextureButton button)
   {
     button.IsHovered = frameService.FrameInfo.CurrentHoveredId == button.Id;

@@ -11,6 +11,7 @@ public sealed class LoadingGameStage : BaseGameStage
   private readonly GamePipeline _gamePipeline;
   private readonly IMainMenuService _mainMenuService;
   private readonly ITextureService _textureService;
+  private readonly IUIService _uiService;
   private readonly IIdGenerator<int> _idGenerator;
 
   public LoadingGameStage(
@@ -23,6 +24,7 @@ public sealed class LoadingGameStage : BaseGameStage
     _textures = serviceProvider.GetRequiredService<Textures>();
     _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
+    _uiService = serviceProvider.GetRequiredService<IUIService>();
     _idGenerator = serviceProvider.GetRequiredService<IIdGenerator<int>>();
   }
 
@@ -37,27 +39,69 @@ public sealed class LoadingGameStage : BaseGameStage
 
     var texMap = _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenu);
 
-    _mainMenuGameStageBuffer.PlayButton = RectangleTextureButtonBuilder
+    var playButton = RectangleTextureButtonBuilder
       .Create(texMap)
-      .Position(100, 100)
       .Size(140, 40)
       .UvPx(0, 0, 70, 20)
       .UvSelectedPx(0, 20, 70, 20)
       .Build(_idGenerator.Next());
 
-    _mainMenuGameStageBuffer.ExitButton = RectangleTextureButtonBuilder
+    var demosButton = RectangleTextureButtonBuilder
       .Create(texMap)
-      .Position(100, 200)
       .Size(140, 40)
       .UvPx(0, 40, 70, 20)
       .UvSelectedPx(0, 60, 70, 20)
       .Build(_idGenerator.Next());
 
-    _mainMenuService.Create(
+    var exitButton = RectangleTextureButtonBuilder
+      .Create(texMap)
+      .Size(140, 40)
+      .UvPx(0, 80, 70, 20)
+      .UvSelectedPx(0, 100, 70, 20)
+      .Build(_idGenerator.Next());
+
+    _mainMenuGameStageBuffer.MainMenu = new MainMenu
+    {
+      Items =
       [
-        new MainMenuItemDef(() => { }),
-        new MainMenuItemDef(() => { }),
-      ]);
+        new()
+        {
+          Button = playButton,
+          DrawButton = () => _uiService.DrawRectangleTextureButton(playButton),
+        },
+        new()
+        {
+          Button = demosButton,
+          DrawButton = () => _uiService.DrawRectangleTextureButton(demosButton),
+        },
+        new()
+        {
+          Button = exitButton,
+          DrawButton = () => _uiService.DrawRectangleTextureButton(exitButton),
+        },
+      ],
+      Options = new MainMenuOptions
+      {
+        ButtonGap = 15,
+        ButtonWidth = 140,
+        ButtonHeight = 40,
+        HorizontalAlign = Align.Center,
+        VerticalAlign = Align.Center,
+      },
+    };
+
+    // Align items.
+    _uiService.CreateGrid(
+      _mainMenuGameStageBuffer.MainMenu.Items.Select(x => x.Button).ToArray(),
+      PresentationConsts.WindowSettings.Width,
+      PresentationConsts.WindowSettings.Height,
+      _mainMenuGameStageBuffer.MainMenu.Options.ButtonWidth,
+      _mainMenuGameStageBuffer.MainMenu.Options.ButtonHeight,
+      _mainMenuGameStageBuffer.MainMenu.Options.ButtonGap,
+      _mainMenuGameStageBuffer.MainMenu.Options.VerticalAlign,
+      _mainMenuGameStageBuffer.MainMenu.Options.HorizontalAlign);
+
+    _mainMenuService.Initialize(_mainMenuGameStageBuffer.MainMenu);
 
     _gamePipeline.RemoveGameStateFlag(GameStateFlag.Loading);
     _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);

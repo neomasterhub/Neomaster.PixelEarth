@@ -2,10 +2,10 @@ using Neomaster.PixelEarth.Utils;
 
 namespace Neomaster.PixelEarth.App;
 
-public class MainMenu : Menu<MainMenuButton>
+public class MainMenu : Menu<MainMenuItem>
 {
-  public List<MainMenuButton> Buttons { get; set; }
+  public List<MainMenuItem> Items { get; set; }
   public MainMenuOptions Options { get; set; }
-  public override int ItemCount => Buttons.Count;
-  public override MainMenuButton this[int index] => Buttons[index];
+  public override int ItemCount => Items.Count;
+  public override MainMenuItem this[int index] => Items[index];
 }

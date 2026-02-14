@@ -1,67 +1,47 @@
+using System.Diagnostics;
 using Neomaster.PixelEarth.App;
 
 namespace Neomaster.PixelEarth.Infra;
 
-public class MainMenuService(
-  IUIService uiService,
-  IIdGenerator<int> idGenerator)
-  : IMainMenuService
+public class MainMenuService : IMainMenuService
 {
   private MainMenu _mainMenu;
 
-  public void Create(
-    MainMenuItemDef[] items,
-    MainMenuOptions? menuOptions = null)
+  public void Initialize(MainMenu mainMenu)
   {
-    var buttons = items
-      .Select(i => new MainMenuButton(idGenerator.Next())
-      {
-        Action = i.Action,
-      })
-      .ToArray();
-
-    _mainMenu = uiService.CreateMainMenu(buttons, menuOptions);
+    _mainMenu = mainMenu;
   }
 
   public void Draw()
   {
-    _mainMenu.SelectedItem.IsSelected = true;
-
-    uiService.DrawMainMenu(_mainMenu);
-
-    _mainMenu.SelectedItem.IsSelected = false;
-
-    UpdateSelectedIndex();
+    ThrowIfNotInitialized();
+    _mainMenu.Items.ForEach(x => x.DrawButton());
   }
 
   public void MoveUp()
   {
+    ThrowIfNotInitialized();
     _mainMenu.MoveUp();
   }
 
   public void MoveDown()
   {
+    ThrowIfNotInitialized();
     _mainMenu.MoveDown();
   }
 
   public void ExecuteSelected()
   {
-    _mainMenu.SelectedItem.Action?.Invoke();
+    ThrowIfNotInitialized();
+    _mainMenu.SelectedItem?.Button.Action();
   }
 
-  private void UpdateSelectedIndex()
+  [Conditional("DEBUG")]
+  private void ThrowIfNotInitialized()
   {
-    for (var i = 0; i < _mainMenu.ItemCount; i++)
+    if (_mainMenu == null)
     {
-      var b = _mainMenu[i];
-
-      if (b.MouseLeftPressed)
-      {
-        _mainMenu.SelectedIndex = i;
-        b.MouseLeftPressed = false;
-
-        break;
-      }
+      throw new InvalidOperationException("The main menu has not been initialized.");
     }
   }
 }

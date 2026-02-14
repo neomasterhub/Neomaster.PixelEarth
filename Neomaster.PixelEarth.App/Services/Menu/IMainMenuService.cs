@@ -2,10 +2,7 @@ namespace Neomaster.PixelEarth.App;
 
 public interface IMainMenuService
 {
-  void Create(
-    MainMenuItemDef[] items,
-    MainMenuOptions? menuOptions = null);
-
+  void Initialize(MainMenu mainMenu);
   void Draw();
   void MoveUp();
   void MoveDown();
