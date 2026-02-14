@@ -14,6 +14,7 @@ public class RectangleTextureButtonBuilder
   private Rectangle? _uvHoveredPx;
   private Rectangle? _uvSelectedPx;
   private Rectangle? _uvSelectedHoveredPx;
+  private Action _action = () => { };
 
   private RectangleTextureButtonBuilder(Texture map)
   {
@@ -38,6 +39,12 @@ public class RectangleTextureButtonBuilder
     _width = width;
     _height = height;
 
+    return this;
+  }
+
+  public RectangleTextureButtonBuilder Action(Action action)
+  {
+    _action = action;
     return this;
   }
 
@@ -81,6 +88,7 @@ public class RectangleTextureButtonBuilder
       Y = _y,
       Width = _width ?? _textureMap.Width,
       Height = _height ?? _textureMap.Height,
+      Action = _action,
       TextureShapeOptions = new(
         _textureMap,
         _uvPx,
