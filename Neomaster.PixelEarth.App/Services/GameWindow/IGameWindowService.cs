@@ -8,4 +8,5 @@ public interface IGameWindowService
   void OnUpdate(UpdateEventArgs e);
   void UpdateMouseState(MouseStateEventArgs e);
   void Run();
+  void Exit();
 }

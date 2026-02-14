@@ -52,6 +52,11 @@ public class GameWindowService : IGameWindowService
     _gameWindow.Run();
   }
 
+  public void Exit()
+  {
+    _gameWindow.Close();
+  }
+
   public void OnLoad()
   {
     _shaderService.InitializeShaders();
