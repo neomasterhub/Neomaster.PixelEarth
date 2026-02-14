@@ -12,6 +12,7 @@ public sealed class LoadingGameStage : BaseGameStage
   private readonly IGameWindowService _gameWindowService;
   private readonly IMainMenuService _mainMenuService;
   private readonly ITextureService _textureService;
+  private readonly IFrameService _frameService;
   private readonly IUIService _uiService;
   private readonly IIdGenerator<int> _idGenerator;
 
@@ -26,6 +27,7 @@ public sealed class LoadingGameStage : BaseGameStage
     _gameWindowService = serviceProvider.GetRequiredService<IGameWindowService>();
     _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
+    _frameService = serviceProvider.GetRequiredService<IFrameService>();
     _uiService = serviceProvider.GetRequiredService<IUIService>();
     _idGenerator = serviceProvider.GetRequiredService<IIdGenerator<int>>();
   }
@@ -62,6 +64,8 @@ public sealed class LoadingGameStage : BaseGameStage
       .UvSelectedPx(0, 100, 70, 20)
       .Action(_gameWindowService.Exit)
       .Build(_idGenerator.Next());
+
+    _frameService.FrameInfo.SelectedId = playButton.Id;
 
     _mainMenuGameStageBuffer.MainMenu = new MainMenu
     {
