@@ -46,11 +46,18 @@ public sealed class LoadingGameStage : BaseGameStage
       .UvSelectedPx(0, 20, 70, 20)
       .Build(_idGenerator.Next());
 
-    var exitButton = RectangleTextureButtonBuilder
+    var demosButton = RectangleTextureButtonBuilder
       .Create(texMap)
       .Size(140, 40)
       .UvPx(0, 40, 70, 20)
       .UvSelectedPx(0, 60, 70, 20)
+      .Build(_idGenerator.Next());
+
+    var exitButton = RectangleTextureButtonBuilder
+      .Create(texMap)
+      .Size(140, 40)
+      .UvPx(0, 80, 70, 20)
+      .UvSelectedPx(0, 100, 70, 20)
       .Build(_idGenerator.Next());
 
     _mainMenuGameStageBuffer.MainMenu = new MainMenu
@@ -61,6 +68,11 @@ public sealed class LoadingGameStage : BaseGameStage
         {
           Button = playButton,
           DrawButton = () => _uiService.DrawRectangleTextureButton(playButton),
+        },
+        new()
+        {
+          Button = demosButton,
+          DrawButton = () => _uiService.DrawRectangleTextureButton(demosButton),
         },
         new()
         {
