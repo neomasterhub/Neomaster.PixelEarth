@@ -15,7 +15,19 @@ public class MainMenuService : IMainMenuService
   public void Draw()
   {
     ThrowIfNotInitialized();
-    _mainMenu.Items.ForEach(x => x.DrawButton());
+
+    var items = _mainMenu.Items;
+    for (var i = 0; i < items.Count; i++)
+    {
+      var item = items[i];
+
+      item.DrawButton();
+
+      if (item.Button.IsSelected)
+      {
+        _mainMenu.SelectedIndex = i;
+      }
+    }
   }
 
   public void MoveUp()
@@ -33,6 +45,7 @@ public class MainMenuService : IMainMenuService
   public void ExecuteSelected()
   {
     ThrowIfNotInitialized();
+    var s = _mainMenu.SelectedIndex;
     _mainMenu.SelectedItem?.Button.Action();
   }
 

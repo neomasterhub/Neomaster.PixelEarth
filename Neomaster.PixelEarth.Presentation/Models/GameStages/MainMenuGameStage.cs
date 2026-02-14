@@ -34,5 +34,6 @@ public sealed class MainMenuGameStage : BaseGameStage
   protected override void OnUpdate(UpdateEventArgs? e = null)
   {
     // TODO: implement keyboard map
+    _mainMenuService.ExecuteSelected();
   }
 }
