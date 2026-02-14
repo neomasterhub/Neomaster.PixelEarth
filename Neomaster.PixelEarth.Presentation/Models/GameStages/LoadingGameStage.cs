@@ -9,6 +9,7 @@ public sealed class LoadingGameStage : BaseGameStage
   private readonly Textures _textures;
   private readonly MainMenuGameStageBuffer _mainMenuGameStageBuffer;
   private readonly GamePipeline _gamePipeline;
+  private readonly IGameWindowService _gameWindowService;
   private readonly IMainMenuService _mainMenuService;
   private readonly ITextureService _textureService;
   private readonly IUIService _uiService;
@@ -22,6 +23,7 @@ public sealed class LoadingGameStage : BaseGameStage
     _gamePipeline = gamePipeline;
     _mainMenuGameStageBuffer = _gamePipeline.GetGameStageBuffer<MainMenuGameStageBuffer>(GameStageBufferId.MainMenu);
     _textures = serviceProvider.GetRequiredService<Textures>();
+    _gameWindowService = serviceProvider.GetRequiredService<IGameWindowService>();
     _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
     _uiService = serviceProvider.GetRequiredService<IUIService>();
@@ -58,6 +60,7 @@ public sealed class LoadingGameStage : BaseGameStage
       .Size(140, 40)
       .UvPx(0, 80, 70, 20)
       .UvSelectedPx(0, 100, 70, 20)
+      .Action(_gameWindowService.Exit)
       .Build(_idGenerator.Next());
 
     _mainMenuGameStageBuffer.MainMenu = new MainMenu
