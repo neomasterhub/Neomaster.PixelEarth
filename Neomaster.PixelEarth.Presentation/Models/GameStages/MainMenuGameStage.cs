@@ -30,8 +30,9 @@ public sealed class MainMenuGameStage : BaseGameStage
 
   protected override void OnRender(RenderEventArgs? e = null)
   {
-    _shapeService.DrawTextureRectangle(_mainMenuGameStageBuffer.BgRectangle, _mainMenuGameStageBuffer.BgTextureShapeOptions);
     _textureService.SetBlending(Blending.Alpha);
+    _shapeService.DrawTextureRectangle(_mainMenuGameStageBuffer.BgRectangle, _mainMenuGameStageBuffer.BgTextureShapeOptions);
+    _shapeService.DrawTextureRectangle(_mainMenuGameStageBuffer.TitleRectangle, _mainMenuGameStageBuffer.TitleTextureShapeOptions);
     _mainMenuService.Draw();
     _textureService.SetBlending(Blending.Replace);
   }

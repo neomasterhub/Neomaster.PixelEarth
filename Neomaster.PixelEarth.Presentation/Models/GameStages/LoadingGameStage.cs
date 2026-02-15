@@ -43,7 +43,7 @@ public sealed class LoadingGameStage : BaseGameStage
 
     var texMap = _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuMap);
 
-    // Button:
+    // Button
     var w = 207;
     var h = 50;
     var i = 0;
@@ -122,12 +122,24 @@ public sealed class LoadingGameStage : BaseGameStage
 
     _mainMenuService.Initialize(mainMenu);
 
-    // Set buffer.
+    // Set buffer:
+
+    // BG
     _mainMenuGameStageBuffer.BgRectangle = new(
       0, 0, PresentationConsts.WindowSettings.Width, PresentationConsts.WindowSettings.Height);
     _mainMenuGameStageBuffer.BgTextureShapeOptions = new(
       _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuBg),
       _mainMenuGameStageBuffer.BgRectangle);
+
+    // Title
+    var tw = 742;
+    var th = 88;
+    var tx = (PresentationConsts.WindowSettings.Width - tw) / 2;
+    _mainMenuGameStageBuffer.TitleRectangle = new(
+      tx, tx, tw, th);
+    _mainMenuGameStageBuffer.TitleTextureShapeOptions = new(
+      texMap,
+      new Utils.Rectangle(w, 0, tw, th));
 
     _gamePipeline.RemoveGameStateFlag(GameStateFlag.Loading);
     _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
