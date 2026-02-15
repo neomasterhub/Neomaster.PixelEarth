@@ -41,27 +41,39 @@ public sealed class LoadingGameStage : BaseGameStage
   {
     _textureService.Load(_textures.Get(TextureGroupId.MainMenu));
 
-    var texMap = _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenu);
+    var texMap = _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuMap);
+
+    // Button:
+    var w = 207;
+    var h = 50;
+    var i = 0;
+    var y = () => i++ * h;
 
     var playButton = RectangleTextureButtonBuilder
       .Create(texMap)
-      .Size(140, 40)
-      .UvPx(0, 0, 70, 20)
-      .UvSelectedPx(0, 20, 70, 20)
+      .Size(w, h)
+      .UvPx(0, y(), w, h)
+      .UvHoveredPx(0, y(), w, h)
+      .UvSelectedPx(0, y(), w, h)
+      .UvSelectedHoveredPx(0, y(), w, h)
       .Build(_idGenerator.Next());
 
     var demosButton = RectangleTextureButtonBuilder
       .Create(texMap)
-      .Size(140, 40)
-      .UvPx(0, 40, 70, 20)
-      .UvSelectedPx(0, 60, 70, 20)
+      .Size(w, h)
+      .UvPx(0, y(), w, h)
+      .UvHoveredPx(0, y(), w, h)
+      .UvSelectedPx(0, y(), w, h)
+      .UvSelectedHoveredPx(0, y(), w, h)
       .Build(_idGenerator.Next());
 
     var exitButton = RectangleTextureButtonBuilder
       .Create(texMap)
-      .Size(140, 40)
-      .UvPx(0, 80, 70, 20)
-      .UvSelectedPx(0, 100, 70, 20)
+      .Size(w, h)
+      .UvPx(0, y(), w, h)
+      .UvHoveredPx(0, y(), w, h)
+      .UvSelectedPx(0, y(), w, h)
+      .UvSelectedHoveredPx(0, y(), w, h)
       .Action(_gameWindowService.Exit)
       .Build(_idGenerator.Next());
 
@@ -89,9 +101,9 @@ public sealed class LoadingGameStage : BaseGameStage
       ],
       Options = new MainMenuOptions
       {
-        ButtonGap = 15,
-        ButtonWidth = 140,
-        ButtonHeight = 40,
+        ButtonGap = 10,
+        ButtonWidth = w,
+        ButtonHeight = h,
         HorizontalAlign = Align.Center,
         VerticalAlign = Align.Center,
       },
