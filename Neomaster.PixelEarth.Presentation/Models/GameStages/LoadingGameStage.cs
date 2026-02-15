@@ -41,33 +41,45 @@ public sealed class LoadingGameStage : BaseGameStage
   {
     _textureService.Load(_textures.Get(TextureGroupId.MainMenu));
 
-    var texMap = _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenu);
+    var texMap = _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuMap);
+
+    // Button
+    var w = 207;
+    var h = 50;
+    var i = 0;
+    var y = () => i++ * h;
 
     var playButton = RectangleTextureButtonBuilder
       .Create(texMap)
-      .Size(140, 40)
-      .UvPx(0, 0, 70, 20)
-      .UvSelectedPx(0, 20, 70, 20)
+      .Size(w, h)
+      .UvPx(0, y(), w, h)
+      .UvHoveredPx(0, y(), w, h)
+      .UvSelectedPx(0, y(), w, h)
+      .UvSelectedHoveredPx(0, y(), w, h)
       .Build(_idGenerator.Next());
 
     var demosButton = RectangleTextureButtonBuilder
       .Create(texMap)
-      .Size(140, 40)
-      .UvPx(0, 40, 70, 20)
-      .UvSelectedPx(0, 60, 70, 20)
+      .Size(w, h)
+      .UvPx(0, y(), w, h)
+      .UvHoveredPx(0, y(), w, h)
+      .UvSelectedPx(0, y(), w, h)
+      .UvSelectedHoveredPx(0, y(), w, h)
       .Build(_idGenerator.Next());
 
     var exitButton = RectangleTextureButtonBuilder
       .Create(texMap)
-      .Size(140, 40)
-      .UvPx(0, 80, 70, 20)
-      .UvSelectedPx(0, 100, 70, 20)
+      .Size(w, h)
+      .UvPx(0, y(), w, h)
+      .UvHoveredPx(0, y(), w, h)
+      .UvSelectedPx(0, y(), w, h)
+      .UvSelectedHoveredPx(0, y(), w, h)
       .Action(_gameWindowService.Exit)
       .Build(_idGenerator.Next());
 
     _frameService.FrameInfo.SelectedId = playButton.Id;
 
-    _mainMenuGameStageBuffer.MainMenu = new MainMenu
+    var mainMenu = new MainMenu
     {
       Items =
       [
@@ -89,9 +101,9 @@ public sealed class LoadingGameStage : BaseGameStage
       ],
       Options = new MainMenuOptions
       {
-        ButtonGap = 15,
-        ButtonWidth = 140,
-        ButtonHeight = 40,
+        ButtonGap = 10,
+        ButtonWidth = w,
+        ButtonHeight = h,
         HorizontalAlign = Align.Center,
         VerticalAlign = Align.Center,
       },
@@ -99,16 +111,35 @@ public sealed class LoadingGameStage : BaseGameStage
 
     // Align items.
     _uiService.CreateGrid(
-      _mainMenuGameStageBuffer.MainMenu.Items.Select(x => x.Button).ToArray(),
+      mainMenu.Items.Select(x => x.Button).ToArray(),
       PresentationConsts.WindowSettings.Width,
       PresentationConsts.WindowSettings.Height,
-      _mainMenuGameStageBuffer.MainMenu.Options.ButtonWidth,
-      _mainMenuGameStageBuffer.MainMenu.Options.ButtonHeight,
-      _mainMenuGameStageBuffer.MainMenu.Options.ButtonGap,
-      _mainMenuGameStageBuffer.MainMenu.Options.VerticalAlign,
-      _mainMenuGameStageBuffer.MainMenu.Options.HorizontalAlign);
+      mainMenu.Options.ButtonWidth,
+      mainMenu.Options.ButtonHeight,
+      mainMenu.Options.ButtonGap,
+      mainMenu.Options.VerticalAlign,
+      mainMenu.Options.HorizontalAlign);
 
-    _mainMenuService.Initialize(_mainMenuGameStageBuffer.MainMenu);
+    _mainMenuService.Initialize(mainMenu);
+
+    // Set buffer:
+
+    // BG
+    _mainMenuGameStageBuffer.BgRectangle = new(
+      0, 0, PresentationConsts.WindowSettings.Width, PresentationConsts.WindowSettings.Height);
+    _mainMenuGameStageBuffer.BgTextureShapeOptions = new(
+      _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuBg),
+      _mainMenuGameStageBuffer.BgRectangle);
+
+    // Title
+    var tw = 742;
+    var th = 88;
+    var tx = (PresentationConsts.WindowSettings.Width - tw) / 2;
+    _mainMenuGameStageBuffer.TitleRectangle = new(
+      tx, tx, tw, th);
+    _mainMenuGameStageBuffer.TitleTextureShapeOptions = new(
+      texMap,
+      new Utils.Rectangle(w, 0, tw, th));
 
     _gamePipeline.RemoveGameStateFlag(GameStateFlag.Loading);
     _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
