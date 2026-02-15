@@ -79,7 +79,7 @@ public sealed class LoadingGameStage : BaseGameStage
 
     _frameService.FrameInfo.SelectedId = playButton.Id;
 
-    _mainMenuGameStageBuffer.MainMenu = new MainMenu
+    var mainMenu = new MainMenu
     {
       Items =
       [
@@ -111,16 +111,23 @@ public sealed class LoadingGameStage : BaseGameStage
 
     // Align items.
     _uiService.CreateGrid(
-      _mainMenuGameStageBuffer.MainMenu.Items.Select(x => x.Button).ToArray(),
+      mainMenu.Items.Select(x => x.Button).ToArray(),
       PresentationConsts.WindowSettings.Width,
       PresentationConsts.WindowSettings.Height,
-      _mainMenuGameStageBuffer.MainMenu.Options.ButtonWidth,
-      _mainMenuGameStageBuffer.MainMenu.Options.ButtonHeight,
-      _mainMenuGameStageBuffer.MainMenu.Options.ButtonGap,
-      _mainMenuGameStageBuffer.MainMenu.Options.VerticalAlign,
-      _mainMenuGameStageBuffer.MainMenu.Options.HorizontalAlign);
+      mainMenu.Options.ButtonWidth,
+      mainMenu.Options.ButtonHeight,
+      mainMenu.Options.ButtonGap,
+      mainMenu.Options.VerticalAlign,
+      mainMenu.Options.HorizontalAlign);
 
-    _mainMenuService.Initialize(_mainMenuGameStageBuffer.MainMenu);
+    _mainMenuService.Initialize(mainMenu);
+
+    // Set buffer.
+    _mainMenuGameStageBuffer.BgRectangle = new(
+      0, 0, PresentationConsts.WindowSettings.Width, PresentationConsts.WindowSettings.Height);
+    _mainMenuGameStageBuffer.BgTextureShapeOptions = new(
+      _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuBg),
+      _mainMenuGameStageBuffer.BgRectangle);
 
     _gamePipeline.RemoveGameStateFlag(GameStateFlag.Loading);
     _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);

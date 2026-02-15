@@ -6,8 +6,10 @@ namespace Neomaster.PixelEarth.Presentation;
 public sealed class MainMenuGameStage : BaseGameStage
 {
   private readonly GamePipeline _gamePipeline;
+  private readonly MainMenuGameStageBuffer _mainMenuGameStageBuffer;
   private readonly IMainMenuService _mainMenuService;
   private readonly ITextureService _textureService;
+  private readonly IShapeService _shapeService;
 
   public MainMenuGameStage(
     GamePipeline gamePipeline,
@@ -15,8 +17,10 @@ public sealed class MainMenuGameStage : BaseGameStage
     : base(serviceProvider)
   {
     _gamePipeline = gamePipeline;
+    _mainMenuGameStageBuffer = _gamePipeline.GetGameStageBuffer<MainMenuGameStageBuffer>(GameStageBufferId.MainMenu);
     _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
+    _shapeService = serviceProvider.GetRequiredService<IShapeService>();
   }
 
   protected override bool RequiresStart()
@@ -26,6 +30,7 @@ public sealed class MainMenuGameStage : BaseGameStage
 
   protected override void OnRender(RenderEventArgs? e = null)
   {
+    _shapeService.DrawTextureRectangle(_mainMenuGameStageBuffer.BgRectangle, _mainMenuGameStageBuffer.BgTextureShapeOptions);
     _textureService.SetBlending(Blending.Alpha);
     _mainMenuService.Draw();
     _textureService.SetBlending(Blending.Replace);

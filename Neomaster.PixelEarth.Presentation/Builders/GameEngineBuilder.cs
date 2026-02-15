@@ -52,6 +52,7 @@ public class GameEngineBuilder
     var textures = TexturesBuilder
       .Create()
       .AddTextureGroup(TextureGroupId.MainMenu)
+      .WithTexture(TextureId.MainMenuBg, "main menu - bg.png")
       .WithTexture(TextureId.MainMenuMap, "main menu - map.png")
       .Build();
 
