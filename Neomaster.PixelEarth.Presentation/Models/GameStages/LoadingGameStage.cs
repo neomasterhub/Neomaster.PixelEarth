@@ -65,6 +65,11 @@ public sealed class LoadingGameStage : BaseGameStage
       .UvHoveredPx(0, y(), w, h)
       .UvSelectedPx(0, y(), w, h)
       .UvSelectedHoveredPx(0, y(), w, h)
+      .Action(() =>
+      {
+        _gamePipeline.RemoveGameStateFlag(GameStateFlag.ShowMainMenu);
+        _gamePipeline.AddGameStateFlag(GameStateFlag.ShowDemosMenu);
+      })
       .Build(_idGenerator.Next());
 
     var exitButton = RectangleTextureButtonBuilder

@@ -74,6 +74,7 @@ public class GameEngineBuilder
     _gamePipeline
       .AddStage(p => new LoadingGameStage(p, _serviceProvider))
       .AddStage(p => new MainMenuGameStage(p, _serviceProvider))
+      .AddStage(p => new DemosMenuGameStage(p, _serviceProvider))
       ;
 
     return this;
