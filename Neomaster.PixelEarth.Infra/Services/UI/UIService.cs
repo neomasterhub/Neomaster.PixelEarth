@@ -33,6 +33,7 @@ public class UIService(
     {
       frameService.FrameInfo.SelectedId = button.Id;
       button.MouseLeftPressed = true;
+      button.IsSelected = true;
     }
   }
 
