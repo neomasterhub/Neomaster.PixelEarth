@@ -3,7 +3,9 @@ using Neomaster.PixelEarth.App;
 
 namespace Neomaster.PixelEarth.Infra;
 
-public class MainMenuService : IMainMenuService
+public class MainMenuService(
+  IFrameService frameService)
+  : IMainMenuService
 {
   private MainMenu _mainMenu;
 
@@ -41,12 +43,14 @@ public class MainMenuService : IMainMenuService
   {
     ThrowIfNotInitialized();
     _mainMenu.MoveUp();
+    frameService.FrameInfo.SelectedId = _mainMenu.SelectedItem.Button.Id;
   }
 
   public void MoveDown()
   {
     ThrowIfNotInitialized();
     _mainMenu.MoveDown();
+    frameService.FrameInfo.SelectedId = _mainMenu.SelectedItem.Button.Id;
   }
 
   public void ExecuteSelected()
