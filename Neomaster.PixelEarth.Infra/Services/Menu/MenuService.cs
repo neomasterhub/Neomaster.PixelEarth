@@ -9,12 +9,12 @@ public class MenuService(
 {
   private Menu _menu;
 
-  public void Initialize(Menu menu)
+  public virtual void Initialize(Menu menu)
   {
     _menu = menu;
   }
 
-  public void Draw()
+  public virtual void Draw()
   {
     ThrowIfNotInitialized();
 
@@ -39,27 +39,27 @@ public class MenuService(
     }
   }
 
-  public void MoveUp()
+  public virtual void MoveUp()
   {
     ThrowIfNotInitialized();
     _menu.MoveUp();
     frameService.FrameInfo.SelectedId = _menu.SelectedItem.Button.Id;
   }
 
-  public void MoveDown()
+  public virtual void MoveDown()
   {
     ThrowIfNotInitialized();
     _menu.MoveDown();
     frameService.FrameInfo.SelectedId = _menu.SelectedItem.Button.Id;
   }
 
-  public void ExecuteSelected()
+  public virtual void ExecuteSelected()
   {
     ThrowIfNotInitialized();
     _menu.SelectedItem?.Button.Action();
   }
 
-  public void ExecuteLMBClicked()
+  public virtual void ExecuteLMBClicked()
   {
     ThrowIfNotInitialized();
     _menu.LMBClickedItem?.Button.Action();
