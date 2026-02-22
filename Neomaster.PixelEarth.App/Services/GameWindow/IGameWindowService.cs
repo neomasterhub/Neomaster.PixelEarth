@@ -2,12 +2,13 @@ namespace Neomaster.PixelEarth.App;
 
 public interface IGameWindowService
 {
-  bool IsKeyDown(ConsoleKey key);
+  void Run();
+  void Exit();
   void OnLoad();
   void OnExit(ExitEventArgs e);
   void OnRender(RenderEventArgs e);
   void OnUpdate(UpdateEventArgs e);
   void UpdateMouseState(MouseStateEventArgs e);
-  void Run();
-  void Exit();
+  bool IsKeyUp(ConsoleKey key);
+  bool IsKeyDown(ConsoleKey key);
 }

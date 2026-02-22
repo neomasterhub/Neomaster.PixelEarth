@@ -47,11 +47,6 @@ public class GameWindowService : IGameWindowService
     _gameWindow.UpdateFrame += args => OnUpdate(args.ToUpdateEventArgs());
   }
 
-  public bool IsKeyDown(ConsoleKey key)
-  {
-    return _gameWindow.IsKeyDown(key.ToGlKey());
-  }
-
   public void Run()
   {
     _gameWindow.Run();
@@ -97,5 +92,15 @@ public class GameWindowService : IGameWindowService
   public void UpdateMouseState(MouseStateEventArgs e)
   {
     _mouseService.UpdateMouseState(e);
+  }
+
+  public bool IsKeyUp(ConsoleKey key)
+  {
+    return _gameWindow.IsKeyReleased(key.ToGlKey());
+  }
+
+  public bool IsKeyDown(ConsoleKey key)
+  {
+    return _gameWindow.IsKeyDown(key.ToGlKey());
   }
 }
