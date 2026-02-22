@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Neomaster.PixelEarth.Infra;
 
@@ -45,6 +46,12 @@ public class GameWindowService : IGameWindowService
     _gameWindow.Closing += args => OnExit(args.ToExitEventArgs());
     _gameWindow.RenderFrame += args => OnRender(args.ToRenderEventArgs());
     _gameWindow.UpdateFrame += args => OnUpdate(args.ToUpdateEventArgs());
+  }
+
+  public bool IsKeyDown(ConsoleKey key)
+  {
+    // TODO: Extension method for mapping
+    return _gameWindow.IsKeyDown((Keys)key);
   }
 
   public void Run()
