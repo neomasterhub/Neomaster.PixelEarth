@@ -16,6 +16,8 @@ public class MainMenuService : IMainMenuService
   {
     ThrowIfNotInitialized();
 
+    _mainMenu.LMBClickedItem = null;
+
     var items = _mainMenu.Items;
     for (var i = 0; i < items.Count; i++)
     {
@@ -26,6 +28,11 @@ public class MainMenuService : IMainMenuService
       if (item.Button.IsSelected)
       {
         _mainMenu.SelectedIndex = i;
+      }
+
+      if (item.Button.MouseLeftPressed)
+      {
+        _mainMenu.LMBClickedItem = item;
       }
     }
   }
@@ -45,8 +52,13 @@ public class MainMenuService : IMainMenuService
   public void ExecuteSelected()
   {
     ThrowIfNotInitialized();
-    var s = _mainMenu.SelectedIndex;
     _mainMenu.SelectedItem?.Button.Action();
+  }
+
+  public void ExecuteLMBClicked()
+  {
+    ThrowIfNotInitialized();
+    _mainMenu.LMBClickedItem?.Button.Action();
   }
 
   [Conditional("DEBUG")]

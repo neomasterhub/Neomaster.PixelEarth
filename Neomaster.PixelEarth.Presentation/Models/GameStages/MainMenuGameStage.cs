@@ -45,5 +45,9 @@ public sealed class MainMenuGameStage : BaseGameStage
     {
       _mainMenuService.ExecuteSelected();
     }
+    else
+    {
+      _mainMenuService.ExecuteLMBClicked();
+    }
   }
 }
