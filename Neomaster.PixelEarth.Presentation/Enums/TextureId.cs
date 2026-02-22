@@ -4,4 +4,5 @@ public enum TextureId
 {
   MainMenuBg,
   MainMenuMap,
+  MainMenuDemosBg,
 }

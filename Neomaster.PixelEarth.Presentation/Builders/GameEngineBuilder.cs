@@ -54,6 +54,7 @@ public class GameEngineBuilder
       .AddTextureGroup(TextureGroupId.MainMenu)
       .WithTexture(TextureId.MainMenuBg, "main menu - bg.png")
       .WithTexture(TextureId.MainMenuMap, "main menu - map.png")
+      .WithTexture(TextureId.MainMenuDemosBg, "main menu - demos bg.png")
       .Build();
 
     _services.AddSingleton(textures);
