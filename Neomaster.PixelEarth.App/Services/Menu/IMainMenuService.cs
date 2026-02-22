@@ -2,7 +2,7 @@ namespace Neomaster.PixelEarth.App;
 
 public interface IMainMenuService
 {
-  void Initialize(MainMenu mainMenu);
+  void Initialize(Menu mainMenu);
   void Draw();
   void MoveUp();
   void MoveDown();

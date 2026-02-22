@@ -28,7 +28,7 @@ public class GameEngineBuilder
       .AddSingleton(_gamePipeline)
       .AddSingleton(PresentationConsts.RenderSettings)
       .AddSingleton(PresentationConsts.WindowSettings)
-      .AddSingleton(typeof(MainMenuOptions), PresentationConsts.MainMenu.DefaultOptions)
+      .AddSingleton(typeof(MenuOptions), PresentationConsts.MainMenu.DefaultOptions)
       .AddSingleton(typeof(ColorShapeOptions), PresentationConsts.Shape.ColorDefaultOptions)
       .AddSingleton<IIdGenerator<int>, IntIdGenerator>()
       .AddSingleton<IGameWindowService, GameWindowService>()

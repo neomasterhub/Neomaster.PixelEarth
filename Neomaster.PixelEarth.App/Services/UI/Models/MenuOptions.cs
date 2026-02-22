@@ -1,6 +1,6 @@
 namespace Neomaster.PixelEarth.App;
 
-public struct MainMenuOptions
+public struct MenuOptions
 {
   public float ButtonGap;
   public float ButtonWidth;

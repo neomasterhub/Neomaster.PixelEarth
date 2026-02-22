@@ -106,7 +106,7 @@ public sealed class LoadingGameStage : BaseGameStage
 
     _frameService.FrameInfo.SelectedId = playButton.Id;
 
-    var mainMenu = new MainMenu
+    var mainMenu = new Menu
     {
       Items =
       [
@@ -126,7 +126,7 @@ public sealed class LoadingGameStage : BaseGameStage
           DrawButton = () => _uiService.DrawRectangleTextureButton(exitButton),
         },
       ],
-      Options = new MainMenuOptions
+      Options = new MenuOptions
       {
         ButtonGap = 10,
         ButtonWidth = w,

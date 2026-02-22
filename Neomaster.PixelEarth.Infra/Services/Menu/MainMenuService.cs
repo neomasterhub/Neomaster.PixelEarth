@@ -7,9 +7,9 @@ public class MainMenuService(
   IFrameService frameService)
   : IMainMenuService
 {
-  private MainMenu _mainMenu;
+  private Menu _mainMenu;
 
-  public void Initialize(MainMenu mainMenu)
+  public void Initialize(Menu mainMenu)
   {
     _mainMenu = mainMenu;
   }
