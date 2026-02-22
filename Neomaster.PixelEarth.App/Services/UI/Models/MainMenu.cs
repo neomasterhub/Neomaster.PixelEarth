@@ -4,6 +4,7 @@ namespace Neomaster.PixelEarth.App;
 
 public class MainMenu : Menu<MainMenuItem>
 {
+  public MainMenuItem LMBClickedItem { get; set; }
   public List<MainMenuItem> Items { get; set; }
   public MainMenuOptions Options { get; set; }
   public override int ItemCount => Items.Count;
