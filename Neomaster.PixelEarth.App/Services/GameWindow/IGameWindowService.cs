@@ -11,4 +11,6 @@ public interface IGameWindowService
   void UpdateMouseState(MouseStateEventArgs e);
   bool IsKeyUp(ConsoleKey key);
   bool IsKeyDown(ConsoleKey key);
+  bool IsAnyKeyUp(params ConsoleKey[] keys);
+  bool IsAnyKeyDown(params ConsoleKey[] keys);
 }

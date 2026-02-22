@@ -103,4 +103,30 @@ public class GameWindowService : IGameWindowService
   {
     return _gameWindow.IsKeyDown(key.ToGlKey());
   }
+
+  public bool IsAnyKeyUp(params ConsoleKey[] keys)
+  {
+    for (var i = 0; i < keys.Length; i++)
+    {
+      if (IsKeyUp(keys[i]))
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public bool IsAnyKeyDown(params ConsoleKey[] keys)
+  {
+    for (var i = 0; i < keys.Length; i++)
+    {
+      if (IsKeyDown(keys[i]))
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }
