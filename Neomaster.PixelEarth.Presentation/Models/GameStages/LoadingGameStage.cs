@@ -45,6 +45,7 @@ public sealed class LoadingGameStage : BaseGameStage
 
     SetBgInfo();
     InitializeMainMenu(texMap);
+    InitializeDemosMenu(texMap);
 
     _gamePipeline.RemoveGameStateFlag(GameStateFlag.Loading);
     _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
@@ -157,5 +158,29 @@ public sealed class LoadingGameStage : BaseGameStage
     _mainMenuGameStageBuffer.TitleTextureShapeOptions = new(
       texMap,
       new Utils.Rectangle(w, 0, tw, th));
+  }
+
+  private void InitializeDemosMenu(Texture texMap)
+  {
+    // Button
+    var x = 215;
+    var w = 207;
+    var h = 27;
+    var i = 0;
+    var y = () => i++ * h;
+
+    var backButton = RectangleTextureButtonBuilder
+      .Create(texMap)
+      .Size(w, h)
+      .UvPx(x, y(), w, h)
+      .UvHoveredPx(x, y(), w, h)
+      .UvSelectedPx(x, y(), w, h)
+      .UvSelectedHoveredPx(x, y(), w, h)
+      .Action(() =>
+      {
+        _gamePipeline.RemoveGameStateFlag(GameStateFlag.ShowDemosMenu);
+        _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
+      })
+      .Build(_idGenerator.Next());
   }
 }
