@@ -7,6 +7,7 @@ public sealed class MainMenuGameStage : BaseGameStage
 {
   private readonly GamePipeline _gamePipeline;
   private readonly MainMenuGameStageBuffer _mainMenuGameStageBuffer;
+  private readonly IGameWindowService _gameWindowService;
   private readonly IMainMenuService _mainMenuService;
   private readonly ITextureService _textureService;
   private readonly IShapeService _shapeService;
@@ -18,6 +19,7 @@ public sealed class MainMenuGameStage : BaseGameStage
   {
     _gamePipeline = gamePipeline;
     _mainMenuGameStageBuffer = _gamePipeline.GetGameStageBuffer<MainMenuGameStageBuffer>(GameStageBufferId.MainMenu);
+    _gameWindowService = serviceProvider.GetRequiredService<IGameWindowService>();
     _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
     _shapeService = serviceProvider.GetRequiredService<IShapeService>();
@@ -39,7 +41,9 @@ public sealed class MainMenuGameStage : BaseGameStage
 
   protected override void OnUpdate(UpdateEventArgs? e = null)
   {
-    // TODO: implement keyboard map
-    _mainMenuService.ExecuteSelected();
+    if (_gameWindowService.IsKeyDown(ConsoleKey.Enter))
+    {
+      _mainMenuService.ExecuteSelected();
+    }
   }
 }
