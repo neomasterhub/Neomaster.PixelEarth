@@ -41,7 +41,15 @@ public sealed class MainMenuGameStage : BaseGameStage
 
   protected override void OnUpdate(UpdateEventArgs? e = null)
   {
-    if (_gameWindowService.IsKeyDown(ConsoleKey.Enter))
+    if (_gameWindowService.IsAnyKeyUp(ConsoleKey.W, ConsoleKey.UpArrow))
+    {
+      _mainMenuService.MoveUp();
+    }
+    else if (_gameWindowService.IsAnyKeyUp(ConsoleKey.S, ConsoleKey.DownArrow))
+    {
+      _mainMenuService.MoveDown();
+    }
+    else if (_gameWindowService.IsKeyDown(ConsoleKey.Enter))
     {
       _mainMenuService.ExecuteSelected();
     }
