@@ -2,7 +2,7 @@ using Neomaster.PixelEarth.Utils;
 
 namespace Neomaster.PixelEarth.App;
 
-public class MainMenu : Menu<MenuItem>
+public class MainMenu : MenuBase<MenuItem>
 {
   public MenuItem LMBClickedItem { get; set; }
   public List<MenuItem> Items { get; set; }
