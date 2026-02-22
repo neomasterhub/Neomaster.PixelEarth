@@ -15,7 +15,7 @@ public static class ConsoleKeyExtensions
       ConsoleKey.Clear => Keys.Unknown,
       ConsoleKey.Enter => Keys.Enter,
       ConsoleKey.Pause => Keys.Unknown,
-      ConsoleKey.Escape => Keys.Unknown,
+      ConsoleKey.Escape => Keys.Escape,
       ConsoleKey.Spacebar => Keys.Unknown,
       ConsoleKey.PageUp => Keys.Unknown,
       ConsoleKey.PageDown => Keys.Unknown,

@@ -9,5 +9,6 @@ public sealed class MainMenuGameStageBuffer()
   public Rectangle BgRectangle { get; set; }
   public Rectangle TitleRectangle { get; set; }
   public TextureShapeOptions BgTextureShapeOptions { get; set; }
+  public TextureShapeOptions DemosBgTextureShapeOptions { get; set; }
   public TextureShapeOptions TitleTextureShapeOptions { get; set; }
 }

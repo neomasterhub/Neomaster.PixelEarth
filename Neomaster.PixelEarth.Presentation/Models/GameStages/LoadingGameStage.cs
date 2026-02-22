@@ -135,6 +135,9 @@ public sealed class LoadingGameStage : BaseGameStage
     _mainMenuGameStageBuffer.BgTextureShapeOptions = new(
       _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuBg),
       _mainMenuGameStageBuffer.BgRectangle);
+    _mainMenuGameStageBuffer.DemosBgTextureShapeOptions = new(
+      _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuDemosBg),
+      _mainMenuGameStageBuffer.BgRectangle);
 
     // Title
     var tw = 742;
