@@ -3,7 +3,7 @@ using Neomaster.PixelEarth.App;
 
 namespace Neomaster.PixelEarth.Infra;
 
-public class MenuService(
+public abstract class MenuServiceBase(
   IFrameService frameService)
   : IMenuService
 {
