@@ -16,6 +16,8 @@ public sealed class LoadingGameStage : BaseGameStage
   private readonly IFrameService _frameService;
   private readonly IUIService _uiService;
   private readonly IIdGenerator<int> _idGenerator;
+  private readonly int _mainMenu_demosButtonId;
+  private readonly int _demosMenu_backButtonId;
 
   public LoadingGameStage(
     GamePipeline gamePipeline,
@@ -32,6 +34,8 @@ public sealed class LoadingGameStage : BaseGameStage
     _frameService = serviceProvider.GetRequiredService<IFrameService>();
     _uiService = serviceProvider.GetRequiredService<IUIService>();
     _idGenerator = serviceProvider.GetRequiredService<IIdGenerator<int>>();
+    _mainMenu_demosButtonId = _idGenerator.Next();
+    _demosMenu_backButtonId = _idGenerator.Next();
   }
 
   protected override bool RequiresStart()
@@ -93,8 +97,9 @@ public sealed class LoadingGameStage : BaseGameStage
       {
         _gamePipeline.RemoveGameStateFlag(GameStateFlag.ShowMainMenu);
         _gamePipeline.AddGameStateFlag(GameStateFlag.ShowDemosMenu);
+        _frameService.FrameInfo.SelectedId = _demosMenu_backButtonId;
       })
-      .Build(_idGenerator.Next());
+      .Build(_mainMenu_demosButtonId);
 
     var exitButton = RectangleTextureButtonBuilder
       .Create(texMap)
@@ -166,10 +171,10 @@ public sealed class LoadingGameStage : BaseGameStage
   {
     // Button
     var x = 215;
-    var w = 207;
+    var w = 153;
     var h = 27;
     var i = 0;
-    var y = () => i++ * h;
+    var y = () => 98 + (i++ * h);
 
     var backButton = RectangleTextureButtonBuilder
       .Create(texMap)
@@ -182,10 +187,22 @@ public sealed class LoadingGameStage : BaseGameStage
       {
         _gamePipeline.RemoveGameStateFlag(GameStateFlag.ShowDemosMenu);
         _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
+        _frameService.FrameInfo.SelectedId = _mainMenu_demosButtonId;
       })
-      .Build(_idGenerator.Next());
+      .Build(_demosMenu_backButtonId);
 
-    var demosMenu = new Menu();
+    var demosMenu = new Menu
+    {
+      Items =
+      [
+        new()
+        {
+          Button = backButton,
+          DrawButton = () => _uiService.DrawRectangleTextureButton(backButton),
+        },
+      ],
+    };
+
     _demosMenuService.Initialize(demosMenu);
   }
 }

@@ -11,6 +11,7 @@ public class DemosMenuGameStage : BaseGameStage
   private readonly IShapeService _shapeService;
   private readonly IGameWindowService _gameWindowService;
   private readonly IMenuService _demosMenuService;
+  private readonly ITextureService _textureService;
 
   public DemosMenuGameStage(
     GamePipeline gamePipeline,
@@ -22,6 +23,7 @@ public class DemosMenuGameStage : BaseGameStage
     _shapeService = serviceProvider.GetRequiredService<IShapeService>();
     _gameWindowService = serviceProvider.GetRequiredService<IGameWindowService>();
     _demosMenuService = serviceProvider.GetRequiredKeyedService<IMenuService>(MenuId.Demos);
+    _textureService = serviceProvider.GetRequiredService<ITextureService>();
   }
 
   protected override bool RequiresStart()
@@ -31,19 +33,34 @@ public class DemosMenuGameStage : BaseGameStage
 
   protected override void OnRender(RenderEventArgs? e = null)
   {
+    _textureService.SetBlending(Blending.Alpha);
+
     _shapeService.DrawTextureRectangle(
       _mainMenuGameStageBuffer.BgRectangle,
       _mainMenuGameStageBuffer.DemosBgTextureShapeOptions);
 
     _demosMenuService.Draw();
+
+    _textureService.SetBlending(Blending.Replace);
   }
 
   protected override void OnUpdate(UpdateEventArgs? e = null)
   {
-    if (_gameWindowService.IsAnyKeyUp(ConsoleKey.Escape))
+    if (_gameWindowService.IsAnyKeyUp(ConsoleKey.W, ConsoleKey.UpArrow))
     {
-      _gamePipeline.RemoveGameStateFlag(GameStateFlag.ShowDemosMenu);
-      _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
+      _demosMenuService.MoveUp();
+    }
+    else if (_gameWindowService.IsAnyKeyUp(ConsoleKey.S, ConsoleKey.DownArrow))
+    {
+      _demosMenuService.MoveDown();
+    }
+    else if (_gameWindowService.IsKeyDown(ConsoleKey.Enter))
+    {
+      _demosMenuService.ExecuteSelected();
+    }
+    else
+    {
+      _demosMenuService.ExecuteLMBClicked();
     }
   }
 }
