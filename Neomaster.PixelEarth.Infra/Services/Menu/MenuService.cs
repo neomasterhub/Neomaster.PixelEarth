@@ -3,24 +3,24 @@ using Neomaster.PixelEarth.App;
 
 namespace Neomaster.PixelEarth.Infra;
 
-public class MainMenuService(
+public class MenuService(
   IFrameService frameService)
-  : IMainMenuService
+  : IMenuService
 {
-  private Menu _mainMenu;
+  private Menu _menu;
 
-  public void Initialize(Menu mainMenu)
+  public void Initialize(Menu menu)
   {
-    _mainMenu = mainMenu;
+    _menu = menu;
   }
 
   public void Draw()
   {
     ThrowIfNotInitialized();
 
-    _mainMenu.LMBClickedItem = null;
+    _menu.LMBClickedItem = null;
 
-    var items = _mainMenu.Items;
+    var items = _menu.Items;
     for (var i = 0; i < items.Count; i++)
     {
       var item = items[i];
@@ -29,12 +29,12 @@ public class MainMenuService(
 
       if (item.Button.IsSelected)
       {
-        _mainMenu.SelectedIndex = i;
+        _menu.SelectedIndex = i;
       }
 
       if (item.Button.MouseLeftPressed)
       {
-        _mainMenu.LMBClickedItem = item;
+        _menu.LMBClickedItem = item;
       }
     }
   }
@@ -42,33 +42,33 @@ public class MainMenuService(
   public void MoveUp()
   {
     ThrowIfNotInitialized();
-    _mainMenu.MoveUp();
-    frameService.FrameInfo.SelectedId = _mainMenu.SelectedItem.Button.Id;
+    _menu.MoveUp();
+    frameService.FrameInfo.SelectedId = _menu.SelectedItem.Button.Id;
   }
 
   public void MoveDown()
   {
     ThrowIfNotInitialized();
-    _mainMenu.MoveDown();
-    frameService.FrameInfo.SelectedId = _mainMenu.SelectedItem.Button.Id;
+    _menu.MoveDown();
+    frameService.FrameInfo.SelectedId = _menu.SelectedItem.Button.Id;
   }
 
   public void ExecuteSelected()
   {
     ThrowIfNotInitialized();
-    _mainMenu.SelectedItem?.Button.Action();
+    _menu.SelectedItem?.Button.Action();
   }
 
   public void ExecuteLMBClicked()
   {
     ThrowIfNotInitialized();
-    _mainMenu.LMBClickedItem?.Button.Action();
+    _menu.LMBClickedItem?.Button.Action();
   }
 
   [Conditional("DEBUG")]
   private void ThrowIfNotInitialized()
   {
-    if (_mainMenu == null)
+    if (_menu == null)
     {
       throw new InvalidOperationException("The main menu has not been initialized.");
     }
