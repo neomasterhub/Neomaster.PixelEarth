@@ -2,11 +2,11 @@ using Neomaster.PixelEarth.Utils;
 
 namespace Neomaster.PixelEarth.App;
 
-public class MainMenu : Menu<MainMenuItem>
+public class MainMenu : Menu<MenuItem>
 {
-  public MainMenuItem LMBClickedItem { get; set; }
-  public List<MainMenuItem> Items { get; set; }
+  public MenuItem LMBClickedItem { get; set; }
+  public List<MenuItem> Items { get; set; }
   public MainMenuOptions Options { get; set; }
   public override int ItemCount => Items.Count;
-  public override MainMenuItem this[int index] => Items[index];
+  public override MenuItem this[int index] => Items[index];
 }
