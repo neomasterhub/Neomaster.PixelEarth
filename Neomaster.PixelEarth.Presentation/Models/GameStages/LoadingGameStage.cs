@@ -10,7 +10,8 @@ public sealed class LoadingGameStage : BaseGameStage
   private readonly MainMenuGameStageBuffer _mainMenuGameStageBuffer;
   private readonly GamePipeline _gamePipeline;
   private readonly IGameWindowService _gameWindowService;
-  private readonly IMainMenuService _mainMenuService;
+  private readonly IMenuService _mainMenuService;
+  private readonly IMenuService _demosMenuService;
   private readonly ITextureService _textureService;
   private readonly IFrameService _frameService;
   private readonly IUIService _uiService;
@@ -25,7 +26,8 @@ public sealed class LoadingGameStage : BaseGameStage
     _mainMenuGameStageBuffer = _gamePipeline.GetGameStageBuffer<MainMenuGameStageBuffer>(GameStageBufferId.MainMenu);
     _textures = serviceProvider.GetRequiredService<Textures>();
     _gameWindowService = serviceProvider.GetRequiredService<IGameWindowService>();
-    _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
+    _mainMenuService = serviceProvider.GetRequiredKeyedService<IMenuService>(MenuId.Main);
+    _demosMenuService = serviceProvider.GetRequiredKeyedService<IMenuService>(MenuId.Demos);
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
     _frameService = serviceProvider.GetRequiredService<IFrameService>();
     _uiService = serviceProvider.GetRequiredService<IUIService>();
@@ -182,5 +184,8 @@ public sealed class LoadingGameStage : BaseGameStage
         _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
       })
       .Build(_idGenerator.Next());
+
+    var demosMenu = new Menu();
+    _demosMenuService.Initialize(demosMenu);
   }
 }

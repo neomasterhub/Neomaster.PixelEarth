@@ -1,6 +1,6 @@
 namespace Neomaster.PixelEarth.Infra;
 
-public enum MenuServiceId
+public enum MenuId
 {
   Main,
   Demos,

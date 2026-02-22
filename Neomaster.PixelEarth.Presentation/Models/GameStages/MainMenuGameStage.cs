@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Neomaster.PixelEarth.App;
+using Neomaster.PixelEarth.Infra;
 
 namespace Neomaster.PixelEarth.Presentation;
 
@@ -8,7 +9,7 @@ public sealed class MainMenuGameStage : BaseGameStage
   private readonly GamePipeline _gamePipeline;
   private readonly MainMenuGameStageBuffer _mainMenuGameStageBuffer;
   private readonly IGameWindowService _gameWindowService;
-  private readonly IMainMenuService _mainMenuService;
+  private readonly IMenuService _mainMenuService;
   private readonly ITextureService _textureService;
   private readonly IShapeService _shapeService;
 
@@ -20,7 +21,7 @@ public sealed class MainMenuGameStage : BaseGameStage
     _gamePipeline = gamePipeline;
     _mainMenuGameStageBuffer = _gamePipeline.GetGameStageBuffer<MainMenuGameStageBuffer>(GameStageBufferId.MainMenu);
     _gameWindowService = serviceProvider.GetRequiredService<IGameWindowService>();
-    _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
+    _mainMenuService = serviceProvider.GetRequiredKeyedService<IMenuService>(MenuId.Main);
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
     _shapeService = serviceProvider.GetRequiredService<IShapeService>();
   }
