@@ -7,20 +7,20 @@ public abstract class MenuServiceBase(
   IFrameService frameService)
   : IMenuService
 {
-  private Menu _menu;
+  public Menu Menu { get; private set; }
 
   public virtual void Initialize(Menu menu)
   {
-    _menu = menu;
+    Menu = menu;
   }
 
   public virtual void Draw()
   {
     ThrowIfNotInitialized();
 
-    _menu.LMBClickedItem = null;
+    Menu.LMBClickedItem = null;
 
-    var items = _menu.Items;
+    var items = Menu.Items;
     for (var i = 0; i < items.Count; i++)
     {
       var item = items[i];
@@ -29,12 +29,12 @@ public abstract class MenuServiceBase(
 
       if (item.Button.IsSelected)
       {
-        _menu.SelectedIndex = i;
+        Menu.SelectedIndex = i;
       }
 
       if (item.Button.MouseLeftPressed)
       {
-        _menu.LMBClickedItem = item;
+        Menu.LMBClickedItem = item;
       }
     }
   }
@@ -42,33 +42,33 @@ public abstract class MenuServiceBase(
   public virtual void MoveUp()
   {
     ThrowIfNotInitialized();
-    _menu.MoveUp();
-    frameService.FrameInfo.SelectedId = _menu.SelectedItem.Button.Id;
+    Menu.MoveUp();
+    frameService.FrameInfo.SelectedId = Menu.SelectedItem.Button.Id;
   }
 
   public virtual void MoveDown()
   {
     ThrowIfNotInitialized();
-    _menu.MoveDown();
-    frameService.FrameInfo.SelectedId = _menu.SelectedItem.Button.Id;
+    Menu.MoveDown();
+    frameService.FrameInfo.SelectedId = Menu.SelectedItem.Button.Id;
   }
 
   public virtual void ExecuteSelected()
   {
     ThrowIfNotInitialized();
-    _menu.SelectedItem?.Button.Action();
+    Menu.SelectedItem?.Button.Action();
   }
 
   public virtual void ExecuteLMBClicked()
   {
     ThrowIfNotInitialized();
-    _menu.LMBClickedItem?.Button.Action();
+    Menu.LMBClickedItem?.Button.Action();
   }
 
   [Conditional("DEBUG")]
   private void ThrowIfNotInitialized()
   {
-    if (_menu == null)
+    if (Menu == null)
     {
       throw new InvalidOperationException("The main menu has not been initialized.");
     }
