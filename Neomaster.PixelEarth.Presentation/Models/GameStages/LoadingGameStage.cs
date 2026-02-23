@@ -61,10 +61,10 @@ public sealed class LoadingGameStage : BaseGameStage
   {
     _mainMenuGameStageBuffer.BgRectangle = new(
       0, 0, PresentationConsts.WindowSettings.Width, PresentationConsts.WindowSettings.Height);
-    _mainMenuGameStageBuffer.BgTextureShapeOptions = new(
+    _mainMenuGameStageBuffer.BgTextureShapeOptions = TextureShapeOptions.CreateForRectangle(
       _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuBg),
       _mainMenuGameStageBuffer.BgRectangle);
-    _mainMenuGameStageBuffer.DemosBgTextureShapeOptions = new(
+    _mainMenuGameStageBuffer.DemosBgTextureShapeOptions = TextureShapeOptions.CreateForRectangle(
       _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuDemosBg),
       _mainMenuGameStageBuffer.BgRectangle);
   }
@@ -154,9 +154,9 @@ public sealed class LoadingGameStage : BaseGameStage
     var tx = (PresentationConsts.WindowSettings.Width - tw) / 2;
     _mainMenuGameStageBuffer.TitleRectangle = new(
       tx, tx, tw, th);
-    _mainMenuGameStageBuffer.TitleTextureShapeOptions = new(
+    _mainMenuGameStageBuffer.TitleTextureShapeOptions = TextureShapeOptions.CreateForRectangle(
       texMap,
-      new Utils.Rectangle(w, 0, tw, th));
+      new(w, 0, tw, th));
   }
 
   private void InitializeDemosMenu(Texture texMap)
@@ -206,8 +206,8 @@ public sealed class LoadingGameStage : BaseGameStage
     var tx = (PresentationConsts.WindowSettings.Width - tw) / 2;
     _mainMenuGameStageBuffer.DemosTitleRectangle = new(
       40, 30, tw, th);
-    _mainMenuGameStageBuffer.DemosTitleTextureShapeOptions = new(
+    _mainMenuGameStageBuffer.DemosTitleTextureShapeOptions = TextureShapeOptions.CreateForRectangle(
       texMap,
-      new Utils.Rectangle(368, 146, tw, th));
+      new(368, 146, tw, th));
   }
 }

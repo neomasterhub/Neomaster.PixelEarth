@@ -96,7 +96,7 @@ public class RectangleTextureButtonBuilder
       Width = _width ?? _textureMap.Width,
       Height = _height ?? _textureMap.Height,
       Action = _action,
-      TextureShapeOptions = new(
+      TextureShapeOptions = TextureShapeOptions.CreateForRectangle(
         _textureMap,
         _uvPx,
         _uvHoveredPx,
