@@ -1,7 +1,7 @@
 using Neomaster.PixelEarth.App;
 using OpenTK.Graphics.OpenGL4;
 
-namespace Neomaster.PixelEarth.Infra.Extensions;
+namespace Neomaster.PixelEarth.Infra;
 
 public static class CullFacesExtensions
 {

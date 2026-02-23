@@ -10,28 +10,28 @@ public class GameWindowService : IGameWindowService
 {
   private readonly GameWindow _gameWindow;
   private readonly GamePipeline _gamePipeline;
+  private readonly RenderSettings _renderSettings;
   private readonly WindowSettings _windowSettings;
   private readonly IMouseService _mouseService;
   private readonly IShaderService _shaderService;
   private readonly IShapeService _shapeService;
-  private readonly ITextureService _textureService;
   private readonly IFrameService _frameService;
 
   public GameWindowService(
     GamePipeline gamePipeline,
     WindowSettings windowSettings,
+    RenderSettings renderSettings,
     IMouseService mouseService,
     IShaderService shaderService,
     IShapeService shapeService,
-    ITextureService textureService,
     IFrameService frameService)
   {
     _gamePipeline = gamePipeline;
     _windowSettings = windowSettings;
+    _renderSettings = renderSettings;
     _mouseService = mouseService;
     _shaderService = shaderService;
     _shapeService = shapeService;
-    _textureService = textureService;
     _frameService = frameService;
 
     _gameWindow = new GameWindow(GameWindowSettings.Default, new NativeWindowSettings
@@ -61,7 +61,7 @@ public class GameWindowService : IGameWindowService
   {
     _shaderService.InitializeShaders();
     _shapeService.InitializeBuffers();
-    _textureService.Initialize();
+    _renderSettings.Apply();
     _frameService.ResetFrame();
     _gamePipeline.Update();
   }

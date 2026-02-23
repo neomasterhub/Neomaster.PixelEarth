@@ -4,12 +4,9 @@ using OpenTK.Graphics.OpenGL4;
 namespace Neomaster.PixelEarth.Infra;
 
 public class TextureService(
-  IImageService imageService,
-  RenderSettings renderSettings)
+  IImageService imageService)
   : ITextureService
 {
-  public Blending Blending { get; private set; }
-
   public void Cut(int textureId)
   {
     var width = 200;
@@ -58,38 +55,5 @@ public class TextureService(
     GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
     texture.IsLoaded = true;
-  }
-
-  public void SetBlending(Blending blending)
-  {
-    if (Blending == blending)
-    {
-      return;
-    }
-
-    Blending = blending;
-
-    switch (blending)
-    {
-      case Blending.Alpha:
-        GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-        break;
-      case Blending.Replace:
-        GL.BlendFunc(BlendingFactor.One, BlendingFactor.Zero);
-        break;
-      default: throw blending.ArgumentOutOfRangeException();
-    }
-  }
-
-  public void Initialize()
-  {
-    if (renderSettings.AlphaBlendingEnabled)
-    {
-      GL.Enable(EnableCap.Blend);
-    }
-    else
-    {
-      GL.Disable(EnableCap.Blend);
-    }
   }
 }
