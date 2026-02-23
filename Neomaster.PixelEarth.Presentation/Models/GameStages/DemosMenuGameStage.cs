@@ -58,6 +58,10 @@ public class DemosMenuGameStage : BaseGameStage
     {
       _demosMenuService.ExecuteSelected();
     }
+    else if (_gameWindowService.IsKeyDown(ConsoleKey.Escape))
+    {
+      _demosMenuService.Menu[0].Button.Action();
+    }
     else
     {
       _demosMenuService.ExecuteLMBClicked();
