@@ -21,23 +21,6 @@ public struct TextureShapeOptions
 
   public TextureShapeOptions(
     Texture map,
-    Rectangle? uvPx = null,
-    Rectangle? uvHoveredPx = null,
-    Rectangle? uvSelectedPx = null,
-    Rectangle? uvSelectedHoveredPx = null,
-    Blending blending = Blending.Alpha)
-    : this(
-        map,
-        uvPx?.GetVerticies_TL_BR(),
-        uvHoveredPx?.GetVerticies_TL_BR(),
-        uvSelectedPx?.GetVerticies_TL_BR(),
-        uvSelectedHoveredPx?.GetVerticies_TL_BR(),
-        blending)
-  {
-  }
-
-  public TextureShapeOptions(
-    Texture map,
     Vector2[] uvPx = null,
     Vector2[] uvHoveredPx = null,
     Vector2[] uvSelectedPx = null,
@@ -89,6 +72,23 @@ public struct TextureShapeOptions
     UVSelectedHovered = uvSelectedHovered ?? UVSelected;
 
     Blending = blending;
+  }
+
+  public static TextureShapeOptions CreateForRectangle(
+    Texture map,
+    Rectangle? uvPx = null,
+    Rectangle? uvHoveredPx = null,
+    Rectangle? uvSelectedPx = null,
+    Rectangle? uvSelectedHoveredPx = null,
+    Blending blending = Blending.Alpha)
+  {
+    return new(
+      map,
+      uvPx?.GetVerticies_TL_BR(),
+      uvHoveredPx?.GetVerticies_TL_BR(),
+      uvSelectedPx?.GetVerticies_TL_BR(),
+      uvSelectedHoveredPx?.GetVerticies_TL_BR(),
+      blending);
   }
 
   public readonly TextureShapeState GetCurrentState()
