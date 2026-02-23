@@ -17,19 +17,22 @@ public struct TextureShapeOptions
   public Vector2[] UVSelectedHovered;
   public bool IsHovered;
   public bool IsSelected;
+  public Blending Blending;
 
   public TextureShapeOptions(
     Texture map,
     Rectangle? uvPx = null,
     Rectangle? uvHoveredPx = null,
     Rectangle? uvSelectedPx = null,
-    Rectangle? uvSelectedHoveredPx = null)
+    Rectangle? uvSelectedHoveredPx = null,
+    Blending blending = Blending.Alpha)
     : this(
         map,
         uvPx?.GetVerticies_TL_BR(),
         uvHoveredPx?.GetVerticies_TL_BR(),
         uvSelectedPx?.GetVerticies_TL_BR(),
-        uvSelectedHoveredPx?.GetVerticies_TL_BR())
+        uvSelectedHoveredPx?.GetVerticies_TL_BR(),
+        blending)
   {
   }
 
@@ -38,7 +41,8 @@ public struct TextureShapeOptions
     Vector2[] uvPx = null,
     Vector2[] uvHoveredPx = null,
     Vector2[] uvSelectedPx = null,
-    Vector2[] uvSelectedHoveredPx = null)
+    Vector2[] uvSelectedHoveredPx = null,
+    Blending blending = Blending.Alpha)
     : this(
         map,
         null,
@@ -47,7 +51,8 @@ public struct TextureShapeOptions
         GetUvFromPx(uvPx, map.Width, map.Height),
         GetUvFromPx(uvHoveredPx, map.Width, map.Height),
         GetUvFromPx(uvSelectedPx, map.Width, map.Height),
-        GetUvFromPx(uvSelectedHoveredPx, map.Width, map.Height))
+        GetUvFromPx(uvSelectedHoveredPx, map.Width, map.Height),
+        blending)
   {
   }
 
@@ -59,7 +64,8 @@ public struct TextureShapeOptions
     Vector2[] uv = null,
     Vector2[] uvHovered = null,
     Vector2[] uvSelected = null,
-    Vector2[] uvSelectedHovered = null)
+    Vector2[] uvSelectedHovered = null,
+    Blending blending = Blending.Alpha)
   {
     ArgumentNullException.ThrowIfNull(normal);
 
@@ -81,6 +87,8 @@ public struct TextureShapeOptions
     UVHovered = uvHovered ?? UV;
     UVSelected = uvSelected ?? UV;
     UVSelectedHovered = uvSelectedHovered ?? UVSelected;
+
+    Blending = blending;
   }
 
   public readonly TextureShapeState GetCurrentState()
