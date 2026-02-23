@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using Neomaster.PixelEarth.App;
-using Neomaster.PixelEarth.Infra.Extensions;
 using Neomaster.PixelEarth.Utils;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
@@ -10,7 +9,6 @@ namespace Neomaster.PixelEarth.Infra;
 public class ShapeService : IShapeService
 {
   private readonly IShaderService _shaderService;
-  private readonly RenderSettings _renderSettings;
   private readonly ColorShapeOptions _colorShapeOptions;
   private readonly ShaderProgramArg<Matrix4> _positionProjection;
 
@@ -21,12 +19,10 @@ public class ShapeService : IShapeService
 
   public ShapeService(
     IShaderService shaderService,
-    RenderSettings renderSettings,
     WindowSettings windowSettings,
     ColorShapeOptions colorShapeOptions)
   {
     _shaderService = shaderService;
-    _renderSettings = renderSettings;
     _colorShapeOptions = colorShapeOptions;
 
     _positionProjection = new ShaderProgramArg<Matrix4>(
@@ -110,11 +106,9 @@ public class ShapeService : IShapeService
       vertices,
       BufferUsageHint.DynamicDraw);
 
+    so.CullFaces.Apply();
     so.UseWithShaderProgram(_shaderService.ColorShaderProgramInfo);
     _positionProjection.BindMatrix4(_shaderService.ColorShaderProgramInfo.Id);
-
-    so.CullFaces.Apply();
-    GL.FrontFace(_renderSettings.WindingOrder.ToGlType());
 
     GL.BindVertexArray(_colorVaoId);
     GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
