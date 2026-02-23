@@ -162,19 +162,21 @@ public sealed class LoadingGameStage : BaseGameStage
   private void InitializeDemosMenu(Texture texMap)
   {
     // Button
-    var x = 215;
     var w = 153;
     var h = 27;
     var i = 0;
-    var y = () => 98 + (i++ * h);
+    var y = () => 100 + (i * h);
+    var uvX = 215;
+    var uvY = () => 98 + (i++ * h);
 
     var backButton = RectangleTextureButtonBuilder
       .Create(texMap)
+      .Position(0, y())
       .Size(w, h)
-      .UvPx(x, y(), w, h)
-      .UvHoveredPx(x, y(), w, h)
-      .UvSelectedPx(x, y(), w, h)
-      .UvSelectedHoveredPx(x, y(), w, h)
+      .UvPx(uvX, uvY(), w, h)
+      .UvHoveredPx(uvX, uvY(), w, h)
+      .UvSelectedPx(uvX, uvY(), w, h)
+      .UvSelectedHoveredPx(uvX, uvY(), w, h)
       .Action(() =>
       {
         _gamePipeline.RemoveGameStateFlag(GameStateFlag.ShowDemosMenu);
