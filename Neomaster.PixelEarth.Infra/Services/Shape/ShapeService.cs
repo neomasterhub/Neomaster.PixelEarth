@@ -73,6 +73,7 @@ public class ShapeService : IShapeService
     GL.ActiveTexture(TextureUnit.Texture0);
     GL.BindTexture(TextureTarget.Texture2D, currentShapeState.TextureId);
 
+    shapeOptions.Blending.Apply();
     shapeOptions.UseWithShaderProgram(_shaderService.TextureShaderProgramInfo);
     _positionProjection.BindMatrix4(_shaderService.TextureShaderProgramInfo.Id);
 
