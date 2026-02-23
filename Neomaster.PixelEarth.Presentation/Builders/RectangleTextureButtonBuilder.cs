@@ -15,6 +15,7 @@ public class RectangleTextureButtonBuilder
   private Rectangle? _uvSelectedPx;
   private Rectangle? _uvSelectedHoveredPx;
   private Action _action = () => { };
+  private Blending _blending = App.Blending.Alpha;
 
   private RectangleTextureButtonBuilder(Texture map)
   {
@@ -45,6 +46,12 @@ public class RectangleTextureButtonBuilder
   public RectangleTextureButtonBuilder Action(Action action)
   {
     _action = action;
+    return this;
+  }
+
+  public RectangleTextureButtonBuilder Blending(Blending value)
+  {
+    _blending = value;
     return this;
   }
 
@@ -94,7 +101,8 @@ public class RectangleTextureButtonBuilder
         _uvPx,
         _uvHoveredPx,
         _uvSelectedPx,
-        _uvSelectedHoveredPx),
+        _uvSelectedHoveredPx,
+        _blending),
     };
   }
 
