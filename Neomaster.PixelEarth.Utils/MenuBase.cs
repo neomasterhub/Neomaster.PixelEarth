@@ -1,6 +1,6 @@
 namespace Neomaster.PixelEarth.Utils;
 
-public abstract class Menu<TItem>
+public abstract class MenuBase<TItem>
 {
   public abstract int ItemCount { get; }
   public int LastIndex => ItemCount - 1;
@@ -8,7 +8,7 @@ public abstract class Menu<TItem>
   public TItem SelectedItem => this[SelectedIndex];
   public abstract TItem this[int index] { get; }
 
-  public void MoveDown()
+  public virtual void MoveDown()
   {
     if (SelectedIndex < LastIndex)
     {
@@ -20,7 +20,7 @@ public abstract class Menu<TItem>
     }
   }
 
-  public void MoveUp()
+  public virtual void MoveUp()
   {
     if (SelectedIndex > 0)
     {

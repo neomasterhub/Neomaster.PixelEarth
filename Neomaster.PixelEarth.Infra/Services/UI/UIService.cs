@@ -14,6 +14,7 @@ public class UIService(
   {
     button.IsHovered = frameService.FrameInfo.CurrentHoveredId == button.Id;
     button.IsSelected = frameService.FrameInfo.SelectedId == button.Id;
+    button.MouseLeftPressed = false;
 
     var shapeOptions = button.TextureShapeOptions
       .SetHovered(button.IsHovered)
@@ -31,6 +32,8 @@ public class UIService(
     if (button.IsHovered && mouseState.LeftPressed)
     {
       frameService.FrameInfo.SelectedId = button.Id;
+      button.MouseLeftPressed = true;
+      button.IsSelected = true;
     }
   }
 

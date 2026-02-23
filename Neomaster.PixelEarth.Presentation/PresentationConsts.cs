@@ -45,7 +45,7 @@ public static class PresentationConsts
 
   public static class MainMenu
   {
-    public static readonly MainMenuOptions DefaultOptions = new()
+    public static readonly MenuOptions DefaultOptions = new()
     {
       ButtonGap = 15,
       ButtonWidth = 200,

@@ -10,11 +10,14 @@ public sealed class LoadingGameStage : BaseGameStage
   private readonly MainMenuGameStageBuffer _mainMenuGameStageBuffer;
   private readonly GamePipeline _gamePipeline;
   private readonly IGameWindowService _gameWindowService;
-  private readonly IMainMenuService _mainMenuService;
+  private readonly IMenuService _mainMenuService;
+  private readonly IMenuService _demosMenuService;
   private readonly ITextureService _textureService;
   private readonly IFrameService _frameService;
   private readonly IUIService _uiService;
   private readonly IIdGenerator<int> _idGenerator;
+  private readonly int _mainMenu_demosButtonId;
+  private readonly int _demosMenu_backButtonId;
 
   public LoadingGameStage(
     GamePipeline gamePipeline,
@@ -25,11 +28,14 @@ public sealed class LoadingGameStage : BaseGameStage
     _mainMenuGameStageBuffer = _gamePipeline.GetGameStageBuffer<MainMenuGameStageBuffer>(GameStageBufferId.MainMenu);
     _textures = serviceProvider.GetRequiredService<Textures>();
     _gameWindowService = serviceProvider.GetRequiredService<IGameWindowService>();
-    _mainMenuService = serviceProvider.GetRequiredService<IMainMenuService>();
+    _mainMenuService = serviceProvider.GetRequiredKeyedService<IMenuService>(MenuId.Main);
+    _demosMenuService = serviceProvider.GetRequiredKeyedService<IMenuService>(MenuId.Demos);
     _textureService = serviceProvider.GetRequiredService<ITextureService>();
     _frameService = serviceProvider.GetRequiredService<IFrameService>();
     _uiService = serviceProvider.GetRequiredService<IUIService>();
     _idGenerator = serviceProvider.GetRequiredService<IIdGenerator<int>>();
+    _mainMenu_demosButtonId = _idGenerator.Next();
+    _demosMenu_backButtonId = _idGenerator.Next();
   }
 
   protected override bool RequiresStart()
@@ -43,6 +49,28 @@ public sealed class LoadingGameStage : BaseGameStage
 
     var texMap = _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuMap);
 
+    SetBgInfo();
+    InitializeMainMenu(texMap);
+    InitializeDemosMenu(texMap);
+
+    _gamePipeline.RemoveGameStateFlag(GameStateFlag.Loading);
+    _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
+  }
+
+  private void SetBgInfo()
+  {
+    _mainMenuGameStageBuffer.BgRectangle = new(
+      0, 0, PresentationConsts.WindowSettings.Width, PresentationConsts.WindowSettings.Height);
+    _mainMenuGameStageBuffer.BgTextureShapeOptions = new(
+      _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuBg),
+      _mainMenuGameStageBuffer.BgRectangle);
+    _mainMenuGameStageBuffer.DemosBgTextureShapeOptions = new(
+      _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuDemosBg),
+      _mainMenuGameStageBuffer.BgRectangle);
+  }
+
+  private void InitializeMainMenu(Texture texMap)
+  {
     // Button
     var w = 207;
     var h = 50;
@@ -65,7 +93,13 @@ public sealed class LoadingGameStage : BaseGameStage
       .UvHoveredPx(0, y(), w, h)
       .UvSelectedPx(0, y(), w, h)
       .UvSelectedHoveredPx(0, y(), w, h)
-      .Build(_idGenerator.Next());
+      .Action(() =>
+      {
+        _gamePipeline.RemoveGameStateFlag(GameStateFlag.ShowMainMenu);
+        _gamePipeline.AddGameStateFlag(GameStateFlag.ShowDemosMenu);
+        _frameService.FrameInfo.SelectedId = _demosMenu_backButtonId;
+      })
+      .Build(_mainMenu_demosButtonId);
 
     var exitButton = RectangleTextureButtonBuilder
       .Create(texMap)
@@ -79,7 +113,7 @@ public sealed class LoadingGameStage : BaseGameStage
 
     _frameService.FrameInfo.SelectedId = playButton.Id;
 
-    var mainMenu = new MainMenu
+    var mainMenu = new Menu
     {
       Items =
       [
@@ -99,14 +133,6 @@ public sealed class LoadingGameStage : BaseGameStage
           DrawButton = () => _uiService.DrawRectangleTextureButton(exitButton),
         },
       ],
-      Options = new MainMenuOptions
-      {
-        ButtonGap = 10,
-        ButtonWidth = w,
-        ButtonHeight = h,
-        HorizontalAlign = Align.Center,
-        VerticalAlign = Align.Center,
-      },
     };
 
     // Align items.
@@ -114,22 +140,13 @@ public sealed class LoadingGameStage : BaseGameStage
       mainMenu.Items.Select(x => x.Button).ToArray(),
       PresentationConsts.WindowSettings.Width,
       PresentationConsts.WindowSettings.Height,
-      mainMenu.Options.ButtonWidth,
-      mainMenu.Options.ButtonHeight,
-      mainMenu.Options.ButtonGap,
-      mainMenu.Options.VerticalAlign,
-      mainMenu.Options.HorizontalAlign);
+      w,
+      h,
+      10,
+      Align.Center,
+      Align.Center);
 
     _mainMenuService.Initialize(mainMenu);
-
-    // Set buffer:
-
-    // BG
-    _mainMenuGameStageBuffer.BgRectangle = new(
-      0, 0, PresentationConsts.WindowSettings.Width, PresentationConsts.WindowSettings.Height);
-    _mainMenuGameStageBuffer.BgTextureShapeOptions = new(
-      _textures.Get(TextureGroupId.MainMenu, TextureId.MainMenuBg),
-      _mainMenuGameStageBuffer.BgRectangle);
 
     // Title
     var tw = 742;
@@ -140,8 +157,57 @@ public sealed class LoadingGameStage : BaseGameStage
     _mainMenuGameStageBuffer.TitleTextureShapeOptions = new(
       texMap,
       new Utils.Rectangle(w, 0, tw, th));
+  }
 
-    _gamePipeline.RemoveGameStateFlag(GameStateFlag.Loading);
-    _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
+  private void InitializeDemosMenu(Texture texMap)
+  {
+    // Button
+    var w = 153;
+    var h = 31;
+    var i = 0;
+    var x = 10;
+    var y = () => 100 + (i * h);
+    var uvX = 215;
+    var uvY = () => 98 + (i++ * h);
+
+    var backButton = RectangleTextureButtonBuilder
+      .Create(texMap)
+      .Position(x, y())
+      .Size(w, h)
+      .UvPx(uvX, uvY(), w, h)
+      .UvHoveredPx(uvX, uvY(), w, h)
+      .UvSelectedPx(uvX, uvY(), w, h)
+      .UvSelectedHoveredPx(uvX, uvY(), w, h)
+      .Action(() =>
+      {
+        _gamePipeline.RemoveGameStateFlag(GameStateFlag.ShowDemosMenu);
+        _gamePipeline.AddGameStateFlag(GameStateFlag.ShowMainMenu);
+        _frameService.FrameInfo.SelectedId = _mainMenu_demosButtonId;
+      })
+      .Build(_demosMenu_backButtonId);
+
+    var demosMenu = new Menu
+    {
+      Items =
+      [
+        new()
+        {
+          Button = backButton,
+          DrawButton = () => _uiService.DrawRectangleTextureButton(backButton),
+        },
+      ],
+    };
+
+    _demosMenuService.Initialize(demosMenu);
+
+    // Title
+    var tw = 200;
+    var th = 48;
+    var tx = (PresentationConsts.WindowSettings.Width - tw) / 2;
+    _mainMenuGameStageBuffer.DemosTitleRectangle = new(
+      40, 30, tw, th);
+    _mainMenuGameStageBuffer.DemosTitleTextureShapeOptions = new(
+      texMap,
+      new Utils.Rectangle(368, 146, tw, th));
   }
 }

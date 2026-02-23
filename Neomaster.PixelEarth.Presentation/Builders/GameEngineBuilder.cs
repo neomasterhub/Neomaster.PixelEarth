@@ -28,11 +28,12 @@ public class GameEngineBuilder
       .AddSingleton(_gamePipeline)
       .AddSingleton(PresentationConsts.RenderSettings)
       .AddSingleton(PresentationConsts.WindowSettings)
-      .AddSingleton(typeof(MainMenuOptions), PresentationConsts.MainMenu.DefaultOptions)
+      .AddSingleton(typeof(MenuOptions), PresentationConsts.MainMenu.DefaultOptions)
       .AddSingleton(typeof(ColorShapeOptions), PresentationConsts.Shape.ColorDefaultOptions)
       .AddSingleton<IIdGenerator<int>, IntIdGenerator>()
       .AddSingleton<IGameWindowService, GameWindowService>()
-      .AddSingleton<IMainMenuService, MainMenuService>()
+      .AddKeyedSingleton<IMenuService, MainMenuService>(MenuId.Main)
+      .AddKeyedSingleton<IMenuService, DemosMenuService>(MenuId.Demos)
       .AddSingleton<IMouseService, MouseService>()
       .AddSingleton<IShaderService, ShaderService>()
       .AddSingleton<IShapeService, ShapeService>()
@@ -52,8 +53,9 @@ public class GameEngineBuilder
     var textures = TexturesBuilder
       .Create()
       .AddTextureGroup(TextureGroupId.MainMenu)
-      .WithTexture(TextureId.MainMenuBg, "main menu - bg.png")
-      .WithTexture(TextureId.MainMenuMap, "main menu - map.png")
+      .WithTexture(TextureId.MainMenuBg, "BG - Main Menu.png")
+      .WithTexture(TextureId.MainMenuMap, "UI Map - Main Menu.png")
+      .WithTexture(TextureId.MainMenuDemosBg, "BG - Demos.png")
       .Build();
 
     _services.AddSingleton(textures);
@@ -74,6 +76,7 @@ public class GameEngineBuilder
     _gamePipeline
       .AddStage(p => new LoadingGameStage(p, _serviceProvider))
       .AddStage(p => new MainMenuGameStage(p, _serviceProvider))
+      .AddStage(p => new DemosMenuGameStage(p, _serviceProvider))
       ;
 
     return this;

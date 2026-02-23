@@ -4,39 +4,47 @@ using Neomaster.PixelEarth.Infra;
 
 namespace Neomaster.PixelEarth.Presentation;
 
-public sealed class MainMenuGameStage : BaseGameStage
+public class DemosMenuGameStage : BaseGameStage
 {
   private readonly GamePipeline _gamePipeline;
   private readonly MainMenuGameStageBuffer _mainMenuGameStageBuffer;
-  private readonly IGameWindowService _gameWindowService;
-  private readonly IMenuService _mainMenuService;
-  private readonly ITextureService _textureService;
   private readonly IShapeService _shapeService;
+  private readonly IGameWindowService _gameWindowService;
+  private readonly IMenuService _demosMenuService;
+  private readonly ITextureService _textureService;
 
-  public MainMenuGameStage(
+  public DemosMenuGameStage(
     GamePipeline gamePipeline,
     IServiceProvider serviceProvider)
     : base(serviceProvider)
   {
     _gamePipeline = gamePipeline;
     _mainMenuGameStageBuffer = _gamePipeline.GetGameStageBuffer<MainMenuGameStageBuffer>(GameStageBufferId.MainMenu);
-    _gameWindowService = serviceProvider.GetRequiredService<IGameWindowService>();
-    _mainMenuService = serviceProvider.GetRequiredKeyedService<IMenuService>(MenuId.Main);
-    _textureService = serviceProvider.GetRequiredService<ITextureService>();
     _shapeService = serviceProvider.GetRequiredService<IShapeService>();
+    _gameWindowService = serviceProvider.GetRequiredService<IGameWindowService>();
+    _demosMenuService = serviceProvider.GetRequiredKeyedService<IMenuService>(MenuId.Demos);
+    _textureService = serviceProvider.GetRequiredService<ITextureService>();
   }
 
   protected override bool RequiresStart()
   {
-    return _gamePipeline.HasGameStateFlag(GameStateFlag.ShowMainMenu);
+    return _gamePipeline.HasGameStateFlag(GameStateFlag.ShowDemosMenu);
   }
 
   protected override void OnRender(RenderEventArgs? e = null)
   {
     _textureService.SetBlending(Blending.Alpha);
-    _shapeService.DrawTextureRectangle(_mainMenuGameStageBuffer.BgRectangle, _mainMenuGameStageBuffer.BgTextureShapeOptions);
-    _shapeService.DrawTextureRectangle(_mainMenuGameStageBuffer.TitleRectangle, _mainMenuGameStageBuffer.TitleTextureShapeOptions);
-    _mainMenuService.Draw();
+
+    _shapeService.DrawTextureRectangle(
+      _mainMenuGameStageBuffer.BgRectangle,
+      _mainMenuGameStageBuffer.DemosBgTextureShapeOptions);
+
+    _shapeService.DrawTextureRectangle(
+      _mainMenuGameStageBuffer.DemosTitleRectangle,
+      _mainMenuGameStageBuffer.DemosTitleTextureShapeOptions);
+
+    _demosMenuService.Draw();
+
     _textureService.SetBlending(Blending.Replace);
   }
 
@@ -44,19 +52,23 @@ public sealed class MainMenuGameStage : BaseGameStage
   {
     if (_gameWindowService.IsAnyKeyUp(ConsoleKey.W, ConsoleKey.UpArrow))
     {
-      _mainMenuService.MoveUp();
+      _demosMenuService.MoveUp();
     }
     else if (_gameWindowService.IsAnyKeyUp(ConsoleKey.S, ConsoleKey.DownArrow))
     {
-      _mainMenuService.MoveDown();
+      _demosMenuService.MoveDown();
     }
     else if (_gameWindowService.IsKeyUp(ConsoleKey.Enter))
     {
-      _mainMenuService.ExecuteSelected();
+      _demosMenuService.ExecuteSelected();
+    }
+    else if (_gameWindowService.IsKeyUp(ConsoleKey.Escape))
+    {
+      _demosMenuService.Menu[0].Button.Action();
     }
     else
     {
-      _mainMenuService.ExecuteLMBClicked();
+      _demosMenuService.ExecuteLMBClicked();
     }
   }
 }
