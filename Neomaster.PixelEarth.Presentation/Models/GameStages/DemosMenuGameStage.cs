@@ -39,6 +39,10 @@ public class DemosMenuGameStage : BaseGameStage
       _mainMenuGameStageBuffer.BgRectangle,
       _mainMenuGameStageBuffer.DemosBgTextureShapeOptions);
 
+    _shapeService.DrawTextureRectangle(
+      _mainMenuGameStageBuffer.DemosTitleRectangle,
+      _mainMenuGameStageBuffer.DemosTitleTextureShapeOptions);
+
     _demosMenuService.Draw();
 
     _textureService.SetBlending(Blending.Replace);
@@ -54,11 +58,11 @@ public class DemosMenuGameStage : BaseGameStage
     {
       _demosMenuService.MoveDown();
     }
-    else if (_gameWindowService.IsKeyDown(ConsoleKey.Enter))
+    else if (_gameWindowService.IsKeyUp(ConsoleKey.Enter))
     {
       _demosMenuService.ExecuteSelected();
     }
-    else if (_gameWindowService.IsKeyDown(ConsoleKey.Escape))
+    else if (_gameWindowService.IsKeyUp(ConsoleKey.Escape))
     {
       _demosMenuService.Menu[0].Button.Action();
     }

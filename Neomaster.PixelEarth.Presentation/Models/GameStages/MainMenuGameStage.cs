@@ -50,7 +50,7 @@ public sealed class MainMenuGameStage : BaseGameStage
     {
       _mainMenuService.MoveDown();
     }
-    else if (_gameWindowService.IsKeyDown(ConsoleKey.Enter))
+    else if (_gameWindowService.IsKeyUp(ConsoleKey.Enter))
     {
       _mainMenuService.ExecuteSelected();
     }

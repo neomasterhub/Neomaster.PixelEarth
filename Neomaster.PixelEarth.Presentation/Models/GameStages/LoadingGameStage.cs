@@ -163,15 +163,16 @@ public sealed class LoadingGameStage : BaseGameStage
   {
     // Button
     var w = 153;
-    var h = 27;
+    var h = 31;
     var i = 0;
+    var x = 10;
     var y = () => 100 + (i * h);
     var uvX = 215;
     var uvY = () => 98 + (i++ * h);
 
     var backButton = RectangleTextureButtonBuilder
       .Create(texMap)
-      .Position(0, y())
+      .Position(x, y())
       .Size(w, h)
       .UvPx(uvX, uvY(), w, h)
       .UvHoveredPx(uvX, uvY(), w, h)
@@ -198,5 +199,15 @@ public sealed class LoadingGameStage : BaseGameStage
     };
 
     _demosMenuService.Initialize(demosMenu);
+
+    // Title
+    var tw = 200;
+    var th = 48;
+    var tx = (PresentationConsts.WindowSettings.Width - tw) / 2;
+    _mainMenuGameStageBuffer.DemosTitleRectangle = new(
+      40, 30, tw, th);
+    _mainMenuGameStageBuffer.DemosTitleTextureShapeOptions = new(
+      texMap,
+      new Utils.Rectangle(368, 146, tw, th));
   }
 }
