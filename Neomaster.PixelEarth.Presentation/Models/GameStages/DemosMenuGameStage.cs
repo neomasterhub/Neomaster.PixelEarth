@@ -33,8 +33,6 @@ public class DemosMenuGameStage : BaseGameStage
 
   protected override void OnRender(RenderEventArgs? e = null)
   {
-    _textureService.SetBlending(Blending.Alpha);
-
     _shapeService.DrawTextureRectangle(
       _mainMenuGameStageBuffer.BgRectangle,
       _mainMenuGameStageBuffer.DemosBgTextureShapeOptions);
@@ -44,8 +42,6 @@ public class DemosMenuGameStage : BaseGameStage
       _mainMenuGameStageBuffer.DemosTitleTextureShapeOptions);
 
     _demosMenuService.Draw();
-
-    _textureService.SetBlending(Blending.Replace);
   }
 
   protected override void OnUpdate(UpdateEventArgs? e = null)
