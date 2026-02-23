@@ -133,14 +133,6 @@ public sealed class LoadingGameStage : BaseGameStage
           DrawButton = () => _uiService.DrawRectangleTextureButton(exitButton),
         },
       ],
-      Options = new MenuOptions
-      {
-        ButtonGap = 10,
-        ButtonWidth = w,
-        ButtonHeight = h,
-        HorizontalAlign = Align.Center,
-        VerticalAlign = Align.Center,
-      },
     };
 
     // Align items.
@@ -148,11 +140,11 @@ public sealed class LoadingGameStage : BaseGameStage
       mainMenu.Items.Select(x => x.Button).ToArray(),
       PresentationConsts.WindowSettings.Width,
       PresentationConsts.WindowSettings.Height,
-      mainMenu.Options.ButtonWidth,
-      mainMenu.Options.ButtonHeight,
-      mainMenu.Options.ButtonGap,
-      mainMenu.Options.VerticalAlign,
-      mainMenu.Options.HorizontalAlign);
+      w,
+      h,
+      10,
+      Align.Center,
+      Align.Center);
 
     _mainMenuService.Initialize(mainMenu);
 
